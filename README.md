@@ -38,7 +38,7 @@ radio drop out problems
 internet connection required for the web UI to load properly ( this now fixed )
 
 
-## planned player upgrades ( When time permits ) ;
+## planned player upgrades ( when time permits ) ;
 
 - fix the network constant poling problem
 
@@ -50,8 +50,8 @@ internet connection required for the web UI to load properly ( this now fixed )
 
 - improve mobile web UI
 
-* please note a brand new UI is being developed here ... https://github.com/geometryzen/brennan-app
+* please note a brand new official UI is being developed here by brennan ... https://github.com/geometryzen/brennan-app
 
-if you are a b2 owner and you stumble onto this page, and you like a simpler stable version of this web UI player and want to contribute please get in touch.
+if you are a b2 owner and you stumble onto this page, and you like a simpler stable version of this web UI player and want to contribute please get in touch
 
-###### * note these updates and fixes are at your own risk if you implement them on your own b2 player. 
+###### * note these updates and fixes are at your own risk if you implement them on your own b2 player
