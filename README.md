@@ -2,7 +2,7 @@
 
 brennan b2 original web interface (opinionated updates)
 
-wish to KISS keep it simple stupid, just play music & radio well, zero feature bloat
+wish to KISS keep it simple stupid, just focus on improving the web UI to play music & radio with excellence, zero feature bloat!
 
 
 ## the good
@@ -11,7 +11,7 @@ it's a very useful high quality (wav & flac files) music & internet radio enable
 
 ## the bad (well not too bad)
 
-the development somehow went into a world of wanting to tag & stream youtube video music?
+the development somehow went into a world of focusing on tagging & streaming youtube video music?
 
 ## the ugly
 
