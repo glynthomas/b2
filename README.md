@@ -1,7 +1,9 @@
-# b2
-brennan b2 web interface (opinionated updates)
+# b2 brennan web app
 
-these are the files found currently on the b2 device
+brennan b2 original web interface (opinionated updates)
+
+wish to KISS keep it simple stupid, just play music & radio well, zero feature bloat
+
 
 ## the good
 
@@ -17,17 +19,24 @@ constant polling the network for status updates? when the user is doing nothing 
 
 constant scrolling graph view of music playing or not playing ?
 
+two devices active, music upload refresh bug (polling), more UI polling !
+
+browser memory leak from constant polling
+
 internet connection required for the web UI to load properly ( this now fixed )
 
 ## planned player upgrades ;
 
 - fix the network constant poling problem
 
+- fix any memory leak issues
+
 - make any performance updates
 
 - improve the web UI controls
 
+* please note a brand new UI is being developed here ... https://github.com/geometryzen/brennan-app
 
-if you are a b2 owner and you stumble onto this page, if you want to contribute please get in touch.
+if you are a b2 owner and you stumble onto this page, and you like a simpler stable version of this web UI player and want to contribute please get in touch.
 
-###### *note these updates and fixes are at your own risk if you implement them on your own b2 player. 
+###### * note these updates and fixes are at your own risk if you implement them on your own b2 player. 
