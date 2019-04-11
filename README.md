@@ -12,7 +12,7 @@ it's a very useful high quality [ wav & flac files ] music & internet radio enab
 with a responsive web UI for desktop and mobile devices
 
 
-## the bad ( well not too bad )
+## the bad [ well not too bad ]
 
 the original development of the web UI brennan b2 box moved focus to tagging & streaming youtube video music,
 
@@ -23,11 +23,11 @@ accommodating USB sticks loading music, indexing USB sticks, bulk uploading of m
 
 ## the ugly
 
-constant polling the network for status updates? when the user is doing nothing ( eating network bandwidth )
+constant polling the network for status updates? when the user is doing nothing [ eating network bandwidth ]
 
 constant scrolling graph view of music playing or not playing ?
 
-two devices active, music upload refresh bug ( polling ), more UI polling !
+two devices active, music upload refresh bug [ polling ], more UI polling !
 
 browser memory leak from constant polling
 
@@ -38,7 +38,7 @@ radio drop out problems
 internet connection required for the web UI to load properly ( this now fixed )
 
 
-## planned player upgrades ( when time permits ) ;
+## planned player upgrades [ when time permits ] ;
 
 - fix the network constant poling problem
 
