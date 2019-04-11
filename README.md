@@ -14,14 +14,19 @@ the development somehow went into a world of wanting to tag & stream youtube vid
 ## the ugly
 
 constant polling the network for status updates? when the user is doing nothing (eating network bandwidth)
-constant scrolling graph view of music playng or not playing ?
+
+constant scrolling graph view of music playing or not playing ?
+
 internet connection required for the web UI to load properly ( this now fixed )
 
 ## planned player upgrades ;
 
 - fix the network constant poling problem
+
 - make any performance updates
+
 - improve the web UI controls
+
 
 if you are a b2 owner and you stumble onto this page, if you want to contribute please get in touch.
 
