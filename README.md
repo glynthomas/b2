@@ -7,7 +7,7 @@ these are the files found currently on the b2 device
 
 it's a very useful high quality (wav & flac files) music & internet radio enabled web UI player
 
-##the bad (well not too bad)
+## the bad (well not too bad)
 
 the development somehow went into a world of wanting to tag & stream youtube video music?
 
@@ -25,4 +25,4 @@ internet connection required for the web UI to load properly ( this now fixed )
 
 if you are a b2 owner and you stumble onto this page, if you want to contribute please get in touch.
 
-## note these updates and fixes are at your own risk if you implement them on your own b2 player. 
+###### note these updates and fixes are at your own risk if you implement them on your own b2 player. 
