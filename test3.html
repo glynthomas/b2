@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Brennan B2</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/perfect-scrollbar.min.css">  
+  <script src="js/perfect-scrollbar.jquery.js"></script>
+  <script src="js/smoothie.js"></script>
+   
+ <script>
+	 
+$(function() {
+
+	nowPlaying = {};
+	
+	setInterval (statusFunction,500);
+
+	$('.iconToggle').on('click',function(){
+		icon = $(this).find("span");
+		icon.toggleClass("myGrey");
+		console.log (icon.hasClass("myGrey"));
+		searchFunction ();
+	});
+	
+	$('.transportButton').on('click',function(event){
+//		var t = $(this).attr('value');
+//		console.log (t);
+		$(this).blur();
+		$.get('b2cgi.fcgi',$(this).attr('value'),function(data){
+			// ignore response to ajax get
+		});
+	});	
+
+	 $("#slider-1").on ("input", function() {
+		$( "#volume" ).text( this.value );
+		var t = "vol"+this.value+"&"+new Date ().getTime();
+		$.get('b2cgi.fcgi',t,function(data){			// send volxx to fcgi
+		});
+	});
+	
+	 $("#slider-1").on ("change", function() {			// for IE
+		$( "#volume" ).text( this.value );
+		var t = "vol"+this.value+"&"+new Date ().getTime();
+		$.get('b2cgi.fcgi',t,function(data){			// send volxx to fcgi
+		});
+	});
+
+	$("#slider-1").on ("mouseenter", function() {		// to stop status updates causing jitter
+		 mouseOverSlider = true;
+	}).on ("mouseleave", function() {
+		 mouseOverSlider = false;
+	});
+	
+});
+</script>  
+ 
+<style type="text/css">
+  
+.navbar-right {
+	margin-right: 0px;
+} 
+
+.ScrollBox {
+	position: relative;
+	height: 20em;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.SmallScrollBox {
+	position: relative;
+	height: 10em;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.myGrey {
+	color: #888;
+}
+
+.mylink {
+	cursor: pointer;
+}
+
+.topBorder {
+	border-style: solid;
+	border-width: 2px 0px 0px 0px;
+	border-colour: white;
+}
+
+#cdbox img {
+	max-width:100%;
+}
+
+
+
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.woff');
+}
+
+.icon-radioMast:before {
+	font-family: icomoon;
+	content: "\e600";
+}			
+
+.container-fluid {
+	max-width: 400px;
+}	
+		
+</style> 
+
+
+</head>
+<body>
+
+ 
+<div class="container-fluid">
+
+
+ <div id="wellWidth" class="well well-sm" ondragover="allowDrop(event)" ondrop="dropSpeaker(event)">
+
+	
+	<nav class="navbar">
+		<div class="navbar-header">
+		<a class="navbar-brand" href="#">Brennan B2</a>
+		</div>
+	</nav>
+
+
+ <div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play">
+
+	  <div class="panel-body" id="nowPlayingBody">
+	 
+	 </div>
+	 <div class="panel-footer" id="nowPlayingFooter">
+		 <span class="badge">Source</span> Hard Disk</br>		 
+	 </div>	 
+ </div>	
+	 
+
+ <div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play">
+	<div id="volumeSlider">    
+			<input type="range" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32">
+	</div>
+  </div> 
+
+		<div class="btn-group btn-group-justified">
+			<a href="#" class="transportButton btn btn-default" value='back'><span class="glyphicon glyphicon-backward"></span></a>
+			<a href="#" class="transportButton btn btn-default" value='play' id="playbutton"><span class="glyphicon glyphicon-play"></span></a>
+			<a href="#" class="transportButton btn btn-default" value='next'><span class="glyphicon glyphicon-forward"></span></a>
+		</div> 
+
+ 
+ </div>
+
+
+
+  </div>
+
+
+
+
+</div>
+
+<script>
+	
+var playlists;
+var selectedPlaylist;
+var selectedAlbum;
+var playlist;
+var albumTracks;
+var artistAlbums;
+var nowPlaying;
+var renameID;
+var renameOldName;
+var renameOldArtist;
+var lastDiscid;
+var smoothie;
+var vuLine1;
+var cddb;
+var selectedcddb;
+var currentUpload;
+var uploadTry;
+var uploadArtist;
+var uploadAlbum;
+var uploadFiles;
+var lastVolume;
+var mouseOverSlider = false;
+
+function isTrack (id){
+	return ((id >= 2000000)&&(id < 3000000));
+}
+
+function isAlbum (id){	
+	return ((id >= 1000000)&&(id < 2000000));
+}
+
+function isArtist (id){	
+	return ((id >= 3000000)&&(id < 4000000));
+}
+
+function isPlaylist (id){	
+	return ((id >= 4000000)&&(id < 5000000));
+}
+
+function isRadio (id){	
+	return ((id >= 5000000)&&(id < 6000000));
+}
+
+function isPlaylistIndex (id){
+	return (id < 1000000);
+}
+
+function trackIcon () {return '<span class="glyphicon glyphicon-music"></span>'};
+function artistIcon () {return '<span class="glyphicon glyphicon-user"></span>'};
+function albumIcon () {return '<span class="glyphicon glyphicon-cd"></span>'};
+
+function getIcon (id){
+	if (isTrack(id)) return trackIcon();
+	if (isArtist(id)) return artistIcon();
+	if (isPlaylist(id)) return '<span class="glyphicon glyphicon-th-list"></span>';
+	if (isAlbum(id)) return albumIcon();
+	if (isRadio(id)) return ' <span class="icon-radioMast"></span> '
+	return '<span class="glyphicon glyphicon-exclamation-sign"></span>';		
+}	
+	
+		
+
+function allowDrop (ev) {
+	ev.preventDefault();
+}
+
+
+function dropSpeaker (ev){
+	ev.preventDefault();
+	i = ev.dataTransfer.getData ("text");
+	console.log ("Dropped item i="+i);	
+	
+	if (isPlaylistIndex(i)) id = playlist[i].id;
+	else id = i;
+	
+//	alert ("Play id="+id);
+	command = 'playID&'+id
+	$.get('b2cgi.fcgi',command,function(data){});	
+}
+
+
+
+function changed (newvalue,oldvalue){
+
+	return ((typeof oldvalue === "undefined")||(newvalue !== oldvalue));
+
+}	
+
+function statusFunction () {
+	var urlTail = 'status&' + new Date ().getTime();
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+		var ps;
+		var t = $('#playbutton');
+		
+
+		if (changed(data['playing'],nowPlaying['playing'])){
+		
+			if (data['playing'] == 0) {
+				t.children().remove();
+				t.append('<span class="glyphicon glyphicon-play"></span>');
+			}				
+			else {
+				t.children().remove();
+				t.append('<span class="glyphicon glyphicon-pause"></span>');			
+			}
+		
+		}
+	
+		if ((data['source'] != nowPlaying['source'])||changed(data['playing'],nowPlaying['playing'])){		
+
+			if (data['playing'] == 0) ps = ' Paused ';
+			else ps = ' Playing ';
+			
+			var f = $('#nowPlayingFooter');
+			f.html ('<span class="badge">Source</span> '+data['source']+ps);
+		}
+		
+		var b = $('#nowPlayingBody');
+	
+//		console.log ("statusFunction () "+data['source']);
+	
+		if (data['source'] == 'Hard Disk'){
+			if (data['track'] != nowPlaying['track']){
+				b.html('<h3 class="mylink" draggable="true" ondragstart="dragNowPlayingTrack (event)" onclick="nowPlayingTrackClick()">'+data['track']+'</h3>'+
+					'<h6 class="mylink" draggable="true" ondragstart="dragNowPlayingArtist (event)" onclick="nowPlayingArtistClick()"><span class="glyphicon glyphicon-user"></span> '+data['artist']+
+					'</h6><h6 class="mylink" draggable="true" ondragstart="dragNowPlayingAlbum (event)" onclick="nowPlayingAlbumClick()"><span class="glyphicon glyphicon-cd"></span> '+data['album']+'</h6>');
+			}		
+		}
+		else if (data['source'] == 'Internet Radio'){
+			if (data['station'] != nowPlaying['station']){
+				b.html('<h3>'+data['station']+'</h3>');
+			}	
+		}	
+		else if (data['source'] == 'Bluetooth'){
+			if (data['btstatus'] != nowPlaying['btstatus']){			
+				b.html('<h3>'+data['btstatus']+'</h3>');
+			}	
+		}
+		else if (data['source'] == 'CD Player'){
+			if (data['track'] != nowPlaying['track']){
+				b.html('<h3>'+data['track']+'</h3>');		
+			}	
+		}
+		else {
+			if (data['track'] != nowPlaying['track']){
+				b.html('<h3>'+data['track']+'</h3>');
+			}	
+		}	
+		
+		if (data.volume != lastVolume){
+			if (!mouseOverSlider){
+				$("#slider-1").val (data.volume);
+				lastVolume = data.volume;
+			}	
+		}
+		
+			
+		nowPlaying = data;
+		
+		
+	});	
+};
+
+</script>
+
+
+	
+
+</body>
+</html>

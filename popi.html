@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Brennan B2 popi</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!--
+  <link rel="stylesheet" type="text/css" href="css/perfect-scrollbar.min.css">  
+  <script src="js/perfect-scrollbar.jquery.js"></script>
+  <script src="js/smoothie.js"></script>
+-->   
+ <script>
+
+var currentUpload;
+var uploadTry;
+var uploadFiles;
+
+var thumbStep = 1;
+var thumbStart = 0;
+var thumbStartHistory = [];
+
+
+var canvasWidth;
+var canvasHeight;
+
+// target width of thumbnails on screen
+// aspect ratio of thumbnails
+
+var idealWidth = 120;
+var idealRatio = 1;
+
+// number of thumbnails horizonattlly and vertically
+
+var thumbsAcross;
+var thumbsDown;
+
+var thumbWidth;
+var thumbHeight;
+
+var canvas;
+var ctx;	
+
+	 
+$(function() {
+
+
+	setInterval (statusFunction,500);
+
+	
+	$('.transportButton').on('click',function(event){
+		$(this).blur();
+		$.get('b2cgi.fcgi',$(this).attr('value'),function(data){
+			// ignore response to ajax get
+		});
+	});	
+
+	$('#uploading').hide ();
+
+
+	document.getElementById("wellWidth").addEventListener("wheel",wheelFunction);
+
+	calculateSizes ();	
+	
+	canvas = document.getElementById ("thumbCanvas");
+	ctx = canvas.getContext ("2d");
+	
+	var urlTail = 'photoTest&' + new Date ().getTime();
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+		console.log ("Photo Init Done");
+	});		
+
+	
+});
+</script>  
+ 
+<style type="text/css">
+  
+.navbar-right {
+	margin-right: 0px;
+} 
+
+.ScrollBox {
+	position: relative;
+	height: 20em;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.SmallScrollBox {
+	position: relative;
+	height: 10em;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.myGrey {
+	color: #888;
+}
+
+.mylink {
+	cursor: pointer;
+}
+
+.topBorder {
+	border-style: solid;
+	border-width: 2px 0px 0px 0px;
+	border-colour: white;
+}
+
+#cdbox img {
+	max-width:100%;
+}
+
+
+
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.woff');
+}
+
+.icon-radioMast:before {
+	font-family: icomoon;
+	content: "\e600";
+}			
+
+.container-fluid {
+
+	max-width: 800px;
+}	
+
+		
+</style> 
+
+
+</head>
+<body onresize="resize()">
+
+ 
+<div class="container-fluid">
+
+
+
+	<div id="wellWidth" class="well well-sm" onwheel="wheelFunction">
+
+
+	
+		<nav class="navbar">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">popi</a>
+			</div>
+		</nav>
+
+		<div class="btn-group btn-group-justified">
+			<a href="#" class="btn btn-default" onclick="loadFunction ()">Load SD</a>
+			<a href="#" class="btn btn-default" onclick="uploadFunction ()">Upload</a>
+			<a href="#" class="btn btn-default" onclick="thumbsFunction2 ()">Thumbs</a>
+<!--			<a href="#" class="btn btn-default" onclick="testFunction ()">Test</a> -->
+		</div> 
+
+<!--		
+		<table id="thumbTable">
+			<tr>
+				<td><img src="noimage.jpg" style="width:100%"></td>
+				<td><img src="noimage.jpg" style="width:100%"></td>
+				<td><img src="noimage.jpg" style="width:100%"></td>				
+			</tr>
+			<tr>
+				<td><img src="noimage.jpg" style="width:100%"></td>
+				<td><img src="noimage.jpg" style="width:100%"></td>
+			</tr>
+		</table>
+		
+		
+		<ul id="thumbList">
+		</ul>
+
+		<img id="blobImage" />
+-->		
+
+<!--		
+		<canvas id="thumbCanvas" width="770" height="400"></canvas>
+-->
+		<canvas id="thumbCanvas"></canvas>
+ 
+	</div>
+
+<!-- Upload Modal -->
+	<div id="uploadModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Upload Images</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input id="uploadFileSelect" type="file" class="form-control" multiple/>
+					</div>
+					
+					<div id="uploading">
+						<img src="ajax-loader.gif"><span id="uploadProgress">&nbsp&nbsp&nbspSending Files</span>
+					</div>
+										
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>		  
+					<button type="button" class="btn btn-default" onclick="uploadOKFunction()">Send to B2</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+</div>
+
+<script>
+	
+
+
+function statusFunction () {
+/*	
+	var urlTail = 'status&' + new Date ().getTime();
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+	
+	});	
+*/	
+};
+
+function loadFunction () {
+	
+	console.log ("loadFunction ()");
+	
+	var urlTail = 'startPhotoImport&' + new Date ().getTime();
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+		console.log ("Photo Import started");
+	});	
+	
+}	
+
+function photoTestFunction () {
+	
+	console.log ("photoTestFunction ()");
+	
+	var urlTail = 'photoTest&' + new Date ().getTime();
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+		console.log ("Photo Test Done");
+	});	
+	
+}
+
+
+/*
+function thumbsFunction () {
+	
+	console.log ("thumbsFunction ()");
+	var row;
+	
+	var cols = 5;
+	var rows = 5;
+
+	var table = $('#thumbTable');
+	var tw = table.outerWidth(true);
+		
+	console.log ("tw = "+tw);
+				
+	table.children().remove();
+	var l = 24;
+	var i = 0;
+		
+	for (var y=0;i<l && (y<rows);y++){
+		row = "<tr>";
+		for (var x=0;i < l && (x<cols);x++){
+				row += '<td><img id="t'+i+'" src="noimage.jpg" style="width:'+tw/cols+'px"></td>';
+			i++;	
+		}
+		row += "</tr>";
+
+		table.append (row);
+	}
+
+	var urlTail = 'getThumbCount&' + new Date ().getTime();
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+		console.log ("Get Thumb Count Done "+data);
+	
+		var i,n;
+		
+		for (i=0,n=0;n<24;n++){
+			
+			var urlTail = 'getThumb&pos='+n+'&index='+i+'&' + new Date ().getTime();
+			$.getJSON('b2gci.fcgi',urlTail,function(data){
+				if (data.path != ""){
+					var id = "#t"+data.pos;
+//					console.log ("Get Thumb Done id="+id+" path="+data.path);
+					$(id).attr("src",data.path);
+				}
+			});
+			
+			i += thumbStep;							
+		}
+
+				
+	});	
+	
+}
+*/
+
+function thumbsFunction2 () {
+	
+	console.log ("thumbsFunction2 ()");
+
+	var count = thumbsAcross * thumbsDown;
+		
+	for (i=thumbStart,n=0;n<count;n++){
+			
+			
+		var xhr = new XMLHttpRequest ();
+		xhr.open ("GET","b2gci.fcgi?getBlobThumb&pos="+n+"&index="+i+"&" + new Date ().getTime());
+		xhr.responseType = "blob";
+		xhr.onload = function (){
+//			console.log ("got blob reply "+this.response+" size "+this.response.size);
+//			console.log ("responseURL "+this.responseURL);
+		
+			var pos = parseInt (this.responseURL.split("&pos=")[1]);
+//			console.log ("pos "+pos);		
+
+			var	imageUrl;
+			
+			if (this.response.size){
+				var urlCreator = window.URL || window.webkitURL;
+				imageUrl = urlCreator.createObjectURL (this.response);
+			}
+			else imageUrl = "noimage.jpg";
+		
+//			var img = document.querySelector("#blobImage");
+//			img.src = imageUrl;
+
+			var img = document.createElement("IMG");
+			img.setAttribute ("src",imageUrl);
+//			document.body.appendChild (img);
+		
+			img.onload = function (){
+
+
+			
+				var x = pos % thumbsAcross; 
+				var y = (pos - x) / thumbsAcross;
+				x = x * thumbWidth;
+				y = y * thumbWidth / idealRatio;
+				var sx = 0;								// crop selection
+				var sy = 0;
+				var sw = img.naturalWidth;
+				var sh = img.naturalHeight;				
+
+				var naturalRatio = sw / sh;
+				
+				if (naturalRatio > idealRatio){			// too wide crop sides
+					sx = (sw - sh)/2;
+					sw = sh;
+					ctx.drawImage (img,sx,sy,sw,sh,x,y,thumbWidth,thumbWidth/idealRatio);					
+				}
+				else if (naturalRatio < idealRatio){	// too high crop top and bottom
+					sy = (sh - sw)/2
+					sh = sw;
+					ctx.drawImage (img,sx,sy,sw,sh,x,y,thumbWidth,thumbWidth/idealRatio);					
+				}
+				else 
+					ctx.drawImage (img,x,y,thumbWidth,thumbWidth/idealRatio);					
+
+				if (pos == 0){
+					console.log ("naturalWidth = "+img.naturalWidth);
+					console.log ("naturalHeight = "+img.naturalHeight);
+					console.log ("idealWidth = "+idealWidth);					
+				}
+
+		
+			};	
+		
+		}
+		xhr.send ();
+	
+		i += thumbStep;							
+	}
+}
+
+
+function uploadFunction () {
+
+	console.log ("uploadFunction ()");
+	
+	$('#uploadModal').modal();	
+	
+}
+
+
+function nextUpload (){
+	
+	var formData = new FormData ();
+
+	formData.append ("dummy",uploadFiles[currentUpload],uploadFiles[currentUpload].name);
+
+	$.ajax ({
+		url: 'b2cgi.fcgi?uploadImages',
+		type: 'POST',
+		data: formData,
+		cache: false,
+		dataType: 'json',
+		processData: false,
+		contentType: false,
+		success: function (data, textStatus, jqXHR) {
+
+//			console.log ("Upload success currentUpload = "+currentUpload);
+//			console.log ("data= "+data);
+//			console.log ("textStatus = "+textStatus);
+
+			currentUpload++;
+			uploadTry = 1;
+			if (currentUpload < uploadFiles.length){
+				var n = currentUpload+1;
+				$('#uploadProgress').html ('&nbsp&nbsp&nbspSending '+n+' of '+uploadFiles.length);		
+				nextUpload ();
+			}
+			else  {
+				$('#uploading').hide ();				
+			}	
+		},
+		error: function (jqXHR, textStatus, errorThrown){
+			
+				if (uploadTry < 3){
+					uploadTry++;
+					var n = currentUpload+1;
+					$('#uploadProgress').html ('&nbsp&nbsp&nbspRetrying '+n+' of '+uploadFiles.length);					
+					nextUpload ();
+				}
+				else {	
+					$('#uploadModal').modal("hide");
+					alert ("Upload error: "+textStatus+" file = "+uploadFiles[currentUpload].name);
+				}	
+			}
+		});	
+}
+
+
+function uploadOKFunction (){
+
+	console.log ("uploadOKFunction ()");
+
+	uploadFiles = $('#uploadFileSelect').prop('files');
+
+
+	if (uploadFiles.length){
+
+		currentUpload = 0;
+		uploadTry = 1;
+		var n = currentUpload+1;
+
+		$('#uploadProgress').html ('&nbsp&nbsp&nbspSending '+n+' of '+uploadFiles.length);		
+		$('#uploading').show ();
+		
+		nextUpload ();
+
+	}
+}
+
+function wheelFunction (ev){
+	
+	var canvas = $("#thumbCanvas").offset ();
+	
+	console.log ("wheelFunction deltaY="+ev.deltaY);
+	console.log ("X="+ev.clientX+" Y="+ev.clientY);
+	console.log ("Canvas X="+canvas.left+" Canvas Y="+canvas.top);
+	
+	var tx = Math.floor((ev.clientX - canvas.left)/thumbWidth);
+	var ty = Math.floor(idealRatio * (ev.clientY - canvas.top)/thumbWidth);
+	var mouseIndex = ty * thumbsAcross + tx;
+	
+	console.log ("Thumbnail coordinate "+tx+","+ty);
+	
+	if (ev.deltaY > 0) {										// zoom out
+		thumbStart = thumbStartHistory.pop ();
+		if (thumbStart == undefined) thumbStart = 0;
+		thumbStep = thumbStep << 1;
+	}	
+	else {
+		if (thumbStep > 1){										// zoom in
+			thumbStartHistory.push (thumbStart);
+			thumbStep = thumbStep >> 1;	
+			thumbStart += thumbStep * mouseIndex;
+		}	
+	}	
+	
+	thumbsFunction2 ();
+	
+}	
+
+
+function getImage (n){
+	
+	var xhr = new XMLHttpRequest ();
+	xhr.open ("GET","b2gci.fcgi?getBlobThumb&pos="+n+"&index="+n+"&" + new Date ().getTime());
+	xhr.responseType = "blob";
+	xhr.onload = function (){
+//		console.log ("got blob reply "+this.response);
+//		console.log ("responseURL "+this.responseURL);
+		
+		var pos = parseInt (this.responseURL.split("&pos=")[1]);
+		console.log ("pos "+pos);		
+		
+		var urlCreator = window.URL || window.webkitURL;
+		var imageUrl = urlCreator.createObjectURL (this.response);
+		
+//		var img = document.querySelector("#blobImage");
+//		img.src = imageUrl;
+
+		var img = document.createElement("IMG");
+		img.setAttribute ("src",imageUrl);
+		document.body.appendChild (img);
+		
+		img.onload = function (){
+			
+			console.log ("naturalWidth = "+img.naturalWidth);
+			console.log ("naturalHeight = "+img.naturalHeight);
+			
+		};	
+		
+	}
+	xhr.send ();
+}	
+	
+
+function calculateSizes (){
+
+
+
+	canvasWidth = $("#wellWidth").width ();
+	canvasHeight = 400;
+	
+	console.log ("canvasWidth = "+canvasWidth);
+
+
+/*
+	$("#thumbCanvas").width (canvasWidth);
+	$("#thumbCanvas").height (canvasHeight);
+*/	
+	
+	$("#thumbCanvas").prop ("width", canvasWidth).prop ("height",canvasHeight);
+	
+	
+	thumbsAcross = Math.floor (canvasWidth/idealWidth + 1);
+	thumbsDown = Math.floor (idealRatio * canvasHeight/idealWidth); 
+	
+	thumbWidth = canvasWidth / thumbsAcross;
+	thumbHeight = thumbWidth / idealRatio;	
+	
+	console.log ("Array "+thumbsAcross+" x "+thumbsDown);
+	console.log ("Drawn Thumb dimensions "+thumbWidth+" x "+thumbHeight);
+	
+}	
+
+function resize (){
+
+	calculateSizes ();
+	thumbsFunction2 ();	
+	
+}	
+
+
+</script>
+
+
+	
+
+</body>
+</html>

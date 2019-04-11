@@ -1,0 +1,2 @@
+sshpass -p "brennan" scp -o 'StrictHostKeyChecking no' -r * root@192.168.0.2:/var/www
+
