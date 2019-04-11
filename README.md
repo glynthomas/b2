@@ -11,7 +11,12 @@ it's a very useful high quality (wav & flac files) music & internet radio enable
 
 ## the bad ( well not too bad )
 
-the original development of the UI moved focus onto tagging & streaming youtube video music then entered a world playing music from USB sticks and other experimental features ...
+the original development of the web UI b2 box to moved focus to tagging & streaming youtube video music
+
+then seemingly entered a world of experimental features;
+
+accommodating USB sticks loading music, indexing, bulk uploading, photo viewer and other non core features ...
+
 
 ## the ugly
 
@@ -23,7 +28,12 @@ two devices active, music upload refresh bug (polling), more UI polling !
 
 browser memory leak from constant polling
 
+music file upload problems
+
+radio drop out problems
+
 internet connection required for the web UI to load properly ( this now fixed )
+
 
 ## planned player upgrades ( When time permits ) ;
 
