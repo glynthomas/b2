@@ -20,3 +20,5 @@ planned player upgrades ;
 - fix the network problems
 - make any performance updates
 - improve the web UI controls
+
+if you are a b2 owner and you stumble onto this page, if you want to contribute please get in touch. note these updates and fixes are at your own risk if you implement them on your own b2 player. 
