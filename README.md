@@ -1,13 +1,13 @@
 # b2 brennan web app
 
-brennan b2 original web interface (opinionated updates)
+brennan b2 original web interface [ opinionated updates ]
 
 KISS keep it simple stupid, a focus on improving the web UI to play music & radio with excellence, zero feature bload!
 
 
 ## the good
 
-it's a very useful high quality (wav & flac files) music & internet radio enabled raspberry pi based player
+it's a very useful high quality [ wav & flac files ] music & internet radio enabled raspberry pi based player
 
 with a responsive web UI for desktop and mobile devices
 
@@ -23,11 +23,11 @@ accommodating USB sticks loading music, indexing USB sticks, bulk uploading of m
 
 ## the ugly
 
-constant polling the network for status updates? when the user is doing nothing (eating network bandwidth)
+constant polling the network for status updates? when the user is doing nothing ( eating network bandwidth )
 
 constant scrolling graph view of music playing or not playing ?
 
-two devices active, music upload refresh bug (polling), more UI polling !
+two devices active, music upload refresh bug ( polling ), more UI polling !
 
 browser memory leak from constant polling
 
@@ -50,7 +50,7 @@ internet connection required for the web UI to load properly ( this now fixed )
 
 - improve mobile web UI
 
-* please note a brand new official UI is being developed here by brennan ... https://github.com/geometryzen/brennan-app
+* official UI is being developed here by brennan ... https://github.com/geometryzen/brennan-app
 
 if you are a b2 owner and you stumble onto this page, and you like a simpler stable version of this web UI player and want to contribute please get in touch
 
