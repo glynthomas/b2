@@ -7,15 +7,18 @@ KISS keep it simple stupid, a focus on improving the web UI to play music & radi
 
 ## the good
 
-it's a very useful high quality (wav & flac files) music & internet radio enabled web UI player
+it's a very useful high quality (wav & flac files) music & internet radio enabled raspberry pi based player
+
+with a responsive web UI for desktop and mobile devices
+
 
 ## the bad ( well not too bad )
 
-the original development of the web UI b2 box to moved focus to tagging & streaming youtube video music
+the original development of the web UI brennan b2 box moved focus to tagging & streaming youtube video music,
 
-then seemingly entered a world of many experimental features;
+after this, the development seemed to continue into a world of many experimental features, including;
 
-accommodating USB sticks loading music, indexing, bulk uploading, photo viewer and other non core features ...
+accommodating USB sticks loading music, indexing USB sticks, bulk uploading of media, photo viewer and other non core features ...
 
 
 ## the ugly
