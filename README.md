@@ -25,4 +25,4 @@ internet connection required for the web UI to load properly ( this now fixed )
 
 if you are a b2 owner and you stumble onto this page, if you want to contribute please get in touch.
 
-###### note these updates and fixes are at your own risk if you implement them on your own b2 player. 
+###### *note these updates and fixes are at your own risk if you implement them on your own b2 player. 
