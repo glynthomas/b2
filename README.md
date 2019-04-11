@@ -38,7 +38,7 @@ radio drop out problems
 internet connection required for the web UI to load properly ( this now fixed )
 
 
-## planned player upgrades [ when time permits ] ;
+## planned web app upgrades [ when time permits ] ;
 
 - fix the network constant poling problem
 
