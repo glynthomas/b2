@@ -13,7 +13,7 @@ it's a very useful high quality (wav & flac files) music & internet radio enable
 
 the original development of the web UI b2 box to moved focus to tagging & streaming youtube video music
 
-then seemingly entered a world of experimental features;
+then seemingly entered a world of many experimental features;
 
 accommodating USB sticks loading music, indexing, bulk uploading, photo viewer and other non core features ...
 
