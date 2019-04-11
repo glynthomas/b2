@@ -2,7 +2,7 @@
 
 brennan b2 original web interface (opinionated updates)
 
-KISS keep it simple stupid, a focus on improving the web UI to play music & radio with excellence, zero feature bloat!
+KISS keep it simple stupid, a focus on improving the web UI to play music & radio with excellence, zero feature bload!
 
 
 ## the good
