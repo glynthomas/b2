@@ -9,9 +9,9 @@ KISS keep it simple stupid, a focus on improving the web UI to play music & radi
 
 it's a very useful high quality (wav & flac files) music & internet radio enabled web UI player
 
-## the bad (well not too bad)
+## the bad ( well not too bad )
 
-the development somehow went into a world of focusing on tagging & streaming youtube video music?
+the original development of the UI moved focus onto tagging & streaming youtube video music then entered a world playing music from USB sticks and other experimental features ...
 
 ## the ugly
 
@@ -25,7 +25,7 @@ browser memory leak from constant polling
 
 internet connection required for the web UI to load properly ( this now fixed )
 
-## planned player upgrades ;
+## planned player upgrades ( When time permits ) ;
 
 - fix the network constant poling problem
 
@@ -34,6 +34,8 @@ internet connection required for the web UI to load properly ( this now fixed )
 - make any performance updates
 
 - improve the web UI controls
+
+- improve mobile web UI
 
 * please note a brand new UI is being developed here ... https://github.com/geometryzen/brennan-app
 
