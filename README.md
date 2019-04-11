@@ -18,7 +18,7 @@ the original development of the web UI brennan b2 box moved focus to tagging & s
 
 after this, the development seemed to continue into a world of many experimental features, including;
 
-accommodating USB sticks loading music, indexing USB sticks, bulk uploading of media, photo viewer and other non core features ...
+USB sticks loading music, indexing USB sticks, bulk uploading of media, photo viewer and other non core features ...
 
 
 ## the ugly
