@@ -38,7 +38,7 @@ radio drop out problems - fixed
 internet connection required for the web UI to load properly - fixed
 
 
-## update & upgrade [ when time permits ] ;
+## updates & upgrades [ when time permits ] ;
 
 run through the ugly list ;
 
@@ -64,6 +64,8 @@ run through the ugly list ;
 
 - internet connection required for the web UI to load properly - fixed
 
+
+## web app maintenance ;
 
 web app will be maintained here together with any improved, tested brennan b2 system updates 
 
