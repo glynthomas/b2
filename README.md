@@ -58,7 +58,7 @@ run through the ugly list ;
 
 web app will be maintained here together with any improved, tested brennan b2 system updates 
 
-future development of the web app at brennan.co.uk has been halted
+future development of the web app at brennan.co.uk has been halted !
 
 * new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
