@@ -38,7 +38,7 @@ radio drop out problems - fixed
 internet connection required for the web UI to load properly - fixed
 
 
-## updates & upgrades [ when time permits ]
+## updates & upgrades road map [ when time permits ]
 
 run through the ugly list ;
 
@@ -48,19 +48,20 @@ run through the ugly list ;
 
 - make any performance updates
 
-- improve web UI controls
+- improve & update web UI controls
 
 - improve mobile web UI
 
-- implement version control
+- implement version control & HTML commments per file
 
-- clear up & delete old or redundant files 
+- finally, clean up, remove commented out lines & delete old or redundant files 
+
 
 ## version v23.02.01 | (c) 2019 [ updates & fixes ]
 
 - favicon server error - fixed
 
-- smoothie.js charting removed UI to be updated - update
+- smoothie.js charting removed, UI to be updated - update
 
 - internet connection now not required for the web UI to load properly - fixed
 
