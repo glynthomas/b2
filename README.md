@@ -60,7 +60,7 @@ web app will be maintained here together with any improved, tested brennan b2 sy
 
 future development of the native web app at brennan.co.uk has been halted !
 
-* new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
+new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
 if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained version of this web app and want to contribute please get in touch :-)
 
