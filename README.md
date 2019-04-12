@@ -62,7 +62,7 @@ run through the ugly list ;
 
 - smoothie.js charting removed UI to be updated - update
 
-- internet connection required for the web UI to load properly - fixed
+- internet connection now not required for the web UI to load properly - fixed
 
 
 ## web app maintenance
