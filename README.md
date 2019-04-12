@@ -59,11 +59,11 @@ run through the ugly list ;
 
 ## version v23.02.01 | (c) 2019 [ updates & fixes ]
 
-- favicon server error - fixed
+- favicon server error - fix
 
 - smoothie.js charting removed, UI to be updated - update
 
-- internet connection now not required for the web UI to load properly - fixed
+- internet connection now not required for the web UI to load properly - fix
 
 
 ## web app maintenance
