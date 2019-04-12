@@ -48,7 +48,7 @@ run through the ugly list ;
 
 - make any performance updates
 
-- improve the web UI controls
+- improve web UI controls
 
 - improve mobile web UI
 
