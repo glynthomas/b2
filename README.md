@@ -59,7 +59,7 @@ run through the ugly list & include ;
 - finally, clean up, remove commented out lines & delete old or redundant files 
 
 
-## version v23.02.01 [ updates & fixes ]
+## version v23.02.01
 
 - favicon server error - fix
 
