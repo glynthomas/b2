@@ -1,6 +1,6 @@
 # b2 brennan web app
 
-brennan b2 original web interface [ opinionated updates ]
+brennan b2 original web app interface [ opinionated updates ]
 
 KISS keep it simple stupid, a focus on improving the web UI to play music & radio with excellence, zero feature bload!
 
@@ -33,12 +33,12 @@ browser memory leak from constant polling
 
 music file upload problems
 
-radio drop out problems - [ fixed ]
+radio drop out problems - fixed
 
-internet connection required for the web UI to load properly - [ fixed ]
+internet connection required for the web UI to load properly - fixed
 
 
-## web app upgrades [ when time permits ] ;
+## update & upgrade [ when time permits ] ;
 
 run through the ugly list ;
 
@@ -55,6 +55,15 @@ run through the ugly list ;
 - implement version control
 
 - clear up & delete old or redundant files 
+
+## version v23.02.01 | (c) 2019 [ updates & fixes ];
+
+- favicon server error - fixed
+
+- smoothie.js charting removed UI to be updated - update
+
+- internet connection required for the web UI to load properly - fixed
+
 
 web app will be maintained here together with any improved, tested brennan b2 system updates 
 
