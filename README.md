@@ -62,6 +62,6 @@ future development of the native web app at brennan.co.uk has been halted !
 
 * new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
-if you are a b2 owner and you stumble onto this page, and you like a simpler stable version of this web UI player and want to contribute please get in touch
+if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained version of this web app and want to contribute please get in touch :-)
 
 ###### * note these updates and fixes are at your own risk if you implement them on your own b2 player
