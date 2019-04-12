@@ -54,7 +54,7 @@ run through the ugly list ;
 
 - implement version control
 
-- clear up & clean old or redundant files 
+- clear up & delete old or redundant files 
 
 web app will be maintained here together with any improved, tested brennan b2 system updates 
 
