@@ -64,4 +64,4 @@ new official experimental UI is being developed by brennan ... https://github.co
 
 if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained version of this web app and want to contribute please get in touch :-)
 
-###### * note these updates and fixes are at your own risk if you implement them on your own b2 player
+###### * please note, web app updates and fixes are implemented at your own risk
