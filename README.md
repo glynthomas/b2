@@ -33,7 +33,7 @@ browser memory leak from constant polling
 
 music file upload problems
 
-radio drop out problems
+radio drop out problems - [ fixed ]
 
 internet connection required for the web UI to load properly - [ fixed ]
 
