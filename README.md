@@ -56,9 +56,9 @@ run through the ugly list ;
 
 - clear up & clean old or redundant files 
 
-finally, a version controlled responsive web app will be maintained here together with any brennan b2 system updates 
+web app will be maintained here together with any improved, tested brennan b2 system updates 
 
-web app versions can be downloaded from brennan.co.uk, however future development has been halted
+versions can be downloaded from brennan.co.uk, however future development has been halted
 
 * new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
