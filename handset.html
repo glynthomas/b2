@@ -1,26 +1,27 @@
 <!DOCTYPE html>
+<!--/*! home | index.html v23.02.01 | (c) 2019 | b2.io */-->
 <html lang="en">
 <head>
   <title>B2 Handset UI</title>
+  <link rel="shortcut icon" type="image/png" href="b2appicon.png">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+  <!--  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
   <script src="js/jquery-1.11.3.min.js"></script>
-<!--  
+  <!--  
   <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script> 
   <script src="js/jquery.ui.touch-punch.min.js"></script> 
--->  
+  -->  
   <!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
   <script src="js/bootstrap-3.3.5.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/perfect-scrollbar.min.css">  
   <script src="js/perfect-scrollbar.jquery.js"></script>
-  <script src="js/smoothie.js"></script>
- 
-  
-  
- <script>
+  <!-- smoothie charting removed v23.02.01 -->
+  <!-- <script src="js/smoothie.js"></script> -->
+   
+<script>
 	 
 //var panels = [];	 
 var selectedPanelForMobile = 0;
@@ -95,12 +96,14 @@ $(function() {
 		 mouseOverSlider = false;
 	});
 	
-	smoothie = new SmoothieChart({maxValue:100,minValue:0});
-	var canvas = document.getElementById("mycanvas");
-	canvas.width = $('#canvasBox').width();
-	smoothie.streamTo (canvas,500);
-	vuLine1 = new TimeSeries();
-	smoothie.addTimeSeries(vuLine1);
+	/* remove play music chart v23.02.01 */
+	// smoothie = new SmoothieChart({maxValue:100,minValue:0});
+	// var canvas = document.getElementById("mycanvas");
+	// canvas.width = $('#canvasBox').width();
+	// smoothie.streamTo (canvas,500);
+	// vuLine1 = new TimeSeries();
+	// smoothie.addTimeSeries(vuLine1);
+
 	$('#CDDBPanel').hide();
 	$('#uploading').hide ();
 	
@@ -845,8 +848,10 @@ var renameOldName;
 var renameOldArtist;
 var lastDiscid;
 var lastCDLoaded;
-var smoothie;
-var vuLine1;
+
+/* var smoothie; */
+/* var vuLine1;  */
+
 var cddb;
 var selectedcddb;
 var currentUpload;
@@ -1464,13 +1469,13 @@ function statusFunction () {
 			
 		nowPlaying = data;
 		
-		var vu = data['vu'];
-		var t = new Date().getTime();
-		vuLine1.append (t+0,vu[4]);			
-		vuLine1.append (t+100,vu[3]);
-		vuLine1.append (t+200,vu[2]);
-		vuLine1.append (t+300,vu[1]);
-		vuLine1.append (t+400,vu[0]);						
+		// var vu = data['vu'];
+		// var t = new Date().getTime();
+		// vuLine1.append (t+0,vu[4]);			
+		// vuLine1.append (t+100,vu[3]);
+		// vuLine1.append (t+200,vu[2]);
+		// vuLine1.append (t+300,vu[1]);
+		// vuLine1.append (t+400,vu[0]);						
 		
 		$('#cdstatus').text(data.cdstatus);
 		if (lastCDLoaded != data.cdloaded){
