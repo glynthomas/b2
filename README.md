@@ -38,7 +38,7 @@ radio drop out problems - fixed
 internet connection required for the web UI to load properly - fixed
 
 
-## updates & upgrades [ when time permits ] ;
+## updates & upgrades [ when time permits ]
 
 run through the ugly list ;
 
@@ -56,7 +56,7 @@ run through the ugly list ;
 
 - clear up & delete old or redundant files 
 
-## version v23.02.01 | (c) 2019 [ updates & fixes ];
+## version v23.02.01 | (c) 2019 [ updates & fixes ]
 
 - favicon server error - fixed
 
@@ -65,7 +65,7 @@ run through the ugly list ;
 - internet connection required for the web UI to load properly - fixed
 
 
-## web app maintenance ;
+## web app maintenance
 
 web app will be maintained here together with any improved, tested brennan b2 system updates 
 
