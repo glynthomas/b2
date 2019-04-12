@@ -56,7 +56,11 @@ run through the ugly list ;
 
 - clear up & clean old or redundant files 
 
-* official UI is being developed here by brennan ... https://github.com/geometryzen/brennan-app
+finally, a version controlled responsive web app will be maintained here together with any brennan b2 system updates 
+
+web app versions can be downloaded from brennan.co.uk, however future development has been halted
+
+* new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
 if you are a b2 owner and you stumble onto this page, and you like a simpler stable version of this web UI player and want to contribute please get in touch
 
