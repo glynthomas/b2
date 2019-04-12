@@ -184,7 +184,11 @@ $(function() {
 </script>  
  
 <style type="text/css">
-  
+
+#nowPlayingArt {
+    padding-top: 4px;
+    padding-right: 0px;
+}
 .well {
 	margin-bottom: 10px;
 }
@@ -343,12 +347,17 @@ div[class^="col"]{padding-left:5px; padding-right: 5px}
 
 @media (max-width: 990px){
 
+	    #nowPlayingArt {
+        padding-top: 0px;
+        padding-right: 15px;
+}
+
 		div[class^="col"]{padding-left:0px; padding-right: 0px}
-		.container-fluid{padding-left:0px; padding-right:0px}
-		.panel {margin-bottom:0px;}
-		.panel {border:0px}
-		.panel-body {padding-top:5px; padding-bottom: 5px}
-		.well {margin-bottom:0px}
+		.container-fluid{padding-left: 0px; padding-right: 0px}
+		.panel {margin-bottom: 0px;}
+		.panel {border: 0px}
+		.panel-body {padding-top: 5px; padding-bottom: 5px}
+		.well {margin-bottom: 0px}
 		.well-sm {padding-top: 0px; padding-bottom: 5px}		
 }	
 
@@ -514,7 +523,9 @@ ul.nav-pills {
 
 				<div class="panel-body">
 					<div class="npInline col-sm-8" id="nowPlayingBody"></div>
-					<div class="npInline col-sm-4" id="nowPlayingArt"><img src="noimage.jpg" width="100%"></div>
+					<div class="npInline col-sm-4" id="nowPlayingArt"><img src="noimage.jpg" width="100%">
+                    <!-- v23.02.01 nowPlayingArt style added -->
+					</div>
 				</div>
 <!--
 				<div class="panel-body">
@@ -527,7 +538,8 @@ ul.nav-pills {
 	 
 
  
-			<div class="btn-group btn-group-justified">
+			<div class="btn-group btn-group-justified" style="padding-top:10px">
+			<!-- v23.02.01 style added -->
 				<a href="#" class="btn btn-default" data-toggle="tooltip" title="Tone Control" onclick="openToneControl ()"><span class="glyphicon glyphicon-music"></span></a>				
 				<a class="btn btn-default btn-block" href="#" data-toggle="tooltip" title="Random Play On/Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>
 				<a href="#" class="transportButton btn btn-default" title="Back button" value='back'><span class="glyphicon glyphicon-backward"></span></a>
@@ -535,13 +547,15 @@ ul.nav-pills {
 				<a href="#" class="transportButton btn btn-default" title="Next button" value='next'><span class="glyphicon glyphicon-forward"></span></a>
 			</div> 
  
-			<div id=canvasBox>
-				<canvas id="mycanvas" width="100%" height="60"></canvas>
+			<div id="canvasBox" style="height: 0px;">
+			<!-- v23.02.01 style added -->
+				<canvas id="mycanvas" width="100%" height="60" style="height: 0px;"></canvas>
+			<!-- v23.02.01 style added -->
 			</div>	  
 
 			<div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play">
 				<div id="volumeSlider">    
-<!--					<input type="range" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32">-->
+            <!-- <input type="range" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32"> -->
 					<input type="range" title="Volume" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32">
 				</div> 
 			</div>	
