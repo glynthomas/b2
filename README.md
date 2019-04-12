@@ -61,7 +61,9 @@ run through the ugly list ;
 
 - favicon server error - fix
 
-- smoothie.js charting removed, UI to be updated - update
+- smoothie.js charting removed - update
+
+- web UI update with no chart - update
 
 - internet connection now not required for the web UI to load properly - fix
 
