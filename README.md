@@ -25,9 +25,9 @@ USB sticks loading music, indexing USB sticks, bulk uploading of media, photo vi
 
 constant polling the network for status updates? when the user is doing nothing [ eating network bandwidth ]
 
-constant scrolling graph view of music playing or not playing ?
+constant scrolling graph view of music playing or not playing
 
-two devices active, music upload refresh bug [ polling ], more UI polling !
+two devices active, music upload refresh bug
 
 browser memory leak from constant polling
 
@@ -35,10 +35,12 @@ music file upload problems
 
 radio drop out problems
 
-internet connection required for the web UI to load properly ( this now fixed )
+internet connection required for the web UI to load properly - [ fixed ]
 
 
 ## web app upgrades [ when time permits ] ;
+
+run through the ugly list ;
 
 - fix the network constant poling problem
 
@@ -49,6 +51,10 @@ internet connection required for the web UI to load properly ( this now fixed )
 - improve the web UI controls
 
 - improve mobile web UI
+
+- implement version control
+
+- clear up & clean old or redundant files 
 
 * official UI is being developed here by brennan ... https://github.com/geometryzen/brennan-app
 
