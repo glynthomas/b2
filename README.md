@@ -40,7 +40,7 @@ internet connection required for the web UI to load properly - fixed
 
 ## updates & upgrades road map [ when time permits ]
 
-run through the ugly list ;
+run through the ugly list & include ;
 
 - fix the network constant poling problem
 
@@ -50,7 +50,9 @@ run through the ugly list ;
 
 - improve & update web UI controls
 
-- improve mobile web UI
+- improve mobile web UI modals
+
+- update mobile web UI layout & improve responsive design
 
 - implement version control & HTML commments per file
 
