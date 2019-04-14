@@ -48,6 +48,8 @@ run through the ugly list & include ;
 
 - make any performance updates
 
+- improve desktop UI layout 
+
 - improve & update web UI controls
 
 - improve mobile web UI modals
