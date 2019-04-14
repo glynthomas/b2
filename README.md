@@ -33,6 +33,8 @@ browser memory leak from constant polling
 
 music file upload problems
 
+hash in the URL 
+
 radio drop out problems - fixed
 
 internet connection required for the web UI to load properly - fixed
@@ -56,6 +58,8 @@ run through the ugly list & include ;
 
 - update mobile web UI layout & improve responsive design
 
+- remove unnecessary hash in URL
+
 - implement version control & HTML commments per file
 
 - finally, clean up, remove commented out lines & delete old or redundant files 
@@ -74,7 +78,7 @@ run through the ugly list & include ;
 
 ## web app maintenance
 
-web app will be maintained here together with any improved, tested brennan b2 system updates 
+web app will be maintained here together with any improved, tested brennan b2 system updates :-)
 
 future development of the native web app at brennan.co.uk has been halted !
 
