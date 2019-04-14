@@ -1,4 +1,4 @@
-# b2 brennan web app
+# brennan b2 web app
 
 brennan b2 original web app interface [ opinionated updates ]
 
