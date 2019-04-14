@@ -42,7 +42,9 @@ internet connection required for the web UI to load properly - fixed
 
 ## updates & upgrades road map [ when time permits ]
 
-run through the ugly list & include ;
+[1] pick though all brennan web app update archives and implement UX improvement upgrades
+
+[2] run through the ugly list & include ;
 
 - fix the network constant poling problem
 
@@ -62,7 +64,7 @@ run through the ugly list & include ;
 
 - implement version control & HTML commments per file
 
-- finally, clean up, remove commented out lines & delete old or redundant files 
+- finally, clean up, remove commented out lines & delete all old or redundant files 
 
 
 ## version v23.02.01
@@ -72,6 +74,8 @@ run through the ugly list & include ;
 - smoothie.js charting removed - update
 
 - web UI update with no chart - update
+
+- web desktop playlist reponsive design  - update
 
 - internet connection now not required for the web UI to load properly - fix
 
