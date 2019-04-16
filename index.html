@@ -185,16 +185,41 @@ $(function() {
  
 <style type="text/css">
 
+#nowPlayingWell {
+	padding-top: 5px;
+	/* height: 330px; */
+}
+
+#playlistPanel {
+	/*margin-top: 9px; */
+	padding-top: 6px;
+}
+
 #nowPlayingArt {
-    padding-top: 4px;
+    /*padding-top: 5px;*/
+    padding-top: 0px;
     padding-right: 0px;
 }
+
+#ArtistWell {
+	padding-top: 5px;
+}
+
+#AlbumWell {
+	padding-top: 5px;
+}
+
+ul#albumHeader li a {padding-right: 8px}
+
+#SearchTab { padding-top: 12px;}
+
 .well {
 	margin-bottom: 10px;
 }
+
 .ScrollBox {
 	position: relative;
-	height: 10em;
+	height: 100%;
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
@@ -283,7 +308,7 @@ $(function() {
 
 .panel-body {
 
-	padding: 8px;
+	padding: 5px;
 }
 
 #mixText {
@@ -347,10 +372,9 @@ div[class^="col"]{padding-left:5px; padding-right: 5px}
 
 @media (max-width: 990px){
 
-	    #nowPlayingArt {
-        padding-top: 0px;
-        padding-right: 15px;
-}
+		#nowPlayingWell {display:table;}
+
+	    #nowPlayingArt {padding-top: 0px; padding-right: 15px;}
 
 		div[class^="col"]{padding-left:0px; padding-right: 0px}
 		.container-fluid{padding-left: 0px; padding-right: 0px}
@@ -358,8 +382,28 @@ div[class^="col"]{padding-left:5px; padding-right: 5px}
 		.panel {border: 0px}
 		.panel-body {padding-top: 5px; padding-bottom: 5px}
 		.well {margin-bottom: 0px}
-		.well-sm {padding-top: 0px; padding-bottom: 5px}		
-}	
+		.well-sm {padding-top: 0px; padding-bottom: 5px}
+
+		/*#settingsButton {width: 16.66666666%;}
+		.col-sm-10 {width: 83.33333333%}*/
+		.nav>li>a {display: inline-block;}
+}
+
+@media (max-width: 767px) {
+	    .nav>li>a {padding: 0px 0px;}
+        #t2 .col-sm-10{padding-top: 10px; padding-bottom: 10px; padding-left: 15px; padding-right: 15px;}
+        #settingsButton {width: 16.66666667%; padding-top: 10px; padding-bottom: 10px; margin-top: -3px;}
+		.col-sm-10 {width: 83.33333333%; margin-right: -4px;}
+
+}
+
+@media (max-width: 599px) {
+	.nav>li>a {display: none;}
+	div.well{padding-top: 0px; padding-bottom: 0px;}
+	ul#t1{display: none;}
+	#nowPlayingPanel {margin-top: 0px;}
+
+}
 
 .container-fluid {
 	max-width: 1400px;
@@ -379,9 +423,17 @@ ul.nav-pills {
 }	
 */
 
+/*
 .scrollBoxHeader {
 	margin-bottom: 0.3em;
 }
+*/
+
+.scrollBoxHeader {
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+}
+
 
 .topBorder {
 	border-style: solid;
@@ -440,7 +492,58 @@ ul.nav-pills {
 .leftjustified {
 	text-align: left;
 }	
-		
+
+
+.mw100 {
+	max-width: 100%;
+}
+.mw80 {
+	max-width: 80%;
+}		
+
+.w100 {
+	width: 100%;
+}
+.w90 {
+	width: 90%;
+}
+.w10 {
+	width: 10%;
+}
+.h100 {
+	height: 100%;
+}	
+.myflex {
+	display: flex;
+}
+.flexV {
+	display: flex;
+	flex-direction: column;
+}
+.artflexV {
+	display: flex;
+	flex-direction: column-reverse;
+}	
+.flex1 {
+	flex: 1;
+}	
+.flex2 {
+	flex: 2;
+}
+
+.selfCentered {
+	align-self: center;
+}
+
+#playlistMenu {
+	right: 0;
+	left: auto;
+}
+
+#searchButtons {
+	margin-top: 5px;
+}
+
 </style> 
 
 
@@ -496,21 +599,19 @@ ul.nav-pills {
 
  <div id="ColumnOne" class="col-md-4">
 
-
-
 	<div id="nowPlayingWell" class="well well-sm" ondragover="allowDrop(event)" ondrop="dropSpeaker(event)">
-
 	
 <!--	<a class="col-sm-2 btn btn-default" href="#" title="Random On Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>-->			
 
-
 		<ul tabindex="-1" id="t1" class="nav nav-pills nav-stacked scrollBoxHeader">
-			<li id="t2"><a class="col-sm-10" id="t3"><span class="text-muted">Source </span><span id="sourceHeader">Hard Disk</span></a>
+			<li id="t2"><a class="col-sm-10" id="t3">
+<!--            <span class="text-muted">Source </span> -->
+                <span class="text-muted">B2 </span>
+				<span id="sourceHeader">Hard Disk</span></a>
 				<a id="settingsButton" tabindex="-1" class="col-sm-2 btn btn-default" href="#" title="Settings & Status" role="button" onclick="openSettingsModal()"><span class="glyphicon glyphicon-cog" ></span></a>			
 			</li>	
 		</ul>
 		
-
 		<div class="panelContent" id="nowPlayingPanel">
 
 			<div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play">
@@ -582,27 +683,21 @@ ul.nav-pills {
 
 <!-- Playlists -->
 
-
+<!--
 	<div id="playlistPanel" class="panelContent">
-
 		<div class="scrollBoxHeader">
 			<div id="playlistButtons" class="btn-group">
 				<a tabindex="-1" class="btn btn-default dropdown-toggle" title="Select playlist" id="menu1" data-toggle="dropdown" href="#" draggable="true" ondragstart="dragPlaylist(event)">Playlist
-					<span class="caret"></span></a>
-<!--				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Play this playlist" onclick="playPlaylist ()">Play</a>-->
+				<span class="caret"></span></a>
 				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Rename this playlist" onclick="renamePlaylist ()">Rename</a>
 				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Create a New Playlist" onclick="createPlaylist ()">New</a>
 				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Add or Subtract Playlists" onclick="mixPlaylist ()">Mix</a>
-<!--				<a tabindex="-1" class="btn btn-default" href="#" ondragover="allowDrop(event)" ondrop="dropBin(event)" data-toggle="tooltip" title="Drag playlist items here to remove from playlist"><span class="glyphicon glyphicon-trash" ></span></a>-->
 				<a tabindex="-1" class="btn btn-default iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist" onclick="playlistFilterToggle()"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
-
 				<ul class="dropdown-menu" id="playlistDropdownUl" role="menu">
 					<li><a href="#">Red</a></li>
 				</ul>
 			</div>      
 		</div>
-
-  
  		<div class="ScrollBox" id="playlistContainer">
 			<table class="table table-hover">
 
@@ -613,10 +708,51 @@ ul.nav-pills {
 				</tbody>
 			</table>  
 		</div> 
-		
  	</div>
- 
- 
+ -->
+
+<!-- v23.02.01 style added -->
+
+	<div id="playlistPanel" class="panelContent">
+		<div class="scrollBoxHeader">
+			<div id="playlistButtons" class="btn-group w100 myflex">
+				<div class="dropdown myflex flex1">
+					<a class="btn btn-default dropdown-toggle" title="Select playlist" id="menu1" data-toggle="dropdown" href="#" draggable="true" ondragstart="dragPlaylist(event)">
+						<span class="caret flexCenter"></span></a>
+					<ul class="dropdown-menu" id="playlistDropdownUl" role="menu">
+					<li><a href="#">Red</a></li>
+					</ul>
+					<a class="btn btn-default clipText flex1" href="#"><span id="playlistChoice">Red</span></a>
+				</div>
+				<div class="dropdown dropleft">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+						<span class="glyphicon glyphicon-option-horizontal"></span></a>
+					<ul class="dropdown-menu" id="playlistMenu" role="menu">
+						<li><a href="#" onclick="renamePlaylist ()">Rename this playlist</a></li>
+						<li><a href="#" onclick="deletePlaylist ()">Delete this playlist</a></li>
+						<li><a href="#" onclick="createPlaylist ()">Create new playlist</a></li>
+						<li><a href="#" onclick="mixPlaylist ()">Combine playlists</a></li>					
+						<li><a href="#" onclick="assignPlaylist ()">Assign to Preset</a></li>	
+					</ul>
+				</div>	
+<!--								
+				<a tabindex="-1" class="btn btn-default iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist" onclick="playlistFilterToggle()"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
+-->
+			</div>			      
+		</div>  
+ 		<div class="ScrollBox" id="playlistContainer">
+			<table class="table table-hover">
+
+				<tbody id="playlistTbody">
+					<tr>
+						<td>Empty</td>
+					</tr>
+				</tbody>
+			</table>  
+		</div> 
+ 	</div>
+
+
  <!-- CD -->
  
 
@@ -683,14 +819,7 @@ ul.nav-pills {
 		</div>
 	</div>
   
-  
-  
-  
-  
-  
- 
 	</div>
- 
  
   <!-- Presets -->
  
@@ -705,7 +834,6 @@ ul.nav-pills {
 	</div>
 
   </div>
-
 
   </div>
   
@@ -1043,29 +1171,50 @@ ul.nav-pills {
 
 <!-- Search -->
 
-
+<!--
 	<div id="SearchPanel" class="panelContent tab-pane">	 
-	
 		<div id="searchButtons" class="input-group scrollBoxHeader">
 			<div>
-<!--				<input type="text" id="searchInput" class="form-control" size="6" placeholder="Search B2" onkeyup="searchFunction()">-->
 			<input type="text" id="searchInput" class="form-control" size="6" placeholder="Search B2" onkeyup="searchFunction()">
-
-		
-				
 			</div>
 			<div class="input-group-btn">
-<!--				<a tabindex="-1" class="btn btn-default iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>-->
 				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Artists toggle"><span class="glyphicon glyphicon-user" id='artistCheckbox'></span></a>
 				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Albums toggle"><span class="glyphicon glyphicon-cd" id='albumCheckbox'></span></a>
 				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Tracks toggle"><span class="glyphicon glyphicon-music" id='trackCheckbox'></span></a>	
 				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Radio Stations toggle"><span class="icon-radioMast" id='radioCheckbox'></span></a>   
 			</div> 
-
 		</div>
+		<div class="SearchScrollBox" id="SearchContainer">  
+			<table class="table table-hover">
+				<tbody id="Results"></tbody>
+			</table> 
+		</div>  
+	</div>
+-->
 
+<!-- v23.02.01 style added -->
 
+	<div id="SearchPanel" class="panelContent tab-pane">	 
+	
+		<div id="searchControls" class="scrollBoxHeader topButtons">
+			<div>
+				<input type="text" id="searchInput" class="form-control" size="6" placeholder="Search B2" onkeyup="searchFunction()">
+			</div>
+				
+			<div>
+			<div id="searchButtons" class="btn-group btn-group-justified">
+				<a class="btn btn-default btn" onclick="toggleArtist()" href="#" title="Artists toggle"><span class="glyphicon glyphicon-user" id='artistCheckbox'></span></a>
+				<a class="btn btn-default btn" onclick="toggleAlbum()" href="#" title="Albums toggle"><span class="glyphicon glyphicon-cd myGrey" id='albumCheckbox'></span></a>
+				<a class="btn btn-default btn" onclick="toggleTrack()" href="#" title="Tracks toggle"><span class="glyphicon glyphicon-music myGrey" id='trackCheckbox'></span></a>
 
+<!-- <a class="btn btn-default btn" onclick="toggleVideo()" href="#" title="Video toggle"><span class="glyphicon glyphicon-facetime-video myGrey" id='videoCheckbox'></span></a> -->
+
+ 			    <a class="btn btn-default btn" onclick="toggleRadio()" href="#" title="Radio toggle"><span class="glyphicon glyphicon-stats myGrey" id='radioCheckbox'></span></a>
+				<a class="btn btn-default btn" href="#" data-toggle="tooltip" title="Alpha Sort On/Off" onclick="alphaToggle()"><span id="alphaIcon" class="glyphicon glyphicon-sort-by-alphabet" ></span></a>
+				<a class="btn btn-default btn iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
+			</div> 
+			</div>
+		</div>
 
 		<div class="SearchScrollBox" id="SearchContainer">  
 			<table class="table table-hover">
@@ -1074,7 +1223,9 @@ ul.nav-pills {
 		</div>  
 		
 	</div>
-	
+
+
+
 <!-- vTuner -->
 
 	<div id="VTunerPanel" class="panelContent tab-pane">	
@@ -1192,25 +1343,25 @@ ul.nav-pills {
 
 		<div id="AlbumPanel">	 
 
-			<ul class="nav nav-pills nav-stacked scrollBoxHeader" id="albumHeader" onClick="clickArt()" ondragover="allowDrop(event)" ondrop="dropArt(event)" onpaste="pasteArt(event)" data-toggle="tooltip" title="Drag or Paste Artwork here
+		<ul class="nav nav-pills nav-stacked scrollBoxHeader" id="albumHeader" onClick="clickArt()" ondragover="allowDrop(event)" ondrop="dropArt(event)" onpaste="pasteArt(event)" data-toggle="tooltip" title="Drag or Paste Artwork here
 or click to open upload panel">
-				<li>
-					<a><span class="text-muted">Album </span><span id="albumname">None Selected</span><img id="albumImage" class="pull-right"></a>
-
+		<li>
+		<a><span class="text-muted">Album </span><span id="albumname">None Selected</span>
+        <img id="albumImage" class="pull-right">
+		</a>
 					
-<!--					<a class="col-sm-10"><span class="text-muted">Album </span><span id="albumname">None Selected</span></a>-->
+<!--	<a class="col-sm-10"><span class="text-muted">Album </span><span id="albumname">None Selected</span></a> -->
 					
-
-				</li>	
-			</ul>
+		</li>	
+		</ul>
 			
-			<div class="panelContent ArtistScrollBox">
-				<nav id="AlbumTracksBox">  
-					<table class="table table-hover">
-						<tbody id="AlbumTracks"></tbody>
-					</table> 
-				</nav>	
-			</div>
+		<div class="panelContent ArtistScrollBox">
+			<nav id="AlbumTracksBox">  
+				<table class="table table-hover">
+					<tbody id="AlbumTracks"></tbody>
+				</table> 
+			</nav>	
+		</div>
 	
 		</div>
 	</div>	
@@ -1447,9 +1598,21 @@ or click to open upload panel">
 
 </div>
 
+<!-- 
+
+v23.02.01
+
+- favicon server error - fix
+- smoothie.js charting removed - update
+- web UI update with no chart - update
+- web desktop playlist reponsive design - update
+- web desktop search responsive design - update
+- internet connection now not required for the web UI to load properly - fix
 
 
 
+
+-->
 
 <script>
 	
@@ -1789,6 +1952,55 @@ function searchFunction (stay){
 			
 	});	
 }		
+
+function toggleArtist (){
+
+	if ($("#artistCheckbox").hasClass ("myGrey")) {
+		$("#artistCheckbox").removeClass ("myGrey");
+		$("#albumCheckbox").addClass ("myGrey");		
+		$("#trackCheckbox").addClass ("myGrey");
+		$("#radioCheckbox").addClass ("myGrey");
+	}
+
+	searchFunction ();				
+}
+
+function toggleAlbum (){
+
+	if ($("#albumCheckbox").hasClass ("myGrey")) {
+		$("#albumCheckbox").removeClass ("myGrey");
+		$("#artistCheckbox").addClass ("myGrey");		
+		$("#trackCheckbox").addClass ("myGrey");
+		$("#radioCheckbox").addClass ("myGrey");
+	}
+				
+	searchFunction ();	
+}	
+
+function toggleTrack (){
+
+	if ($("#trackCheckbox").hasClass ("myGrey")) {
+		$("#trackCheckbox").removeClass ("myGrey");
+		$("#artistCheckbox").addClass ("myGrey");		
+		$("#albumCheckbox").addClass ("myGrey");
+		$("#radioCheckbox").addClass ("myGrey");		
+	}
+
+	searchFunction ();					
+}
+
+function toggleRadio (){
+
+	if ($("#radioCheckbox").hasClass ("myGrey")) {
+		$("#radioCheckbox").removeClass ("myGrey");
+		$("#trackCheckbox").addClass ("myGrey");
+		$("#artistCheckbox").addClass ("myGrey");		
+		$("#albumCheckbox").addClass ("myGrey");
+	}
+
+	searchFunction ();					
+}
+
 
 function searchMore (){
 
@@ -3426,34 +3638,36 @@ function adjustHeights (){
 //	console.log ("wh "+wh+" woh "+woh+" th "+th+" bbh "+bbh+" poh "+poh+" soh "+soh);
 //	console.log ("div height = "+srch);
 
-		$('#SearchContainer').height(srch);
+		$('#SearchContainer').height(srch-46);		         // new height correction	
+		// $('#SearchContainer').height(srch);
 
-		bbh = $("#vTunerButtons").outerHeight(true);		// button bar height	
+		bbh = $("#vTunerButtons").outerHeight(true);		 // button bar height	
 		var vth = wh-woh-th-bbh-poh-soh;		
 	
-		$('#vTunerBox').height((vth-bbh-10)/2);				// 10 px space between two sections
+		$('#vTunerBox').height((vth-bbh-10)/2);				 // 10 px space between two sections
 		$('#vTunerSearchBox').height((vth-bbh-10)/2);
 
 		var sbh = $('#youtubeSearchBar').outerHeight(true);
 		var ph = $('#youtubeSearchHeading').outerHeight(true);
 
-		console.log ("wh "+wh+" woh "+woh+" th "+th+" sbh "+sbh+" poh "+poh+" ph "+ph);
+    console.log ("wh "+wh+" woh "+woh+" th "+th+" sbh "+sbh+" poh "+poh+" ph "+ph);
 
-		var yth = wh-woh-th-sbh-poh;						// window - well overhead - tab height - search bar - panel overhead 
+		var yth = wh-woh-th-sbh-poh;						 // window - well overhead - tab height - search bar - panel overhead 
 		console.log ("div height = "+yth);
 
 		var ytph = ((yth-2)/2) - ph; 
 		console.log ("ytph = "+ytph);
 
-		$('#YoutubeSearchResultsBox').height(ytph);				// 2 px space between two sections
+		$('#YoutubeSearchResultsBox').height(ytph);		     // 2 px space between two sections
 		$('#YoutubeHistoryBox').height(ytph);
 
-		var npwh = $("#nowPlayingWell").outerHeight(true);		// now playing well height
-		bbh = $("#playlistButtons").outerHeight(true);		// button bar height
+		var npwh = $("#nowPlayingWell").outerHeight(true);	 // now playing well height
+		bbh = $("#playlistButtons").outerHeight(true);		 // button bar height
 		
-		$('#playlistContainer').height(wh-npwh-woh-th-bbh-poh-soh);
+		//$('#playlistContainer').height(wh-npwh-woh-th-bbh-poh-soh);
+        $('#playlistContainer').height(wh-npwh-1-woh-th-bbh-poh-soh);	// new height correction
+		
 		$('#presetsBox').height(wh-npwh-woh-th-poh-soh);
-		
 		$('#CDPanel').height(wh-npwh-woh-th-poh-soh);
 		
 		var ih = $('#CDPanel').height()-$('#cdTitleBar').outerHeight()-$('#CDDBPanel').outerHeight();
@@ -3469,7 +3683,12 @@ function adjustHeights (){
 		$('#ArtistAlbumsBox').height((wh+10)/2-woh-arhh-poh);		// 10 = final margin
 
 		var alhh = $("#albumHeader").outerHeight(true);				// album header
-		$('#AlbumTracksBox').height((wh+10)/2-woh-alhh-poh);	
+		// $('#AlbumTracksBox').height((wh+10)/2-woh-alhh-poh);
+
+		// $('#AlbumTracksBox').height((wh+30)/2-woh-alhh-poh);	
+		
+		$('#AlbumTracksBox').height((wh+23)/2-woh-alhh-poh);		// new height correction	
+
 
 //	console.log ("wh "+wh+" woh "+woh+" alhh "+alhh+" poh "+poh);
 //	console.log ("div height = "+(wh/2-woh-alhh-poh));
@@ -3782,7 +4001,8 @@ function renamePlaylist (){
 function pickSource (i){
 	
 	selectedSource = i;
-	if (i >= playlists.length) $("#mixMenu2").html('All Music <span class="caret"></span>');
+	/* if (i >= playlists.length) $("#mixMenu2").html('All Music <span class="caret"></span>'); */
+	if (i >= playlists.length) $("#mixMenu2").html('Music <span class="caret"></span>');
 	else $("#mixMenu2").html(playlists[i].name+' <span class="caret"></span>');
 	mixText ();	
 }
@@ -3835,7 +4055,8 @@ function mixPlaylist (){
 		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">'+
 			playlists[i].name+' ('+playlists[i].length+')</a></li>');
 	}
-	ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">All Music</a></li>');
+	/* ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">All Music</a></li>'); */
+    ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">Music</a></li>');
 	pickSource (selectedSource);
 	
 
@@ -4090,6 +4311,8 @@ function alphaToggle (){
 	var urlTail = 'setSorted&sorted='+r+'&time='+ new Date ().getTime();		// IE;
 
 	$.getJSON('b2gci.fcgi',urlTail,function(data){
+
+	    searchFunction ();
 		
 	});		
 	
@@ -4164,7 +4387,8 @@ function openSettingsModal (){
 function pickGuest (i){
 	
 	lastGuestPlaylist = i;
-	if (i == 0) $("#guestMenu").html('All Music <span class="caret"></span>');
+	/* if (i == 0) $("#guestMenu").html('All Music <span class="caret"></span>'); */
+	if (i == 0) $("#guestMenu").html('Music <span class="caret"></span>');
 	else $("#guestMenu").html(playlists[i-1].name+' <span class="caret"></span>');
 	
 	guestModeClick ();	
@@ -4194,7 +4418,8 @@ function refreshSettings (){
 	ul.children().remove();
 	var l = playlists.length;
 
-	ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest(0)">All Music</a></li>');	
+	/* ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest(0)">All Music</a></li>');*/
+	ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest(0)">Music</a></li>');	
 	for (var i=1;i<=l;i++){ 
 		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest('+i+')">'+
 			playlists[i-1].name+' ('+playlists[i-1].length+')</a></li>');
