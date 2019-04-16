@@ -83,7 +83,7 @@ internet connection required for the web UI to load properly - fixed
 
 - internet connection now not required for the web UI to load properly - fix
 
-##### update consolidates the destop web UI layout, playlist update, search and UI selections update & improves the resposive elements & mobile UI -- small UI improvments planned for later version 
+###### update consolidates the destop web UI layout, playlist update, search and UI selections update & improves the resposive elements & mobile UI -- small UI improvments planned for later version 
 
 
 ## web app maintenance
