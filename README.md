@@ -67,23 +67,11 @@ internet connection required for the web UI to load properly - fixed
 - finally, clean up, remove commented out lines & delete all old or redundant files 
 
 
-## version v23.02.01
+## versions
 
-- favicon server error - fix
+version v23.02.01. favicon server error - fix, smoothie.js charting removed - update, web UI update with no chart - update, web desktop playlist reponsive design  - update, mobile responsive design - update, sort bug - fixed, nternet connection now not required for the web UI to load properly - fix
 
-- smoothie.js charting removed - update
-
-- web UI update with no chart - update
-
-- web desktop playlist reponsive design  - update
-
-- mobile responsive design - update
-
-- sort bug - fixed
-
-- internet connection now not required for the web UI to load properly - fix
-
-###### update consolidates the destop web UI layout, playlist update, search and UI selections update & improves the resposive elements & mobile UI -- small UI improvments planned for later version 
+version v23.02.02 current upgrade in progress ... 
 
 
 ## web app maintenance
