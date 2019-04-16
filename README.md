@@ -77,7 +77,13 @@ internet connection required for the web UI to load properly - fixed
 
 - web desktop playlist reponsive design  - update
 
+- mobile responsive design - update
+
+- sort bug - fixed
+
 - internet connection now not required for the web UI to load properly - fix
+
+v23.02.01 update consolidates the destop web UI layout, playlist update, search and UI selections update & improves the resposive elements & mobile UI -- small UI improvments planned for later version 
 
 
 ## web app maintenance
