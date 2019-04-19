@@ -22,6 +22,6 @@ version one is currently being developed ready for final version release, still 
 
 new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
-if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained noiseless version of this web app and want to contribute please get in touch :-)
+if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained noiseless version of this web app and want to contribute please get in touch
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
