@@ -6,7 +6,7 @@ brennan b2 digital raspberry pi based music ( digital files & web radio ) server
 
 web app will be maintained here together with any UI improvements major or minor updates to the original code base.
 
-major changes include; removal of constant polling of the B2, scrolling graphs and other continued status updates this will remove the problems associated with mutiple devices accessing the B2, music file uploads, radio drop outs and performance and browser memory leak issues created from constant polling to minor fixes which include; removal of hash in the URL and the requirment of an internet connection and a number of minor improvments
+major changes include; removal of constant polling of the B2, scrolling graphs and other continued status updates this will remove the problems associated with mutiple devices accessing the B2, music file uploads, radio drop outs and performance and browser memory leak issues created from constant polling to minor fixes which include; removal of hash in the URL and the requirment of an internet connection and a number of minor performance improvments
 
 UI controls have been tweeked together with improve mobile web UI modal & improve responsive design
 
