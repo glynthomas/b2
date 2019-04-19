@@ -1,6 +1,6 @@
 # brennan web app noiseless release
 
-brennan b2 digital raspberry pi based music ( digital files & web radio ) server noiseless web app is a branch of the orginal web app, the focus is for web UI to play music & radio with excellence.
+brennan b2 digital raspberry pi based music ( digital files & web radio ) server noiseless web app is a branch of the original web app, the focus is for web UI to play music & radio with excellence.
 
 # noiseless release roadmap
 
