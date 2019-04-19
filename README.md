@@ -1,87 +1,27 @@
-# brennan web app
+# brennan web app noiseless release
 
-brennan b2 original web app interface [ opinionated updates ]
+brennan b2 digital raspberry pi based music ( digital files & web radio ) server noiseless web app is a branch of the orginal web app, the focus is for web UI to play music & radio with excellence.
 
-KISS keep it simple stupid, a focus on improving the web UI to play music & radio with excellence, zero feature bload!
+# noiseless release roadmap
 
+web app will be maintained here together with any UI improvements major or minor updates to the original code base.
 
-## the good
+major changes include; removal of constant polling of the B2, scrolling graphs and other continued status updates this will remove the problems associated with mutiple devices accessing the B2, music file uploads, radio drop outs and performance and browser memory leak issues created from constant polling to minor fixes which include; removal of hash in the URL and the requirment of an internet connection and a number of minor improvments
 
-it's a very useful high quality [ wav & flac files ] music & internet radio enabled raspberry pi based player
+UI controls have been tweeked together with improve mobile web UI modal & improve responsive design
 
-with a responsive web UI for desktop and mobile devices
+## noiseless updates
 
+the current offical last brennan B2 update offered an experimental mobile only UI, the UI navigaton and controls seem to work well, however, from a quick review, the underlying code is not in a happy place, it seems to want to be event driven with passive constant polling of the B2 resulting in the UI not being able to control the B2 ( not possible to play music or radio ) !
 
-## the bad [ well not too bad ]
+it is after all an experiment, and not a high priority, however, probably version two, time permitting I plan to modify and rewrite parts of this code base to fix this experimental mobile UI to a functional noiseless version  
+ 
+## noiseless current version web app maintenance release 
 
-the original development of the web UI brennan b2 box moved focus to tagging & streaming youtube video music,
-
-after this, the development seemed to continue into a world of many experimental features, including;
-
-USB sticks loading music, indexing USB sticks, photo viewer and other non core features ...
-
-
-## the ugly
-
-constant polling the network for status updates? when the user is doing nothing [ eating network bandwidth ]
-
-constant scrolling graph view of music playing or not playing
-
-two devices active, music upload refresh bug
-
-browser memory leak from constant polling
-
-music file upload problems
-
-hash in the URL 
-
-radio drop out problems - fixed
-
-internet connection required for the web UI to load properly - fixed
-
-
-## updates & upgrades road map [ when time permits ]
-
-[1] pick though all brennan web app update archives and implement UX improvement upgrades
-
-[2] run through the ugly list & include ;
-
-- fix the network constant poling problem
-
-- fix any memory leak issues
-
-- make any performance updates
-
-- improve desktop UI layout 
-
-- improve & update web UI controls
-
-- improve mobile web UI modals
-
-- update mobile web UI layout & improve responsive design
-
-- remove unnecessary hash in URL
-
-- implement version control & HTML commments per file
-
-- finally, clean up, remove commented out lines & delete all old or redundant files 
-
-
-## versions
-
-version v23.02.01. favicon server error - fix, smoothie.js charting removed - update, web UI update with no chart - update, web desktop playlist reponsive design  - update, mobile responsive design - update, sort bug - fixed, nternet connection now not required for the web UI to load properly - fix
-
-version v23.02.02 current upgrade in progress ... 
-
-
-## web app maintenance
-
-web app will be maintained here together with any improved, tested brennan b2 system updates :-)
-
-future development of the native web app at brennan.co.uk has been halted !
+version one is currently being developed ready for final version release, still to do; implement version control & HTML commments per file and finally, clean up, remove commented out lines & delete all old or redundant files   
 
 new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
-if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained version of this web app and want to contribute please get in touch :-)
+if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained noiseless version of this web app and want to contribute please get in touch :-)
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
