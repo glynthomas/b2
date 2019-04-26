@@ -36,8 +36,8 @@ version one is currently being developed ready for final version release, still 
 
 ## noiseless has two branches, current & dev
 
-- current release index.html 
-- dev ... release index-dev.html  
+- current release index.html     -> v1.0.0
+- dev ... release index-dev.html -> v1.0.0 
 
 new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
