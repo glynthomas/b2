@@ -32,7 +32,12 @@ it is after all an experiment, and not a high priority, however, probably for no
  
 ## noiseless current version web app maintenance release 
 
-version one is currently being developed ready for final version release, still to do; implement version control & HTML commments per file and finally, clean up, remove commented out lines & delete all old redundant code and redundant files   
+version one is currently being developed ready for final version release, still to do; implement version control & HTML commments per file and finally, clean up, remove commented out lines & delete all old redundant code and redundant files
+
+## noiseless has two branches, current & dev
+
+- current release index.html 
+- dev ... release index-dev.html  
 
 new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
