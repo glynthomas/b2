@@ -27,11 +27,11 @@ UI controls have been tweeked together with improved mobile web UI modal & impro
 
 the current official last brennan B2 update offered an experimental mobile only UI, the UI navigaton and controls seem to work well, however, from a quick review, the underlying code is not in a happy place, it seems to want to be event driven with passive constant polling of the B2 resulting in the UI not being able to control the B2 ( not possible to play music or radio ) !
 
-it is after all an experiment, and not a high priority, however, probably for noiseless version two, time permitting I plan to modify and rewrite parts of this code base to fix this experimental mobile UI to a functional noiseless version  
+it is after all an experiment, and not a high priority, however, probably for noiseless version two, time permitting I plan to modify and rewrite parts of this code base to fix this experimental mobile UI to a functional noiseless mobile version  
  
 ## noiseless current version web app maintenance release 
 
-version one is currently being developed ready for final version release, still to do; implement version control & HTML commments per file and finally, clean up, remove commented out lines & delete all old redundant code and redundant files
+version one focus, fixes most of the issues discussed, however, is still being developed & tested fully, while the dev branch code base has yet to be updated, focus here is on improving the UI responsive layout & mobile web app, in time, both versions will become the maintenance release
 
 ## noiseless has two branches, current & dev
 
