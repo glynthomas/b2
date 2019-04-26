@@ -52,6 +52,6 @@ version one focus, fixes most of the issues discussed, however, it is still bein
 
 new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
-if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained noiseless version of this web app and * or want to contribute please get in touch
+if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler, maintained noiseless version of this web app and * or want to contribute please get in touch
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
