@@ -9,15 +9,15 @@ brennan b2 music & radio media player is a great bit of kit and relatively easy 
 -  network bandwidth overhead
 -  internet issues for other users
 
-Other small UI issues may need some attention, which are discussed below.
+Other small UI issues may need some attention, which are discussed below
 
 # brennan web app noiseless release
 
-noiseless web app release is a branch of the original brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence
+noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence
 
 # noiseless release roadmap
 
-web app will be maintained here together with any UI improvements major or minor updates to the original code base.
+web app will be maintained here together with any UI improvements major or minor updates to the original code base
 
 major changes include; removal of constant polling of the B2, scrolling graphs and other continued status updates this will remove the problems associated with mutiple devices accessing the B2, music file uploads, radio drop outs and performance and browser memory leak issues created from constant polling to minor fixes which include; removal of hash in the URL and the requirment of an internet connection and a number of other minor performance improvements
 
@@ -40,6 +40,6 @@ version one is currently being developed ready for final version release, still 
 
 new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
 
-if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained noiseless version of this web app and want to contribute please get in touch
+if you are a b2 brennan owner and you stumble onto this page, and you prefer a simpler stable maintained noiseless version of this web app and * or want to contribute please get in touch
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
