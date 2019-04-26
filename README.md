@@ -1,4 +1,3 @@
-
 # brennan web app noiseless why ?
 
 brennan b2 music & radio media player is a great bit of kit and relatively easy to modify, the web app is i understand no longer being developed, the web app final release continually polls the b2 unit every half a second for sync & status updates, this polling creates problems;
