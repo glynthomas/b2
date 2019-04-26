@@ -13,7 +13,9 @@ Other small UI issues may need some attention, which are discussed below
 
 # brennan web app noiseless how?
 
-the existing javascript has been tweeked, with functions edited & some added, the constant polling has been removed & replaced with event driven polling, rather than a constant stream of half a second [ 500ms ] network requests, even if you are not using the B2, the new noiseless release implements event polling, which is more like a wave saying hello to the B2 when you access the web app client, leaving the B2 to get on with playing music, radio or uploading files without "noise" problems associated to this network polling frequency, where timing is required a local timer takes over and re-syncs with the B2 when requied [ scrub or time of length of songs ]
+the existing javascript has been tweeked, with functions edited & some added, the constant polling has been removed & replaced with event driven polling, rather than a constant stream of half a second [ 500ms ] network requests!
+
+the new noiseless release implements event polling, which is more like a wave saying hello to the B2 when you access the web app client, leaving the B2 to get on with playing music, radio or uploading files without "noise" problems associated with network polling frequency, where timing is required, a local timer takes over and re-syncs with the B2 when requied [ scrub or time of length of songs ]
 
 if you have a B2 and what to try it out, using the latest final B2 release, rename the exisiting index.html file to index.html-bak and copy the index.html noisless file, if you don't like it, copy over the original index.html-bak --> index.html
 
