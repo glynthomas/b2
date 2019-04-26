@@ -19,7 +19,7 @@ the new noiseless release implements event polling, which is more like a wave sa
 
 if you have a B2 and what to try it out, using the latest final B2 release, rename the exisiting index.html file to index.html-bak and copy the index.html noisless file, if you don't like it, copy over the original index.html-bak --> index.html
 
-also copy the contents of /css & /js all files are locally held [ don't need the internet to use B2 on your network ] 
+also copy the contents of /css & /js all files are locally held [ B2 does not now require an internet connection ] 
 
 all other files are here for completness ...
 
