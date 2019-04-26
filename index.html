@@ -1,36 +1,24 @@
 <!DOCTYPE html>
-<!--/*! home | index.html v23.02.01 | (c) 2019 | b2.io */-->
+<!--/*! home | index.html noiseless v.1.0.0 | (c) 2019  */-->
 <html lang="en">
 <head>
   <title>Brennan B2</title>
   <link rel="shortcut icon" type="image/png" href="b2appicon.png">
   <meta charset="utf-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
-  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5.min.css">
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
   <script src="js/jquery-1.11.3.min.js"></script>
-  <!--  
-  <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script> 
-  <script src="js/jquery.ui.touch-punch.min.js"></script> 
-  -->  
-  <!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
   <script src="js/bootstrap-3.3.5.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/perfect-scrollbar.min.css">  
   <script src="js/perfect-scrollbar.jquery.js"></script>
-  <!-- smoothie charting removed v23.02.01 -->
-  <!-- <script src="js/smoothie.js"></script> -->
   <script src="bundle.js"></script>
- 
   <link rel="apple-touch-icon" sizes="180x180" href="b2appicon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  
-  
- <script>
-	 
-//var panels = [];	 
+    
+<script>
+
+// var data = [];
+	  
 var selectedPanelForMobile = 0;
 var selectedSubPanel = 0;
 var selectedSearchSubPanel = 0;
@@ -48,12 +36,54 @@ var youtubeSearchResults = [];
 var vTunerSearchResults = [];
 var vTunerItemResults = [];
 var selectedPlaylistItem;
-	 
+
+var cnt = 0;
+var updateprocess = true;
+var playtimer = 0;
+var playnext = 'true';
+
+var wave = function(count,state) {
+
+/* state ;
+ *
+ * true  updateprocess true;
+ * false updateprocess = false;clearInterval(playtimer);cnt = 0;
+ * reset clearInterval(playtimer);cnt = 0;updateprocess true;
+ *
+*/
+	switch (state) {
+
+		case 'true' :  
+		     clearInterval(playtimer);cnt = 0;updateprocess = true;
+		break;
+		case 'false':  
+		     clearInterval(playtimer);cnt = 0;updateprocess = false;
+		break;
+		case 'reset':
+		     clearInterval(playtimer);cnt = 0;updateprocess = true;
+		break;
+
+	}
+	
+	var caller = arguments.callee;
+	
+	if (count == -1) {window.setTimeout(function() {statusFunction();caller(count);}, 500);} 	 // infinite  wave !
+    if (count > 0) {if (count == 0) return;statusFunction();window.setTimeout(function() {caller(count - 1);}, 500);}
+    if (count == null) { statusFunction(); }
+};
+
+/*
+ *  wave (-1); // runs infinite number of times
+ *  wave (0);  // does nothing
+ *  wave (2);  // runs two times
+ *  wave ();   // runs one time
+*/
+
 $(function() {
 
 	nowPlaying = {};
 	
-	setInterval (statusFunction,500);
+	wave();
 
 	$('.iconToggle').on('click',function(){
 		icon = $(this).find("span");
@@ -95,18 +125,19 @@ $(function() {
 										// will also select the first and display
 
 	listalbumAndArtistFunction (1000000);	
+	listRandomAlbumAndArtistFunction ();		
 //	listArtistFunction (3000000);	
 	listPresetsFunction ();
 
 	 $("#slider-1").on ("input", function() {
-		$( "#volume" ).text( this.value );
+		$( "#volume" ).text( "Volume: "+this.value );
 		var t = "vol"+this.value+"&"+new Date ().getTime();
 		$.get('b2cgi.fcgi',t,function(data){			// send volxx to fcgi
 		});
 	});
 	
 	 $("#slider-1").on ("change", function() {			// for IE
-		$( "#volume" ).text( this.value );
+		$( "#volume" ).text("Volume: "+this.value );
 		var t = "vol"+this.value+"&"+new Date ().getTime();
 		$.get('b2cgi.fcgi',t,function(data){			// send volxx to fcgi
 		});
@@ -123,16 +154,18 @@ $(function() {
 	 $("#bassSlider").on ("input", toneChange);
 	 $("#bassSlider").on ("change", toneChange);
 
-	/* remove play music chart v23.02.01 */
-	// smoothie = new SmoothieChart({maxValue:100,minValue:0});
-	// var canvas = document.getElementById("mycanvas");
-	// canvas.width = $('#canvasBox').width();
-	// smoothie.streamTo (canvas,500);
-	// vuLine1 = new TimeSeries();
-	// smoothie.addTimeSeries(vuLine1);
-
+    $("#progressSlider").on ("click", progressChange);
+	$("#progressSlider").on ("change", progressChange);
+	$("#progressSlider").on ("input", progressInput);
+	$("#progressSlider").on ("mouseenter", function() {		// to stop status updates causing jitter
+		 mouseOverProgressSlider = true;
+	}).on ("mouseleave", function() {
+		 mouseOverProgressSlider = false;
+	});
+	
 	$('#CDDBPanel').hide();
 	$('#uploading').hide ();
+	// $('#fetchingArt').hide ();
 	
 	$('#vTunerBox').perfectScrollbar ();	
 	$('#vTunerSearchBox').perfectScrollbar ();	
@@ -181,6 +214,7 @@ $(function() {
 	$("#youtubeStarting").hide ();
 	
 });
+
 </script>  
  
 <style type="text/css">
@@ -192,13 +226,24 @@ $(function() {
 
 #playlistPanel {
 	/*margin-top: 9px; */
-	padding-top: 6px;
+	/*padding-top: 6px;*/
+}
+
+.artContainer {
+	padding-left: 5px;
+	padding-right: 5px;
+	
+	max-height: 100%;
+	
+	margin-left: auto;
+	margin-right: auto;	
 }
 
 #nowPlayingArt {
-    /*padding-top: 5px;*/
-    padding-top: 0px;
-    padding-right: 0px;
+	max-height: 100%;	
+	width: 100%;
+	height: 100%;
+    /*padding-top: 8px;*/
 }
 
 #ArtistWell {
@@ -254,10 +299,10 @@ $(function() {
 }
 
 .panelContent {
-	margin-top: 10px;
-	padding-top: 10px;
-/*	border-top: 4px solid #003366; */
-	border-top: 4px solid #3C4144; 
+    margin-top: 5px;
+/*	margin-top: 10px; */
+/*	padding-top: 10px;*/
+/*	border-top: 4px solid #3C4144;*/ 
 
 }
 
@@ -304,11 +349,14 @@ $(function() {
 .panel {
 
 	margin-bottom: 0px;
+	border:0px;
+	/*margin-bottom: 5px;*/
+	background-color: #272b30;
 }	
 
 .panel-body {
-
-	padding: 5px;
+	/*padding: 5px;*/
+	padding: 0px;
 }
 
 #mixText {
@@ -327,14 +375,15 @@ $(function() {
 	margin-bottom: 0px;
 }
 #settingsBody {
+	margin-left: 7px;
 	margin-bottom: 10px;
 }
 
 .npInline {
 	display: inline-block;
+}
 
-}	
-
+	
 @media screen and (min-width: 990px){
 
 	.ScrollBox {
@@ -459,8 +508,44 @@ ul.nav-pills {
 	content: "\e600";
 }
 
+.controls {
+   padding-top: 5px;
+   /*padding-bottom: 5px;*/
+}
+
+.sliders {
+   padding-top: 5px;
+   /*padding-bottom: 4px;*/
+   background-color: #272b30;
+   /*border-top: 2px solid #2e3338;*/
+   /*border-bottom: 2px solid #2e3338;*/
+}
+
 #volumeSlider {
-	margin: 1em;
+	margin-top: 0.2em;
+	margin-left: 1em;
+	margin-right: 1em;
+	margin-bottom: 0em;
+}
+
+#progressSliderDiv {
+    /*margin-top: 1em;*/
+    margin-top: 0.5em;
+	margin-left: 1em;
+	margin-right: 1em;
+	margin-bottom: 0em;
+
+    position: relative;
+}
+
+#progressMask {
+	position: absolute;
+	left:0;
+	top:0;
+	/*background: rgba(28,30,34,0.7);*/
+	background: rgba(28,30,34,0.3);
+	height:100%;
+	width:100%;
 }				
 
 .navbar-right {
@@ -469,7 +554,7 @@ ul.nav-pills {
 
 .btn-group-right {
 	margin-top: 6px;
-	margin-right: 6px;
+	/*margin-right: 6px;*/
 }
 
 .nomargin {
@@ -511,7 +596,7 @@ ul.nav-pills {
 }
 .h100 {
 	height: 100%;
-}	
+}
 .myflex {
 	display: flex;
 }
@@ -534,14 +619,118 @@ ul.nav-pills {
 	align-self: center;
 }
 
+#menu2 {
+	margin: 0px;
+	display: flex;
+}
+
+.flexCenter {
+	margin: auto;
+}
+			
+.clipText {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}	
+
+.row {
+	margin-right: 0px;
+}
+
 #playlistMenu {
 	right: 0;
 	left: auto;
+}	
+
+.notAButton {
+	white-space: normal;
+	text-align: left;
+}	
+
+.modal-header {
+	padding: 5px;
+}	
+
+.modal-body {
+	padding: 5px;
+}	
+
+.modal-footer {
+	padding: 5px;
+}	
+
+#settingsModal td {
+	padding: 4px !important;
+}	
+
+#settingsModal .checkbox {
+	margin-top: 4px !important;
+	margin-bottom: 4px !important;
 }
 
 #searchButtons {
 	margin-top: 5px;
 }
+
+#settingsModal {
+	overflow-y: scroll;
+}			
+
+#settingsModal .modal-dialog {
+	max-width: 450px !important;
+}	
+
+#bluetoothModal .modal-dialog {
+	max-width: 450px !important;
+}
+
+.myModalContent {
+	padding: 20px;
+}	
+
+#addToPlaylistModal .modal-body {
+	padding: 20px 0px 20px 0px;
+}	
+
+.textCenter {
+	text-align: center;
+}	
+
+#folderUploading {
+	margin-bottom: 15px;
+}	
+
+#playlistDropdownUl {
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
+.disabledSlider {
+	color: #666;
+}	
+
+
+.historyPic {
+	position: relative;
+}	
+
+.historyCheck {
+	position: absolute;
+	right:5px;
+	top:5px;
+	color: #0F0;
+}	
+		
+#sliders {
+	margin: 20px 0px;
+}
+
+.eqslider {
+	margin: 10px 0px 0px 0px;
+}
+
+#handsetNav {display: none;}
+
 
 </style> 
 
@@ -558,38 +747,38 @@ ul.nav-pills {
 				<div class="well well-sm">
 				<div class="col-md-4">
 				<div class="btn-group">
-					<a tabindex="-1" class ="navbar-brand" href="#" aria-hidden="true">Brennan B2</a>
+					<a tabindex="-1" class ="navbar-brand" href="javascript:;" aria-hidden="true">Brennan B2</a>
 				</div>	
 				<div class="btn-group pull-right btn-group-right">
 
-					<a id="selectedPanel" tabindex="0" href="#" class="btn btn-default dropdown-toggle" 
+					<a id="selectedPanel" tabindex="0" href="javascript:;" class="btn btn-default dropdown-toggle" 
 						data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Main Navigation - Now Playing Selected">
 							Now Playing <span class="caret"></span></a>
 							
 					<ul class="dropdown-menu" role="menu">
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(0)">Now Playing</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(0)">Now Playing</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(1)">Search</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(1)">Search</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(2)">vTuner</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(2)">vTuner</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(3)">Playlists</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(3)">Playlists</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(4)">CD</a></li>												
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(4)">CD</a></li>												
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(5)">Upload</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(5)">Upload</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(6)">Presets</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(6)">Presets</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(7)">Album</a></li>
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(7)">Album</a></li>
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(8)">Artist</a></li>						
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(8)">Artist</a></li>					
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(9)">Youtube</a></li>	
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(9)">Youtube</a></li>	
 						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a href="#" role="menuitem" onclick="pickPanel(10)">Settings</a></li>	
+						<li role="presentation"><a href="javascript:;" role="menuitem" onclick="pickPanel(10)">Settings</a></li>	
 					</ul>
-					<a tabindex="-1" href="#" role="button" class="btn btn-default" onclick="panelBackFunction()">Back</a>					
+					<a tabindex="-1" href="javascript:;" role="button" class="btn btn-default" onclick="panelBackFunction()">Back</a>					
 				</div>
 				</div>
 				</div>												
@@ -598,23 +787,23 @@ ul.nav-pills {
 
  <div id="ColumnOne" class="col-md-4">
 
-	<div id="nowPlayingWell" class="well well-sm" ondragover="allowDrop(event)" ondrop="dropSpeaker(event)">
+ <div id="nowPlayingWell" class="well well-sm" ondragover="allowDrop(event)" ondrop="dropSpeaker(event)">
 	
-<!--	<a class="col-sm-2 btn btn-default" href="#" title="Random On Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>-->			
+<!--	<a class="col-sm-2 btn btn-default" href="javascript:;" title="Random On Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>-->			
 
 		<ul tabindex="-1" id="t1" class="nav nav-pills nav-stacked scrollBoxHeader">
 			<li id="t2"><a class="col-sm-10" id="t3">
 <!--            <span class="text-muted">Source </span> -->
                 <span class="text-muted">B2 </span>
 				<span id="sourceHeader">Hard Disk</span></a>
-				<a id="settingsButton" tabindex="-1" class="col-sm-2 btn btn-default" href="#" title="Settings & Status" role="button" onclick="openSettingsModal()"><span class="glyphicon glyphicon-cog" ></span></a>			
+				<a id="settingsButton" tabindex="-1" class="col-sm-2 btn btn-default" href="javascript:;" title="Settings & Status" role="button" onclick="openSettingsModal()"><span class="glyphicon glyphicon-cog" ></span></a>			
 			</li>	
 		</ul>
 		
 		<div class="panelContent" id="nowPlayingPanel">
 
-			<div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play">
-
+<!--	<div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play"> -->
+		<div class="panel" data-toggle="tooltip" title="Drag items here to Play">
 <!--
 				<div class="panel-body" id="nowPlayingBody">
 	 
@@ -623,9 +812,21 @@ ul.nav-pills {
 
 				<div class="panel-body">
 					<div class="npInline col-sm-8" id="nowPlayingBody"></div>
-					<div class="npInline col-sm-4" id="nowPlayingArt"><img src="noimage.jpg" width="100%">
-                    <!-- v23.02.01 nowPlayingArt style added -->
+
+					<div class="flex1 myflex">
+
+                        <div class="artContainer">
+
+					      <div class="npInline col-sm-4" id="nowPlayingArt">
+				
+						    <img src="noimage.jpg" width="100%">
+
+					      </div>
+                 
+					    </div>
+
 					</div>
+
 				</div>
 <!--
 				<div class="panel-body">
@@ -636,35 +837,41 @@ ul.nav-pills {
 				
 			</div>	
 	 
+			<!-- <div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play"> -->
+			<div data-toggle="tooltip" title="Drag items here to Play">	
 
- 
-			<div class="btn-group btn-group-justified" style="padding-top:10px">
-			<!-- v23.02.01 style added -->
-				<a href="#" class="btn btn-default" data-toggle="tooltip" title="Tone Control" onclick="openToneControl ()"><span class="glyphicon glyphicon-music"></span></a>				
-				<a class="btn btn-default btn-block" href="#" data-toggle="tooltip" title="Random Play On/Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>
-				<a href="#" class="transportButton btn btn-default" title="Back button" value='back'><span class="glyphicon glyphicon-backward"></span></a>
-				<a href="#" class="transportButton btn btn-default" title="Play Stop button" value='play' id="playbutton"><span class="glyphicon glyphicon-play"></span></a>
-				<a href="#" class="transportButton btn btn-default" title="Next button" value='next'><span class="glyphicon glyphicon-forward"></span></a>
-			</div> 
- 
-			<div id="canvasBox" style="height: 0px;">
-			<!-- v23.02.01 style added -->
-				<canvas id="mycanvas" width="100%" height="60" style="height: 0px;"></canvas>
-			<!-- v23.02.01 style added -->
-			</div>	  
+            <div class="sliders">
 
-			<div class="panel panel-default" data-toggle="tooltip" title="Drag items here to Play">
-				<div id="volumeSlider">    
-            <!-- <input type="range" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32"> -->
-					<input type="range" title="Volume" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32">
-				</div> 
+              <div id="progressSliderDiv">    
+				<input type="range" title="Progress" name="progressSlider" id="progressSlider" class="danielstern" min="0" max="1000" value="0">
+				<small id="seekTimeLeft">Time: 0:00<span class="pull-right">0:00</span></small>	
+				<div id="progressMask"></div>
+			  </div> 
+
+			  <div id="volumeSlider">    
+			    <input type="range" title="Volume" name="slider-1" id="slider-1" class="danielstern" min="0" max="64" value="32">
+			    <small id="volume">Volume: 0</small>
+			  </div>
+			 
+			 </div>
+
+			 <div class="controls btn-group btn-group-justified">
+			    <!-- v23.02.01 style added -->
+			    <a href="javascript:;" class="btn btn-default" data-toggle="tooltip" title="Tone Control" onclick="openToneControl ()"><span class="glyphicon glyphicon-music"></span></a>				
+			    <a href="javascript:;" class="btn btn-default btn-block" data-toggle="tooltip" title="Random Play On/Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>
+			    <a href="javascript:;" class="transportButton btn btn-default" title="Back button" value='back' onclick="wave(10,'reset')"><span class="glyphicon glyphicon-backward"></span></a>
+			    <a href="javascript:;" class="transportButton btn btn-default" title="Play Stop button" value='play' id="playbutton" onclick="wave(10,'true')"><span class="glyphicon glyphicon-play"></span></a>
+			    <a href="javascript:;" class="transportButton btn btn-default" title="Next button" value='next' onclick="wave(10,'reset')"><span class="glyphicon glyphicon-forward"></span></a>
+			  </div> 
+			   <div id="canvasBox" style="height: 0px;display:none;">
+				<canvas id="mycanvas" width="100%" height="60" style="height: 0px;">
+			   </div>			
+
 			</div>	
 						
 		</div>	
  
 	</div>
-
-
 
 
   <div class="well well-sm">
@@ -680,62 +887,30 @@ ul.nav-pills {
 
  <div class="tab-content" id="panel1">
 
-<!-- Playlists -->
-
-<!--
-	<div id="playlistPanel" class="panelContent">
-		<div class="scrollBoxHeader">
-			<div id="playlistButtons" class="btn-group">
-				<a tabindex="-1" class="btn btn-default dropdown-toggle" title="Select playlist" id="menu1" data-toggle="dropdown" href="#" draggable="true" ondragstart="dragPlaylist(event)">Playlist
-				<span class="caret"></span></a>
-				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Rename this playlist" onclick="renamePlaylist ()">Rename</a>
-				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Create a New Playlist" onclick="createPlaylist ()">New</a>
-				<a tabindex="-1" class="btn btn-default" href="#" data-toggle="tooltip" title="Add or Subtract Playlists" onclick="mixPlaylist ()">Mix</a>
-				<a tabindex="-1" class="btn btn-default iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist" onclick="playlistFilterToggle()"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
-				<ul class="dropdown-menu" id="playlistDropdownUl" role="menu">
-					<li><a href="#">Red</a></li>
-				</ul>
-			</div>      
-		</div>
- 		<div class="ScrollBox" id="playlistContainer">
-			<table class="table table-hover">
-
-				<tbody id="playlistTbody">
-					<tr>
-						<td>Empty</td>
-					</tr>
-				</tbody>
-			</table>  
-		</div> 
- 	</div>
- -->
-
-<!-- v23.02.01 style added -->
-
 	<div id="playlistPanel" class="panelContent">
 		<div class="scrollBoxHeader">
 			<div id="playlistButtons" class="btn-group w100 myflex">
 				<div class="dropdown myflex flex1">
-					<a class="btn btn-default dropdown-toggle" title="Select playlist" id="menu1" data-toggle="dropdown" href="#" draggable="true" ondragstart="dragPlaylist(event)">
-						<span class="caret flexCenter"></span></a>
-					<ul class="dropdown-menu" id="playlistDropdownUl" role="menu">
-					<li><a href="#">Red</a></li>
-					</ul>
-					<a class="btn btn-default clipText flex1" href="#"><span id="playlistChoice">Red</span></a>
+				<a class="btn btn-default dropdown-toggle" title="Select playlist" id="menu1" data-toggle="dropdown" href="javascript:;" draggable="true" ondragstart="dragPlaylist(event)">
+				<span class="caret flexCenter"></span></a>
+				<ul class="dropdown-menu" id="playlistDropdownUl" role="menu">
+				<li><a href="javascript:;">Red</a></li>
+				</ul>
+				<a class="btn btn-default clipText flex1" href="javascript:;"><span id="playlistChoice">Red</span></a>
 				</div>
 				<div class="dropdown dropleft">
-					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:;">
 						<span class="glyphicon glyphicon-option-horizontal"></span></a>
 					<ul class="dropdown-menu" id="playlistMenu" role="menu">
-						<li><a href="#" onclick="renamePlaylist ()">Rename this playlist</a></li>
-						<li><a href="#" onclick="deletePlaylist ()">Delete this playlist</a></li>
-						<li><a href="#" onclick="createPlaylist ()">Create new playlist</a></li>
-						<li><a href="#" onclick="mixPlaylist ()">Combine playlists</a></li>					
-						<li><a href="#" onclick="assignPlaylist ()">Assign to Preset</a></li>	
+						<li><a href="javascript:;" onclick="renamePlaylist ()">Rename this playlist</a></li>
+						<li><a href="javascript:;" onclick="deletePlaylist ()">Delete this playlist</a></li>
+						<li><a href="javascript:;" onclick="createPlaylist ()">Create new playlist</a></li>
+						<li><a href="javascript:;" onclick="mixPlaylist ()">Combine playlists</a></li>					
+						<li><a href="javascript:;" onclick="assignPlaylist ()">Assign to Preset</a></li>	
 					</ul>
 				</div>	
 <!--								
-				<a tabindex="-1" class="btn btn-default iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist" onclick="playlistFilterToggle()"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
+				<a tabindex="-1" class="btn btn-default iconToggle" href="javascript:;" data-toggle="tooltip" title="Search Only Current Playlist" onclick="playlistFilterToggle()"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
 -->
 			</div>			      
 		</div>  
@@ -761,9 +936,9 @@ ul.nav-pills {
 		<div id="cdTitleBar" class="panel panel-default">
 			<div class="panel-heading">
 				<div class="btn-group pull-right">
-					<a href="#" class="btn btn-default" onclick="ripFunction()" data-toggle="tooltip" title="Rip CD"><span class="glyphicon glyphicon-save"></a>
-					<a href="#" class="btn btn-default transportButton" value='eject'><span class="glyphicon glyphicon-eject"></a>		
-					<a href="#" class="btn btn-default" onclick="getArtFunction()" data-toggle="tooltip" title="Get Album Art">Art</a>
+					<a href="javascript:;" class="btn btn-default" onclick="ripFunction()" data-toggle="tooltip" title="Rip CD"><span class="glyphicon glyphicon-save"></a>
+					<a href="javascript:;" class="btn btn-default transportButton" value='eject'><span class="glyphicon glyphicon-eject"></a>		
+					<a href="javascript:;" class="btn btn-default" onclick="getArtFunction()" data-toggle="tooltip" title="Get Album Art">Art</a>
 
 				</div>
 				<h4 id="cdstatus">status</h4>				
@@ -773,10 +948,10 @@ ul.nav-pills {
         
 		<div class="scrollBoxHeader" id="CDDBPanel">
 			<div class="btn-group">
-				<a class="btn btn-default dropdown-toggle" id="menu2" data-toggle="dropdown" href="#">CDDB
+				<a class="btn btn-default dropdown-toggle" id="menu2" data-toggle="dropdown" href="javascript:;">CDDB
 					<span class="caret"></span></a>
 				<ul class="dropdown-menu" id="CDDBDropdownUl">
-					<li><a href="#">Dark Side of The Moon</a></li>
+					<li><a href="javascript:;">Dark Side of The Moon</a></li>
 				</ul>
 			</div>      
 		</div>        
@@ -806,13 +981,19 @@ ul.nav-pills {
 					<div class="form-group">
 						<input id="uploadFileSelect" type="file" class="form-control" multiple/>
 					</div>
+					<!--
 					<div id="uploading">
 						<img src="ajax-loader.gif"><span id="uploadProgress">&nbsp&nbsp&nbspSending Files</span>
 					</div>
+				    -->
 				</div>
 				<div>
 					<button type="button" class="btn btn-default" onclick="uploadCancelFunction()">Cancel</button>		  
 					<button type="button" class="btn btn-default" onclick="uploadFunction()">Send to B2</button>
+					<div id="uploading"> <!-- display: inline-block -->
+					<span id="uploadProgress">&nbsp&nbsp&nbspSending Files</span>
+					&nbsp&nbsp&nbsp<img src="ajax-loader.gif">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -878,22 +1059,22 @@ ul.nav-pills {
 				<div class="modal-body">
 
 					<div class="btn-group">
-						<a class="btn btn-default dropdown-toggle" id="mixMenu1" data-toggle="dropdown" href="#">Add
+						<a class="btn btn-default dropdown-toggle" id="mixMenu1" data-toggle="dropdown" href="javascript:;">Add
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="mixModeDropdownUl" role="menu">
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickMode(0)">Append</a></li>						
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickMode(1)">Subtract</a></li>						
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickMode(2)">Merge</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickMode(0)">Append</a></li>						
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickMode(1)">Subtract</a></li>						
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickMode(2)">Merge</a></li>
 						</ul>
 					</div>
 					
 
 					<div class="btn-group">
-						<a class="btn btn-default dropdown-toggle" id="mixMenu2" data-toggle="dropdown" href="#">Red
+						<a class="btn btn-default dropdown-toggle" id="mixMenu2" data-toggle="dropdown" href="javascript:;">Red
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="mixSourceDropdownUl">
-							<li><a href="#">Red</a></li>
-							<li><a href="#">Orange</a></li>
+							<li><a href="javascript:;">Red</a></li>
+							<li><a href="javascript:;">Orange</a></li>
 						</ul>
 					</div>
 
@@ -902,11 +1083,11 @@ ul.nav-pills {
 
 					<div>
 					<div class="btn-group">
-						<a class="btn btn-default dropdown-toggle" id="mixMenu3" data-toggle="dropdown" href="#">Red
+						<a class="btn btn-default dropdown-toggle" id="mixMenu3" data-toggle="dropdown" href="javascript:;">Red
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="mixDestDropdownUl">
-							<li><a href="#">Red</a></li>
-							<li><a href="#">Orange</a></li>
+							<li><a href="javascript:;">Red</a></li>
+							<li><a href="javascript:;">Orange</a></li>
 						</ul>
 					</div>
 					</div>
@@ -1131,11 +1312,11 @@ ul.nav-pills {
 					<p id="addToPlaylistTitle" class="modal-title">Name</p></br>
 					<p class="text-muted">To playlist</p>
 					<div class="btn-group">
-						<a class="btn btn-default btn-block dropdown-toggle" id="addToPlaylistMenu" data-toggle="dropdown" href="#">Red
+						<a class="btn btn-default btn-block dropdown-toggle" id="addToPlaylistMenu" data-toggle="dropdown" href="javascript:;">Red
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="addToPlaylistDropdownUl">
-							<li><a href="#">Red</a></li>
-							<li><a href="#">Orange</a></li>
+							<li><a href="javascript:;">Red</a></li>
+							<li><a href="javascript:;">Orange</a></li>
 						</ul>
 					</div>
 
@@ -1177,10 +1358,10 @@ ul.nav-pills {
 			<input type="text" id="searchInput" class="form-control" size="6" placeholder="Search B2" onkeyup="searchFunction()">
 			</div>
 			<div class="input-group-btn">
-				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Artists toggle"><span class="glyphicon glyphicon-user" id='artistCheckbox'></span></a>
-				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Albums toggle"><span class="glyphicon glyphicon-cd" id='albumCheckbox'></span></a>
-				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Tracks toggle"><span class="glyphicon glyphicon-music" id='trackCheckbox'></span></a>	
-				<a tabindex="-1" class="btn btn-default iconToggle" href="#" title="Radio Stations toggle"><span class="icon-radioMast" id='radioCheckbox'></span></a>   
+				<a tabindex="-1" class="btn btn-default iconToggle" href="javascript:;" title="Artists toggle"><span class="glyphicon glyphicon-user" id='artistCheckbox'></span></a>
+				<a tabindex="-1" class="btn btn-default iconToggle" href="javascript:;" title="Albums toggle"><span class="glyphicon glyphicon-cd" id='albumCheckbox'></span></a>
+				<a tabindex="-1" class="btn btn-default iconToggle" href="javascript:;" title="Tracks toggle"><span class="glyphicon glyphicon-music" id='trackCheckbox'></span></a>	
+				<a tabindex="-1" class="btn btn-default iconToggle" href="javascript:;" title="Radio Stations toggle"><span class="icon-radioMast" id='radioCheckbox'></span></a>   
 			</div> 
 		</div>
 		<div class="SearchScrollBox" id="SearchContainer">  
@@ -1202,15 +1383,15 @@ ul.nav-pills {
 				
 			<div>
 			<div id="searchButtons" class="btn-group btn-group-justified">
-				<a class="btn btn-default btn" onclick="toggleArtist()" href="#" title="Artists toggle"><span class="glyphicon glyphicon-user" id='artistCheckbox'></span></a>
-				<a class="btn btn-default btn" onclick="toggleAlbum()" href="#" title="Albums toggle"><span class="glyphicon glyphicon-cd myGrey" id='albumCheckbox'></span></a>
-				<a class="btn btn-default btn" onclick="toggleTrack()" href="#" title="Tracks toggle"><span class="glyphicon glyphicon-music myGrey" id='trackCheckbox'></span></a>
+				<a class="btn btn-default btn" onclick="toggleArtist()" href="javascript:;" title="Artists toggle"><span class="glyphicon glyphicon-user" id='artistCheckbox'></span></a>
+				<a class="btn btn-default btn" onclick="toggleAlbum()" href="javascript:;" title="Albums toggle"><span class="glyphicon glyphicon-cd myGrey" id='albumCheckbox'></span></a>
+				<a class="btn btn-default btn" onclick="toggleTrack()" href="javascript:;" title="Tracks toggle"><span class="glyphicon glyphicon-music myGrey" id='trackCheckbox'></span></a>
 
-<!-- <a class="btn btn-default btn" onclick="toggleVideo()" href="#" title="Video toggle"><span class="glyphicon glyphicon-facetime-video myGrey" id='videoCheckbox'></span></a> -->
+<!-- <a class="btn btn-default btn" onclick="toggleVideo()" href="javascript:;" title="Video toggle"><span class="glyphicon glyphicon-facetime-video myGrey" id='videoCheckbox'></span></a> -->
 
- 			    <a class="btn btn-default btn" onclick="toggleRadio()" href="#" title="Radio toggle"><span class="glyphicon glyphicon-stats myGrey" id='radioCheckbox'></span></a>
-				<a class="btn btn-default btn" href="#" data-toggle="tooltip" title="Alpha Sort On/Off" onclick="alphaToggle()"><span id="alphaIcon" class="glyphicon glyphicon-sort-by-alphabet" ></span></a>
-				<a class="btn btn-default btn iconToggle" href="#" data-toggle="tooltip" title="Search Only Current Playlist"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
+ 			    <a class="btn btn-default btn" onclick="toggleRadio()" href="javascript:;" title="Radio toggle"><span class="glyphicon glyphicon-stats myGrey" id='radioCheckbox'></span></a>
+				<a class="btn btn-default btn" href="javascript:;" data-toggle="tooltip" title="Alpha Sort On/Off" onclick="alphaToggle()"><span id="alphaIcon" class="glyphicon glyphicon-sort-by-alphabet" ></span></a>
+				<a class="btn btn-default btn iconToggle" href="javascript:;" data-toggle="tooltip" title="Search Only Current Playlist"><span class="glyphicon glyphicon-list myGrey" id='playlistCheckbox'></span></a>
 			</div> 
 			</div>
 		</div>
@@ -1231,8 +1412,8 @@ ul.nav-pills {
 
 		<div class="scrollBoxHeader">
 			<div id="vTunerButtons" class="btn-group">
-				<a href="#" data-toggle="tooltip" title="Go Back" class="btn btn-default" onclick="vTunerGoBack ()">Back</a>
-				<a href="#" data-toggle="tooltip" title="World" class="btn btn-default" onclick="vTunerInit ()">Top</a>
+				<a href="javascript:;" data-toggle="tooltip" title="Go Back" class="btn btn-default" onclick="vTunerGoBack ()">Back</a>
+				<a href="javascript:;" data-toggle="tooltip" title="World" class="btn btn-default" onclick="vTunerInit ()">Top</a>
 
 			</div>      
 		</div>
@@ -1249,7 +1430,7 @@ ul.nav-pills {
 		<div class="input-group scrollBoxHeader">
 			<input type="text" id="vTunerSearchInput" class="form-control" size="6" placeholder="Search vTuner" onkeydown = "if (event.keyCode == 13) vTunerSearch ()">
 			<div class="input-group-btn">
-				<a class="btn btn-default" onclick="vTunerSearch ()" href="#"><span class="glyphicon glyphicon-search"></span></a>
+				<a class="btn btn-default" onclick="vTunerSearch ()" href="javascript:;"><span class="glyphicon glyphicon-search"></span></a>
 			</div>				
 		</div>
 		
@@ -1296,13 +1477,10 @@ ul.nav-pills {
 					</div> 
 				</div>
 
-
-		
-	</div>	
+	     </div>	
 	
 	
-	
-</div>		
+ </div>		
 		
 
  </div>
@@ -1388,31 +1566,42 @@ or click to open upload panel">
 					
 <!--
 					<div class="btn-group">
-						<a class="btn btn-default dropdown-toggle" title="Logging Mode" id="loggingMenu" data-toggle="dropdown" href="#">Normal <span class="caret"></span></a>
+						<a class="btn btn-default dropdown-toggle" title="Logging Mode" id="loggingMenu" data-toggle="dropdown" href="javascript:;">Normal <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#" onclick="setLogging('Normal')">Normal</a></li>
-							<li><a href="#" onclick="setLogging('File')">File</a></li>
-							<li><a href="#" onclick="setLogging('TV Off')">TV Off</a></li>
+							<li><a href="javascript:;" onclick="setLogging('Normal')">Normal</a></li>
+							<li><a href="javascript:;" onclick="setLogging('File')">File</a></li>
+							<li><a href="javascript:;" onclick="setLogging('TV Off')">TV Off</a></li>
 						</ul>
 					</div>
 -->					
-					
-<!--					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+
+<!--				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
 					<button type="button" class="btn btn-default" onclick="clearDebugModal()">Clear</button>
 					<button type="button" class="btn btn-default" onclick="closeDebugModal()">Close</button>					
-<!--					<button type="button" class="btn btn-default" onclick="refreshDebug()">Refresh</button>-->
+<!--				<button type="button" class="btn btn-default" onclick="refreshDebug()">Refresh</button>-->
 				</div>
 			</div>
 		</div>
 	</div>
 
 <!-- Settings & Status Modal -->
-	<div id="settingsModal" class="modal" role="dialog">
+
+<div id="settingsModal" class="modal" role="dialog">
 		<div class="modal-dialog">
 
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Settings & Status</h4></br>
+					
+					<ul class="nav nav-pills nav-stacked scrollBoxHeader">
+						<li><a class="col-xs-10"><span>Settings & Status</span></a>
+							<a class="col-xs-2 btn btn-default" data-dismiss="modal"><span>X</span></a>			
+						</li>	
+					</ul>					
+<!--					
+					<h4 class="modal-title">Settings & Status
+					<button type="button" class="btn btn-default pull-right" data-dismiss="modal">X</button>
+					</h4>
+-->					
 				</div>
 				<div class="modal-body">
 					<div id="settingsBody">
@@ -1422,27 +1611,14 @@ or click to open upload panel">
 					<table class="table">
 						<tbody>
 
-<!--							<tr>
-								<td>
-									<a class="btn btn-default btn-block" href="#" data-toggle="tooltip" title="Random Play On/Off" onclick="randomToggle()"><span id="randomIcon" class="glyphicon glyphicon-random" ></span></a>
-								</td>
-								<td class="col-sm-10" >Random On/Off</td>
-							</tr>
--->
 							<tr>
 								<td>
-									<a class="btn btn-default btn-block" href="#" data-toggle="tooltip" title="Alpha Sort On/Off" onclick="alphaToggle()"><span id="alphaIcon" class="glyphicon glyphicon-sort-by-alphabet" ></span></a>
-								</td>
-								<td class="col-sm-10" >Alphanumeric Sorting On/Off</td>
-							</tr>						
-
-							<tr>
-								<td>
-									<div class="btn-group">
-										<a class="btn btn-default dropdown-toggle" title="Compression Mode" id="compressionMenu" data-toggle="dropdown" href="#">FLAC <span class="caret"></span></a>
+									<div class="btn-group btn-block">
+										<a class="btn btn-default btn-block dropdown-toggle" title="Compression Mode" id="compressionMenu" data-toggle="dropdown" href="javascript:;">FLAC <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="#" onclick="setCompression('FLAC')">FLAC</a></li>
-											<li><a href="#" onclick="setCompression('MP3')">MP3</a></li>
+											<li><a href="#" onclick="setCompression('MP3 128K')">MP3 128K</a></li>
+											<li><a href="#" onclick="setCompression('MP3 256K')">MP3 256K</a></li>	
 											<li><a href="#" onclick="setCompression('None')">None</a></li>							
 										</ul>
 									</div>									
@@ -1452,8 +1628,8 @@ or click to open upload panel">
 
 							<tr>
 								<td>
-									<div class="btn-group">
-										<a class="btn btn-default dropdown-toggle" title="Segue Mode" id="segueMenu" data-toggle="dropdown" href="#">Off <span class="caret"></span></a>
+									<div class="btn-group btn-block">
+										<a class="btn btn-default btn-block  dropdown-toggle" title="Segue Mode" id="segueMenu" data-toggle="dropdown" href="javascript:;">Off <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="#" onclick="setSegue('Off')">Off</a></li>
 											<li><a href="#" onclick="setSegue('On')">On</a></li>
@@ -1466,32 +1642,21 @@ or click to open upload panel">
 
 							<tr>
 								<td>
-									<a class="btn btn-default btn-block" href="#" data-toggle="tooltip" title="Scan Disk" onclick="scanDisk()">Scan</a>
+									<a class="btn btn-default btn-block" href="javascript:;" data-toggle="tooltip" title="Scan Disk" onclick="scanDisk()">Scan</a>
 								</td>
 								<td class="col-sm-10" >Scan Disk</td>
 							</tr>
-<!--							
-							<tr>
-								<td colspan="2">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" id="webMode" onclick="webModeClick()"> Force mobile mode - for screen readers
-										</label>
-									</div>
-								</td>
-							</tr>
--->
+
 							<tr>
 								<td colspan="2">
 									<div class="radio">
-										<label><input onclick="webModeClick()" type="radio" id="webModeAuto" name="webMode" value="normal" checked>Automatic</label>
-										<label><input onclick="webModeClick()" type="radio" id="webModeMobile" name="webMode" value="mobile" >Force Mobile</label>
-										<label><input onclick="webModeClick()" type="radio" id="webModeDesktop" name="webMode" value="desktop" >Force Desktop</label>
+										<label><input onclick="webModeClick()" type="radio" id="webModeAuto" name="webMode" value="normal" checked>Automatic &nbsp</label>
+										<label><input onclick="webModeClick()" type="radio" id="webModeMobile" name="webMode" value="mobile" >Mobile &nbsp</label>
+										<label><input onclick="webModeClick()" type="radio" id="webModeDesktop" name="webMode" value="desktop" >Desktop</label>
 
 									</div>
 								</td>
 							</tr>
-
 
 							<tr>
 								<td class="col-sm-3">
@@ -1539,6 +1704,22 @@ or click to open upload panel">
 									</div>
 								</td>
 							</tr>
+<!--
+							<tr>
+								<td colspan="2">
+									<div class="checkbox">
+										<label><input onclick="bigPictureClick()" type="checkbox" id="webBigPicture">Big Picture</label>
+									</div>
+								</td>
+							</tr>
+-->
+							<tr>
+								<td colspan="2">
+									<div class="checkbox">
+										<label><input onclick="defaultUIClick()" type="checkbox" id="webDefaultUI">Default to Mobile on this Browser</label>
+									</div>
+								</td>
+							</tr>
 							
 							<tr>
 								<td>Background</td>
@@ -1552,19 +1733,15 @@ or click to open upload panel">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-<!--					<button type="button" class="btn btn-default" onclick="refreshSettings ()">Refresh</button>-->
-<!--					<button type="button" class="btn btn-default" onclick="artTest ()">Art Test</button>-->
 					<button type="button" class="btn btn-default" data-toggle="tooltip" title="B2 Debug Window" onclick="openDebugModal ()"><span class="glyphicon glyphicon-wrench" ></span></button>
 					<button type="button" class="btn btn-default" data-toggle="tooltip" title="Bluetooth" onclick="openBluetoothModal ()"><span>Bluetooth</span></button>
-					<button type="button" class="btn btn-default" data-toggle="tooltip" title="B2 Image Viewer" onclick="openJBV ()"><span class="glyphicon glyphicon-camera" ></span></button>
+<!--					<button type="button" class="btn btn-default" data-toggle="tooltip" title="B2 Image Viewer" onclick="openJBV ()"><span class="glyphicon glyphicon-camera" ></span></button>-->
 <!--					<button type="button" class="btn btn-default" data-toggle="tooltip" title="Youtube" onclick="openBTube ()"><span class="glyphicon glyphicon-film" ></span></button>-->
 				</div>
 			</div>
 		</div>
 	</div>
-
 </div>
-
 
 
 <!-- Bluetooth Modal -->
@@ -1579,9 +1756,9 @@ or click to open upload panel">
 					<div id="bluetoothBody">
 
 					</div>
-					<a class="btn btn-default" href="#" data-toggle="tooltip" title="Update Paired Devices" onclick="listDevices()">Refresh Paired Devices</a>
-					<a class="btn btn-default" href="#" data-toggle="tooltip" title="Scan" onclick="scanBluetooth()">Scan Bluetooth</a>
-					<a class="btn btn-default" href="#" data-toggle="tooltip" title="Reset" onclick="resetBluetooth1()">Reset Bluetooth</a>
+					<a class="btn btn-default" href="javascript:;" data-toggle="tooltip" title="Update Paired Devices" onclick="listDevices()">Refresh Paired Devices</a>
+					<a class="btn btn-default" href="javascript:;" data-toggle="tooltip" title="Scan" onclick="scanBluetooth()">Scan Bluetooth</a>
+					<a class="btn btn-default" href="javascript:;" data-toggle="tooltip" title="Reset" onclick="resetBluetooth1()">Reset Bluetooth</a>
 					<div class="checkbox"><label>
 						<input id="tandemBox" type="checkbox" onclick="tandemClick()">Bluetooth and wired speakers together
 					</label></div>
@@ -1596,22 +1773,6 @@ or click to open upload panel">
 
 
 </div>
-
-<!-- 
-
-v23.02.01
-
-- favicon server error - fix
-- smoothie.js charting removed - update
-- web UI update with no chart - update
-- web desktop playlist reponsive design - update
-- web desktop search responsive design - update
-- internet connection now not required for the web UI to load properly - fix
-
-
-
-
--->
 
 <script>
 	
@@ -1630,9 +1791,6 @@ var renameOldArtist;
 var lastDiscid;
 var lastCDLoaded;
 
-/* var smoothie; */
-/* var vuLine1;  */
-
 var cddb;
 var selectedcddb;
 var currentUpload;
@@ -1642,6 +1800,9 @@ var uploadAlbum;
 var uploadFiles;
 var lastVolume;
 var mouseOverSlider = false;
+var mouseOverProgressSlider = false;
+var bpsuTimer;
+var enableProgressSliderUpdates = true;
 var lastWidth;
 var	th = 990;
 var searchOffset;
@@ -1659,6 +1820,15 @@ var lastHDMI;
 var lastvCache;
 var lastBluetoothStatus;
 var lastGuest;
+
+var setnpwh = true;
+
+
+var cookie = getCookie("whichUI");
+
+if (cookie=="") {setCookie ("whichUI","desktop",365);	 
+} else if (cookie=="mobile") {window.location.href="mobile.html"};
+
 
 function isTrack (id){
 	return ((id >= 2000000)&&(id < 3000000));
@@ -1706,9 +1876,6 @@ function getIcon (id){
 	return '<span class="glyphicon glyphicon-exclamation-sign"></span>';		
 }	
 	
-		
-
-
 function refreshPlaylistsFunction () {
 	var urlTail = 'listplaylists&time='+new Date ().getTime();		// IE
 	$.getJSON('b2gci.fcgi',urlTail,function(data){
@@ -1717,14 +1884,13 @@ function refreshPlaylistsFunction () {
 		ul.children().remove();
 		var l = data.length;
 		for (var i=0;i<l;i++){ 
-			ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickPlaylist('+i+')">'
+			ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickPlaylist('+i+')">'
 				+data[i].name+' ('+data[i].length+')</a></li>');
 		}
 		if (selectedPlaylist >= data.length) selectedPlaylist = 0;
 		pickPlaylist (selectedPlaylist);				
 	});	
 };
-
 
 
 function listPlaylistsFunction () {
@@ -1791,8 +1957,7 @@ function playPlaylistItemFunction (index){
 	var pid = selectedPlaylist+4000000;
 	var command = 'startPlaylist&playlist='+pid+'&id='+playlist[index].id+'&time='+ new Date ().getTime();		// IE;
 	$.get('b2cgi.fcgi',command,function(data){});
-
-		
+	wave(2,'true');	
 }		
 
 function pickPlaylist (i){
@@ -1831,9 +1996,14 @@ function playlistItemDeleteButton (){
 	console.log ("Removing playlist "+selectedPlaylist+" item "+playlistIndex);
 	command = 'deletePlaylistIndex&playlist='+selectedPlaylist+'&index='+playlistIndex+'&' + new Date ().getTime();
 	$.get('b2cgi.fcgi',command,function(data){
+	
 		listPlaylistFunction (selectedPlaylist);
 		refreshPlaylistsFunction ();				
 	});
+	// updateprocess = false;wave(2);
+
+	wave(2,'false');
+	
 	$('#playlistItemModal').modal("hide");		
 }
 
@@ -1899,7 +2069,11 @@ function dropSpeaker (ev){
 	
 //	alert ("Play id="+id);
 	command = 'playID&'+id+'&' + new Date ().getTime()
-	$.get('b2cgi.fcgi',command,function(data){});	
+	$.get('b2cgi.fcgi',command,function(data){});
+
+	//updateprocess = false;wave(2);
+
+	wave(2,'false');	
 }
 
 function searchFunction (stay){
@@ -2092,8 +2266,8 @@ function makeSearchResult (i,n){
 	else if (desktop ()) menu = '<td><span class="glyphicon glyphicon-option-horizontal" onclick="searchItemFunction('+i+')"</span></td>';
 	else menu = '<td class="spaceForScrollbar"><span class="glyphicon glyphicon-option-horizontal" onclick="searchItemFunction('+i+')"</span></td>';
 	
-	return $('<tr '+t+' class="mylink" aria-label="'+ariaName+'"><td><span class="glyphicon glyphicon-play" onclick="playTestFunction('+i
-				+')"</span></td><td class="col-sm-10" draggable="true" ondragstart="dragSearchItem(event)" ondblclick="searchItemRename(event,'+i
+	return $('<tr '+t+' class="mylink" aria-label="'+ariaName+'"><td><span class="glyphicon glyphicon-play" onclick="playArrowFunction('+i
+				+');searchArrowClick(event)"</span></td><td class="col-sm-10" draggable="true" ondragstart="dragSearchItem(event)" ondblclick="searchItemRename(event,'+i
 				+')" onclick="searchItemClick(event)">'+getIcon(id)+' '+name
 				+'</td>'+
 				menu+
@@ -2114,7 +2288,11 @@ function dragPlaylist (ev){
 
 function playPlaylist (){
 	command = 'playID&'+ (selectedPlaylist+4000000);
-	$.get('b2cgi.fcgi',command,function(data){})	
+	$.get('b2cgi.fcgi',command,function(data){})
+
+	//updateprocess = false;wave(2);
+
+	wave(2,'false');	
 }
 
 function dragvTunerSearchItem (ev){
@@ -2146,7 +2324,10 @@ function playAlbumTrack (index){
 	id = albumTracks[index].id;
 	command = 'playID&'+id
 	$.get('b2cgi.fcgi',command,function(data){});
-		
+
+	//updateprocess = true;wave(10);
+	
+	wave(10,'true');
 }	
 
 function makeAlbumItem (i){
@@ -2182,8 +2363,6 @@ function listalbumAndArtistFunctionRaw (id,inSitu){
 			results.append(makeAlbumItem(i));
 		}
 
-
-
 	});
 
 	if (!inSitu){								// don't scroll to top if item changed
@@ -2211,6 +2390,17 @@ function listalbumAndArtistFunctionRaw (id,inSitu){
 		listArtistFunction (data.id);		
 	});
 }
+
+function listRandomAlbumAndArtistFunction (){
+
+	var urlTail = 'getWebInfo&time='+ new Date ().getTime();		// IE;
+
+	$.getJSON('b2gci.fcgi',urlTail,function(data){
+		var id = Math.floor (Math.random()*data.albums) + 1000000;
+		listalbumAndArtistFunction (id);		
+	});	
+}	
+
 
 function listalbumAndArtistFunction (id){
 	listalbumAndArtistFunctionRaw (id,false);
@@ -2240,8 +2430,6 @@ function listalbumFunction (id){
 
 		}
 
-
-
 	});
 
 	box = $('#AlbumTracksBox');
@@ -2264,10 +2452,8 @@ function listalbumFunction (id){
 }
 
 
-
-
-function searchItemClick (ev){
-	i = ev.target.parentElement.rowIndex;	
+function searchArrowClick (ev){
+	i = ev.currentTarget.parentElement.parentElement.rowIndex;	
 	id = matches[i].id;
 	console.log ("searchItemClick "	+ id);
 	if (isAlbum(id)) {
@@ -2283,6 +2469,30 @@ function searchItemClick (ev){
 		listTrackFunction (id);
 		activateAlbumTab ();
 	}		
+}
+
+function searchItemClick (ev){
+  try {
+  
+	i = ev.target.parentElement.rowIndex;	
+	id = matches[i].id;
+	console.log ("searchItemClick "	+ id);
+	if (isAlbum(id)) {
+		listalbumAndArtistFunction (id);
+		activateAlbumTab ();
+	}	
+	else if (isArtist(id)){
+//		listArtistFunction (id);
+		listArtistAndFirstAlbum (id,true);		
+		activateArtistTab ();
+	}	
+	else if (isTrack (id)) {
+		listTrackFunction (id);
+		activateAlbumTab ();
+	}
+
+  } catch(err) {}
+
 }	
 
 function dragAlbumTrack (ev){
@@ -2296,7 +2506,11 @@ function playArtistAlbum (index){
 
 	id = artistAlbums[index].id;
 	command = 'playID&'+id
-	$.get('b2cgi.fcgi',command,function(data){});	
+	$.get('b2cgi.fcgi',command,function(data){});
+
+	//updateprocess = true;wave(10);
+
+	wave(10,'true');	
 }
 
 function listArtistAndFirstAlbum (id,listAlbumFlag){
@@ -2337,7 +2551,9 @@ function listArtistAndFirstAlbum (id,listAlbumFlag){
 //		console.log ("Artist details "+data.name);
 		selectedArtistName = data.name;
 		$('#artistname').text(data.name);		
-	});	
+	});
+
+	document.getElementById("nowPlayingWell").style.cssText = null;	// set fixed height [ see adjustHeights ]
 	
 }
 
@@ -2392,10 +2608,39 @@ function changed (newvalue,oldvalue){
 }	
 
 function refreshNowPlaying () {
-	
+
 	nowPlaying = {};
-	
+
+}
+
+
+function sourceChanged (data){
+
+		return ((data['source'] != nowPlaying['source'])||changed(data['playing'],nowPlaying['playing'])||
+				(data['playlist'] != nowPlaying['playlist'])||
+				((data['source'] == 'Internet Radio') && data.playing));
 }	
+
+function showProgress (){
+//		$('#progressSliderDiv').show();
+//		$('#progressSliderDiv').removeClass("disabledSlider");	
+//		$('#progressSlider').prop('disabled',false);
+//		$('#seekTimeLeft').show();
+		$('#progressMask').hide();
+}
+
+function hideProgress (){
+//		$('#progressSliderDiv').hide();	
+//		$('#progressSliderDiv').addClass("disabledSlider");			
+//		$('#progressSlider').prop('disabled',true);	
+//		$('#seekTimeLeft').hide();
+		$('#progressMask').show();
+		$('#seekTimeLeft').html ("Time: 0:00");	
+		$("#progressSlider").val (0);		
+}
+
+
+
 
 function statusFunction () {
 	
@@ -2603,10 +2848,99 @@ function statusFunction () {
 		if (data.forceWebRefresh){
 			console.log ("forceWebRefresh");
 			refreshPlaylistsFunction ();			
-		}	
-		
+		}
+
+		if (data.duration && data.duration != 0 || playnext == 'true'){
+			
+			showProgress ();
+			
+//			console.log ("timeLeft "+data.timeLeft+" duration "+data.duration);
+
+			if (enableProgressSliderUpdates){
+//				displayTimeLeft (data.timeLeft,data.duration);
+				displayTimeLeft2 (data.timeIntoTrack,data.duration);
+				if (!mouseOverProgressSlider){
+//					var p = ((data.duration - data.timeLeft)*1000)/data.duration;
+					var p = ((data.timeIntoTrack)*1000)/data.duration;
+					$("#progressSlider").val (p);
+				}
+				if (data['playing'] == 1) {
+					console.log('playing check working ;-)');
+					console.log(cnt);
+					console.log('updateprocess == '+ updateprocess);
+	                updateProgress(data);
+	            } else {
+                    console.log('pause check working ;-)');
+                    clearInterval(playtimer); cnt = 0;
+	            }
+			}
+	 		
+		}
+		else hideProgress ();
+
+		var m = Math.floor(data.timeLeft / 60);
+		var s = Math.round(data.timeLeft % 60);
+		var ss = "0"+s;
+		if (typeof data.timeLeft != "undefined") 
+			$('#timeLeft').text (m+':'+ss.substr(-2));
+		else
+			$('#timeLeft').text ("");
+
 	});	
 };
+
+function updateProgress(data){
+
+  if (updateprocess) {
+
+  cnt = cnt + 1;
+
+    if ( cnt == 9 ) { // current play * stop waves setting !
+
+        console.log('we hit play and want to now update progress');
+
+         var datatimeintotrack = parseInt(data.timeIntoTrack);
+         var datatimeleft = parseInt(data.timeLeft);
+        
+         playtimer = setInterval(function(){
+            if (datatimeleft <= 0) {
+                clearInterval(playtimer); cnt = 0;
+            wave(10,'true');
+            }
+
+        //  console.log(data['playing']);
+          
+        //  console.log('now we are in the local timer');
+    
+            showProgress ();
+          
+        //   console.log ("timeLeft "+datatimeleft+" duration "+data.duration);
+           
+            datatimeintotrack = datatimeintotrack  + 1;
+            datatimeleft = datatimeleft - 1;
+            
+		    displayTimeLeft2 (datatimeintotrack,data.duration);
+
+			if (!mouseOverProgressSlider){
+			console.log('this working');
+				var p = ((datatimeintotrack)*1000)/data.duration;
+				$("#progressSlider").val (p);
+			}
+
+ 	      var m = Math.floor(datatimeleft / 60);
+		  var s = Math.round(datatimeleft % 60);
+		  var ss = "0"+s;
+
+		  if (typeof datatimeleft != "undefined") { 
+			 $('#timeLeft').text (m+':'+ss.substr(-2));
+		     } else {
+			 $('#timeLeft').text ("");
+			 }
+
+        }, 1000);
+    }
+  }
+} 
 
 function doAlbumArt (discid){
 
@@ -2718,6 +3052,10 @@ function playlistMove (from,to){
 			listPlaylistFunction (selectedPlaylist);
 			refreshPlaylistsFunction ();
 		});
+		
+		//updateprocess = false;wave(2);
+
+		wave(2,'false');
 	});
 			
 }
@@ -2781,7 +3119,9 @@ function playlistDrop (ev,index){
 				refreshPlaylistsFunction ();
 			});
 		}
-			
+		//updateprocess = false;wave(2);
+
+		wave(2,'false');
 }	
 
 
@@ -2804,8 +3144,6 @@ function openRenameWindow (id,name){
 		
 	}	
 		
-	
-	
 	renameID = id;
 	renameOldName = name;
 
@@ -2897,7 +3235,6 @@ function renameOKFunction (){
 		});	
 	}
 	
-
 }
 
 
@@ -2943,6 +3280,10 @@ function dropBin (ev){
 				listPlaylistFunction (selectedPlaylist);
 				refreshPlaylistsFunction ();				
 		});
+
+		//updateprocess = false;wave(2);
+
+		wave(2,'false');
 	}
 }
 
@@ -2958,6 +3299,9 @@ function ripFunction (){
 	$.get('b2cgi.fcgi',command,function(data){
 			
 	});
+	//updateprocess = false;wave(10);
+
+	wave(10,'false');
 }	
 
 function listCDDBFunction () {
@@ -2973,7 +3317,7 @@ function listCDDBFunction () {
 		if (l){
 			$('#CDDBPanel').show();
 			for (var i=0;i<l;i++){ 
-				ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickCddb('+i+')">'
+				ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickCddb('+i+')">'
 					+data[i].album+'</br><h6><strong>'+data[i].artist+'</strong></h6></a></li>');
 			}		
 			selectedcddb = 0;
@@ -2991,13 +3335,17 @@ function pickCddb (i){
 	$("#menu2").html(cddb[i].album+' <span class="caret"></span>');
 }	
 
-function playTestFunction (index){
+
+function playArrowFunction (index){
 	var id = matches[index].id
 //	alert ("playTestFunction "+id);
 	command = 'playID&'+id
-	$.get('b2cgi.fcgi',command,function(data){});		
-}		
+	$.get('b2cgi.fcgi',command,function(data){});
 
+	//updateprocess = true;wave(10);
+
+	wave(10,'true');
+}		
 
 
 function nextUpload (){
@@ -3113,6 +3461,7 @@ function uploadFunction (){
 
 		$('#uploadProgress').html ('&nbsp&nbsp&nbspSending '+n+' of '+uploadFiles.length);		
 		$('#uploading').show ();
+		$('#uploading').css('display','inline-block');
 		
 		uploadEnabled = true;		
 		
@@ -3216,8 +3565,8 @@ function vTunerGoBack (){
 
 	var loading = $('#vTunerTable');
 	loading.children().remove();
-	loading.append ('<div><img src="ajax-loader.gif"></div>');
-
+	// loading.append ('<div><img src="ajax-loader.gif"></div>');
+	loading.append ('<div style="height:39px;background-color:#1c1e22;"><img src="ajax-loader.gif" style="margin-top:14px;margin-left:3px;"></div>');
 	
 	var urlTail = 'vTunerBack&time='+ new Date ().getTime();		// IE
 	$.getJSON('b2gci.fcgi',urlTail,function(data){	
@@ -3227,7 +3576,7 @@ function vTunerGoBack (){
 
 		for (var i=0;i<data.length;i++){
 //			vTunerLinks.append('<tr><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick(event)" class="mylink">'+data[i]+"</td></tr>");
-//			vTunerLinks.append('<tr role="listitem"><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick('+i+')" class="mylink"><a href="#" alt="'+data[i].name+'">'+data[i].name+"</a></td></tr>");
+//			vTunerLinks.append('<tr role="listitem"><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick('+i+')" class="mylink"><a href="javascript:;" alt="'+data[i].name+'">'+data[i].name+"</a></td></tr>");
 			vTunerLinks.append(makevTunerItem (i,data[i]));
 		}
 
@@ -3334,6 +3683,10 @@ function vTunerItemPresetAdd (index,preset){
 	index += 5100000;
 	var urlTail = 'setPresetFromID&id='+index+'&preset='+preset+'&time='+ new Date ().getTime();		// IE
 
+    //updateprocess = false;wave(20);
+	
+	wave(20,'false');
+
 	$.getJSON('b2gci.fcgi',urlTail,function(data){
 		listPresetsFunction ();
 	});	
@@ -3351,6 +3704,10 @@ function vTunerSearchPresetAdd (index,preset){
 	index += 5200000;
 	var urlTail = 'setPresetFromID&id='+index+'&preset='+preset+'&time='+ new Date ().getTime();		// IE
 
+    //updateprocess = false;wave(20);
+	
+    wave(20,'false');
+
 	$.getJSON('b2gci.fcgi',urlTail,function(data){
 		listPresetsFunction ();
 	});	
@@ -3365,11 +3722,14 @@ function vTunerSearchItemClick (i){
 	console.log ("vTunerSearchItemClick index="+i);
 	
 	var urlTail = 'vTunerPlaySearchItem&index='+i+'&time='+ new Date ().getTime();		// IE
-	$.getJSON('b2gci.fcgi',urlTail,function(data){	
-		
-		console.log ("vTunerPlaySearchItem result = "+data);
 
-	});	
+	//updateprocess = false;wave(20);
+	
+	wave(20,'false');
+
+	$.getJSON('b2gci.fcgi',urlTail,function(data){	
+		console.log ("vTunerPlaySearchItem result = "+data);
+	});
 }
 
 
@@ -3388,38 +3748,43 @@ function makevTunerItem (i,data){
 
 function vTunerInit () {
 
-//	console.log ("vTunerInit ()");
+//console.log ("vTunerInit ()");
 
-
-	var vTunerLinks = $('#vTunerTable');
-	vTunerLinks.children().remove();
-	vTunerLinks.append ('<div><img src="ajax-loader.gif"></div>');
+ var vTunerLinks = $('#vTunerTable');
+ vTunerLinks.children().remove();
+ // vTunerLinks.append ('<div><img src="ajax-loader.gif"></div>');
+ 	vTunerLinks.append ('<div style="height:39px;background-color:#1c1e22;"><img src="ajax-loader.gif" style="margin-top:14px;margin-left:3px;"></div>');
 	
-	var urlTail = 'vTunerTop&' + new Date ().getTime();			// IE
-	$.getJSON('b2gci.fcgi',urlTail,function(data){			
+ var urlTail = 'vTunerTop&' + new Date ().getTime();			// IE
+ $.getJSON('b2gci.fcgi',urlTail,function(data){			
+	
+//console.log ("vTunerTop result = "+data);
 		
-//		console.log ("vTunerTop result = "+data);
-		vTunerLinks.children().remove();
-		vTunerItemResults = data;
+    vTunerLinks.children().remove();
+    vTunerItemResults = data;
 
+    for (var i=0;i<data.length;i++){
 
-		for (var i=0;i<data.length;i++){
+    //vTunerLinks.append('<tr role="listitem"><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick('+i+')" class="mylink"><a href="javascript:;" alt="'+data[i].name+'">'+data[i].name+"</a></td></tr>"); vTunerLinks.append(makevTunerItem (i,data[i]));
 
-//			vTunerLinks.append('<tr role="listitem"><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick('+i+')" class="mylink"><a href="#" alt="'+data[i].name+'">'+data[i].name+"</a></td></tr>");
-			vTunerLinks.append(makevTunerItem (i,data[i]));
+    }
 
-
-		}
-
-//		console.log ("First Item = "+vTunerLinks.children()[0]);
-		vTunerLinks.children().eq(0).focus();
+//console.log ("First Item = "+vTunerLinks.children()[0]);
+  
+  vTunerLinks.children().eq(0).focus();
 				
-		var box = $('#vTunerBox');
-		box.scrollTop(0);
-		box.perfectScrollbar ('update');
+  var box = $('#vTunerBox');
+  box.scrollTop(0);
+  box.perfectScrollbar ('update');
 				
-	});
-	
+  });
+
+  //updateprocess = false;wave(2);
+
+  wave(2,'false');
+
+  vTunerGoBack();
+
 }
 
 
@@ -3430,16 +3795,14 @@ function vTunerItemClick (index){
 
 	var loading = $('#vTunerTable');
 	loading.children().remove();
-	loading.append ('<div><img src="ajax-loader.gif"></div>');
+	loading.append ('<div style="height:39px;"><img src="ajax-loader.gif" style="margin-top:14px;margin-left:3px;"></div>');
 
 	var box = $('#vTunerBox');
 	box.scrollTop(0);
 	box.perfectScrollbar ('update');
 
-	
 	var urlTail = 'vTunerLink&index='+index+'&time='+ new Date ().getTime();		// IE
 	$.getJSON('b2gci.fcgi',urlTail,function(data){	
-
 
 		vTunerItemResults = data;		
 //		console.log ("vTunerLink result = "+data);
@@ -3449,7 +3812,7 @@ function vTunerItemClick (index){
 
 		for (var i=0;i<data.length;i++){
 //			vTunerLinks.append('<tr><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick(event)" class="mylink">'+data[i]+"</td></tr>");
-//			vTunerLinks.append('<tr role="listitem"><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick('+i+')" class="mylink"><a href="#" alt="'+data[i].name+'">'+data[i].name+"</a></td></tr>");
+//			vTunerLinks.append('<tr role="listitem"><td draggable="true" ondragstart="dragvTunerItem(event)" onclick="vTunerItemClick('+i+')" class="mylink"><a href="javascript:;" alt="'+data[i].name+'">'+data[i].name+"</a></td></tr>");
 			vTunerLinks.append(makevTunerItem (i,data[i]));
 		}
 
@@ -3459,7 +3822,11 @@ function vTunerItemClick (index){
 		box.scrollTop(0);
 		box.perfectScrollbar ('update');
 				
-	});	
+	});
+
+		//updateprocess = false;wave(20);
+
+		wave(20,'false');	
 }
 
 
@@ -3505,16 +3872,13 @@ function activateArtistTab (){
 	
 }
 
-
-function startVTuner (){
+function startVTuner () {
 	
 	console.log ("startVTuner ()");
 	
-}	
+}
 
-function adjustPanels (){
-
-
+function adjustPanels () {
 
 	if ((window.innerWidth > th) && (lastWidth <= th)){
 		selectPanel (0);
@@ -3523,10 +3887,10 @@ function adjustPanels (){
 		selectPanel (0);
 	}	
 	lastWidth = window.innerWidth;
-}	
-		
+}
 
 function resize (){
+	
 	
 	var canvas = document.getElementById("mycanvas");
 	canvas.width = $('#canvasBox').width();
@@ -3637,7 +4001,7 @@ function adjustHeights (){
 //	console.log ("wh "+wh+" woh "+woh+" th "+th+" bbh "+bbh+" poh "+poh+" soh "+soh);
 //	console.log ("div height = "+srch);
 
-		$('#SearchContainer').height(srch-46);		         // new height correction	
+		$('#SearchContainer').height(srch-45);		         // new height correction	
 		// $('#SearchContainer').height(srch);
 
 		bbh = $("#vTunerButtons").outerHeight(true);		 // button bar height	
@@ -3649,7 +4013,7 @@ function adjustHeights (){
 		var sbh = $('#youtubeSearchBar').outerHeight(true);
 		var ph = $('#youtubeSearchHeading').outerHeight(true);
 
-    console.log ("wh "+wh+" woh "+woh+" th "+th+" sbh "+sbh+" poh "+poh+" ph "+ph);
+        console.log ("wh "+wh+" woh "+woh+" th "+th+" sbh "+sbh+" poh "+poh+" ph "+ph);
 
 		var yth = wh-woh-th-sbh-poh;						 // window - well overhead - tab height - search bar - panel overhead 
 		console.log ("div height = "+yth);
@@ -3657,15 +4021,28 @@ function adjustHeights (){
 		var ytph = ((yth-2)/2) - ph; 
 		console.log ("ytph = "+ytph);
 
+		var npsh = wh/2;
+
+		// $('#nowPlayingWell').height(npsh);
+
+		if (setnpwh) { 
+		    setnpwh = $('#nowPlayingWell').outerHeight(true);
+		    setnpwh = setnpwh - 10;
+			$('#nowPlayingWell').css("height",setnpwh +"px");
+			setnpwh = false;
+	    }
+
 		$('#YoutubeSearchResultsBox').height(ytph);		     // 2 px space between two sections
 		$('#YoutubeHistoryBox').height(ytph);
 
 		var npwh = $("#nowPlayingWell").outerHeight(true);	 // now playing well height
+		var pth = $("#playlistTabs").outerHeight(true);	     // tabs height
 		bbh = $("#playlistButtons").outerHeight(true);		 // button bar height
 		
-		//$('#playlistContainer').height(wh-npwh-woh-th-bbh-poh-soh);
-        $('#playlistContainer').height(wh-npwh-1-woh-th-bbh-poh-soh);	// new height correction
+		// $('#playlistContainer').height(wh-npsh-pth-bbh-poh);
 		
+		$('#playlistContainer').height(wh-npwh-38-pth-bbh-poh);
+ 		
 		$('#presetsBox').height(wh-npwh-woh-th-poh-soh);
 		$('#CDPanel').height(wh-npwh-woh-th-poh-soh);
 		
@@ -3686,8 +4063,8 @@ function adjustHeights (){
 
 		// $('#AlbumTracksBox').height((wh+30)/2-woh-alhh-poh);	
 		
-		$('#AlbumTracksBox').height((wh+23)/2-woh-alhh-poh);		// new height correction	
-
+		//$('#AlbumTracksBox').height((wh+23)/2-woh-alhh-poh);		// new height correction	
+		$('#AlbumTracksBox').height((wh+15)/2-woh-alhh-poh);		// new height correction
 
 //	console.log ("wh "+wh+" woh "+woh+" alhh "+alhh+" poh "+poh);
 //	console.log ("div height = "+(wh/2-woh-alhh-poh));
@@ -3714,7 +4091,7 @@ function adjustHeights (){
 		$('#vTunerBox').height((srch-bbh-10)/2);				// 10 px space between two sections
 		$('#vTunerSearchBox').height((srch-bbh-10)/2);
 
-//		$('#YoutubeSearchResultsBox').height((srch-bbh-10)/2);				// 10 px space between two sections
+//		$('#YoutubeSearchResultsBox').height((srch-bbh-10)/2);  // 10 px space between two sections
 //		$('#YoutubeHistoryBox').height((srch-bbh-10)/2);
 
 		var npwh = $("#nowPlayingWell").outerHeight(true);		// now playing well height
@@ -3735,16 +4112,16 @@ function adjustHeights (){
 
 		$('#YoutubeSearchResultsBox').height(ytph);				// 2 px space between two sections
 		$('#YoutubeHistoryBox').height(ytph);
-
 		
-		var temp = wh-woh-th-bbh-poh-soh;
+		var temp = wh-woh-th-bbh-poh-soh;						
 		console.log ("presetsBox.height = "+temp);
 		$('#presetsBox').height(temp);
 		
 		var temp = wh-woh-th-bbh-poh-soh - mbnh;
 		console.log ("playlistContainer.height = "+temp);
+
 		$('#playlistContainer').height(temp);
-		
+
 		$('#CDPanel').height(wh-npwh-woh-th-poh-soh);
 		
 //		console.log ("Available height = "+$('#CDPanel').height());
@@ -4051,11 +4428,11 @@ function mixPlaylist (){
 	pickMode (selectedMode);
 	
 	for (var i=0;i<l;i++){ 
-		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">'+
+		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickSource('+i+')">'+
 			playlists[i].name+' ('+playlists[i].length+')</a></li>');
 	}
-	/* ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">All Music</a></li>'); */
-    ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickSource('+i+')">Music</a></li>');
+	/* ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickSource('+i+')">All Music</a></li>'); */
+    ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickSource('+i+')">Music</a></li>');
 	pickSource (selectedSource);
 	
 
@@ -4063,7 +4440,7 @@ function mixPlaylist (){
 	ul.children().remove();
 	
 	for (var i=0;i<l;i++){ 
-		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickDest('+i+')">'+
+		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickDest('+i+')">'+
 			playlists[i].name+' ('+playlists[i].length+')</a></li>');
 	}
 	pickDest (selectedDest);	
@@ -4211,7 +4588,7 @@ function searchItemAddButton (){
 	var l = playlists.length;
 		
 	for (var i=0;i<l;i++){ 
-		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickAddTarget('+i+')">'+
+		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickAddTarget('+i+')">'+
 			playlists[i].name+' ('+playlists[i].length+')</a></li>');
 	}	
 	
@@ -4417,10 +4794,10 @@ function refreshSettings (){
 	ul.children().remove();
 	var l = playlists.length;
 
-	/* ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest(0)">All Music</a></li>');*/
-	ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest(0)">Music</a></li>');	
+	/* ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickGuest(0)">All Music</a></li>');*/
+	ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickGuest(0)">Music</a></li>');	
 	for (var i=1;i<=l;i++){ 
-		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="pickGuest('+i+')">'+
+		ul.append('<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="pickGuest('+i+')">'+
 			playlists[i-1].name+' ('+playlists[i-1].length+')</a></li>');
 	}
 
@@ -4678,6 +5055,16 @@ function webModeClick (){
 	
 }	
 
+function defaultUIClick(){
+	
+	if ($("#webDefaultUI").prop("checked")) {
+		setCookie ("whichUI","mobile",365);
+		window.location.href="mobile.html";
+	}	
+	else setCookie ("whichUI","original",365);		
+	
+}
+
 function tvUiClick (){
 	
 	
@@ -4745,7 +5132,6 @@ function vCacheClick (){
 	$.getJSON('b2gci.fcgi',urlTail,function(data){});		
 	
 }
-
 
 
 function pasteArt (ev){
@@ -5120,10 +5506,10 @@ function refreshHistoryList (){
 	var l = youtubeHistory.length;
 	for (var i=0;i<l;i++){ 
 /*		
-		tb.append('<tr><td><a href="#" onclick="playYoutubeHistory('+i+')">'
-			+youtubeHistory[i][0]+'</a></td></tr>');
+	tb.append('<tr><td><a href="javascript:;" onclick="playYoutubeHistory('+i+')">'
+	+youtubeHistory[i][0]+'</a></td></tr>');
 */
-		tb.append (makeYoutubeItem(youtubeHistory[i][0],youtubeHistory[i][1],"playYoutubeHistory",i,true));
+	tb.append (makeYoutubeItem(youtubeHistory[i][0],youtubeHistory[i][1],"playYoutubeHistory",i,true));
 	}
 	var box = $('#YoutubeHistoryBox');
 	box.scrollTop(0);
@@ -5374,7 +5760,7 @@ function searchYoutube (){
 		tb.children().remove();
 		var l = items.length;
 		for (var i=0;i<l;i++){ 
-			tb.append('<tr><td><a href="#" onclick="playYoutube('+i+')">'
+			tb.append('<tr><td><a href="javascript:;" onclick="playYoutube('+i+')">'
 				+items[i].snippet.title+'</a></td></tr>');
 		}
 				
@@ -5581,10 +5967,97 @@ function playlistFilterToggle (){
 }	
 
 
+function blockProgressSliderUpdates (){
+
+	clearTimeout (bpsuTimer);
+	enableProgressSliderUpdates = false;
+	bpsuTimer = setTimeout (function () {enableProgressSliderUpdates = true;},2500);
+	
+//	updateprocess = false;wave(2);
+}	
+
+function progressChange (){
+//	console.log ("progressChange ()");
+//	console.log ("Progress = "+$("#progressSlider").val());
+
+	updateprocess = false;clearInterval(playtimer);cnt = 0;
+	
+	var pos = $("#progressSlider").val();
+
+	var urlTail = 'seek&pos='+pos+'&time='+new Date ().getTime();		// IE
+	$.getJSON('b2gci.fcgi',urlTail,function(data){});
+	
+	blockProgressSliderUpdates ();
+
+//	displayTimeLeft (nowPlaying.duration-nowPlaying.duration*pos/1000,nowPlaying.duration);	
+	displayTimeLeft2 (nowPlaying.duration*pos/1000,nowPlaying.duration);
+	
+	//wave(2);updateprocess = true;
+
+	wave(2,'true');
+		
+}	
+
+function progressInput (){
+	console.log ("progressInput ()");
+//	console.log ("Progress = "+$("#progressSlider").val());	
+
+    updateprocess = false;clearInterval(playtimer);cnt = 0;
+
+	var pos = $("#progressSlider").val();
+
+	console.log ("calculated time "+nowPlaying.duration*pos/1000);
+	
+	blockProgressSliderUpdates ();
+	
+//	displayTimeLeft (nowPlaying.duration-nowPlaying.duration*pos/1000,nowPlaying.duration);	
+	displayTimeLeft2 (nowPlaying.duration*pos/1000,nowPlaying.duration);
+
+    //wave(10);updateprocess = true;
+    
+    wave(10,'true');
+			
+}	
+
+function displayTimeLeft (timeLeft,duration){
+	
+	
+//	console.log ("displayTimeLeft () timeLeft="+timeLeft+" duration=",duration);
+	
+	var p = duration - timeLeft;
+	var pm = Math.floor(p / 60);
+	var ps = Math.round(p % 60);
+	var pss = "0"+ps;
+
+	var m = Math.floor(timeLeft / 60);
+	var s = Math.round(timeLeft % 60);
+	var ss = "0"+s;
+	$('#seekTimeLeft').html ("Time: "+pm+":"+pss.substr(-2)+'<span class="pull-right">'+m+":"+ss.substr(-2)+'</span>');
+
+}
+
+function displayTimeLeft2 (timeIntoTrack,duration){
+	
+	
+//	console.log ("displayTimeLeft2 () timeIntoTrack="+timeIntoTrack+" duration=",duration);
+	
+	var p = timeIntoTrack;
+	var pm = Math.floor(p / 60);
+	var ps = Math.round(p % 60);
+	var pss = "0"+ps;
+
+	var tl = duration-timeIntoTrack;
+	if (tl < 0) tl = 0;
+
+	var m = Math.floor((tl) / 60);
+	var s = Math.round((tl) % 60);
+	var ss = "0"+s;
+	$('#seekTimeLeft').html ("Time: "+pm+":"+pss.substr(-2)+'<span class="pull-right">'+m+":"+ss.substr(-2)+'</span>');
+
+}
+
 </script>
 
-
-	
 
 </body>
 </html>
