@@ -4,10 +4,10 @@ brennan b2 music & radio media player is a great bit of kit and relatively easy 
 
 -  uploading new music via a network
 -  mutiple devices accessing the B2
--  radio drop outs
+-  potential radio drop outs
 -  performance and browser memory leaks
 -  network bandwidth overhead
--  internet issues for other users
+-  internet issues for other network users
 
 Other small UI issues may need some attention, which are discussed below
 
