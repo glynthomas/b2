@@ -1,3 +1,9 @@
+# brennan web app archive
+
+brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading ( or downgrading ) the web app which is no longer developed & maintained by brennan, last release [11/04/2019] 
+
+a new noiseless version branch of this web app, is currently being developed & maintained at oksauce.com please visit for lastest news  
+
 # brennan web app noiseless why?
 
 brennan b2 music & radio media player is a great bit of kit and relatively easy to modify, the native web app B2 branch is, i understand no longer being maintained, the web app final release continually polls the b2 unit every half a second for sync & status updates, this polling seems to create the following 'hidden' problems;
@@ -31,8 +37,6 @@ noiseless web app release is a branch of the latest & last brennan B2 web app UI
 
 # noiseless release roadmap
 
-web app will be maintained here together with any UI improvements major or minor updates to the original code base
-
 major changes include; removal of constant polling of the B2, scrolling graphs and other continued status updates this will remove the problems associated with mutiple devices accessing the B2, music file uploads, radio drop outs and performance and browser memory leak issues created from constant polling to minor fixes which include; removal of hash in the URL and the requirment of an internet connection and a number of other minor performance improvements
 
 UI controls have been tweeked together with improved mobile web UI modal & improved responsive design layout 
@@ -41,17 +45,10 @@ UI controls have been tweeked together with improved mobile web UI modal & impro
 
 the current official last brennan B2 update offered an experimental mobile only UI, in time, i plan to update the code base to a noiseless version, it is for now a low priority, probably for noiseless version two, time permitting I plan to modify and rewrite parts of this code base to fix the experimental mobile UI to a fully functional noiseless mobile version [ mobile.html ]
  
-## noiseless current version web app maintenance release 
+new official experimental UI is being developed at ... https://github.com/geometryzen/brennan-app 
 
-version one focus, fixes most of the issues discussed, however, it is still being developed & has yet to be tested fully, while the dev branch code base has yet to be updated, focus here is on improving the UI responsive layout & native responsive mobile web app, in time, both versions will become the maintenance release [ index.html ]
+the un-official updated UI & noiseless UI versions are being developed & maintained at ... http://oksauce.com
 
-## noiseless has two branches, current & dev
-
-- current release index.html     -> v1.0.0
-- dev ... release index-dev.html -> v1.0.1 
-
-new official experimental UI is being developed by brennan ... https://github.com/geometryzen/brennan-app 
-
-if you are a b2 brennan owner and you stumble onto this page, and prefer a simpler, maintained noiseless version of this web app and * or want to contribute please get in touch
+if you are a b2 brennan owner and you stumble onto this page, and prefer a simpler, maintained noiseless version of this web app please visit oksauce.com for further details
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
