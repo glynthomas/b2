@@ -1,8 +1,8 @@
 # brennan web app archive
 
-brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading ( or downgrading ) the web app which is no longer developed & maintained by brennan, last release [11/04/2019] 
+brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading ( or downgrading ) the web app are stored here, together with the last release [11/04/2019] from brennan
 
-a new noiseless version branch of this web app, is currently being developed & maintained at oksauce.com please visit for lastest news  
+a new updated version & noiseless version branch of this web app, are currently being developed & maintained at oksauce.com please visit for more info ...  
 
 # brennan web app noiseless why?
 
@@ -23,17 +23,13 @@ the existing javascript has been tweeked, with functions edited & some added, th
 
 the new noiseless release implements event polling, which is more like a wave saying hello to the B2 when you access the web app client, leaving the B2 to get on with playing music, radio or uploading files without "noise" problems associated with network polling frequency, where timing is required, a local timer takes over and re-syncs with the B2 when requied [ scrub or time of length of songs ]
 
-if you have a B2 and what to try it out, using the latest final B2 release, rename the exisiting index.html file to index.html-bak and copy the index.html noisless file, if you don't like it, copy over the original index.html-bak --> index.html
+# brennan web app update release
 
-also copy the contents of /css & /js all files are locally held [ B2 does not now require an internet connection ] 
-
-all other files are here for completness ...
-
-don't plan to create a usb upgrade release unless a number of B2 owner requests ... 
+a new updated version, based on the [11/04/2019] web app release from brennan is available at oksauce.com, this version is fully responsive, with the native mobile view including tone controls, (scrub) time & volume while the dedicated mobile web page has been updated to functioning as designed, available at oksauce.com
 
 # brennan web app noiseless release
 
-noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence
+noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence ... please visit oksauce.com for more details
 
 # noiseless release roadmap
 
