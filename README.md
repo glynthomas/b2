@@ -1,4 +1,4 @@
-# brennan web app archive
+# brennan B2 web app archive
 
 brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading [ rename to b2.tar.gz ] the B2 web app files versions are stored here, together with the last release [11/04/2019] from brennan
 
@@ -37,9 +37,9 @@ major changes include; removal of constant polling of the B2, scrolling graphs a
 
 UI controls have been tweeked together with improved mobile web UI modal & improved responsive design layout 
 
-## noiseless mobile update
+## noiseless B2 mobile update
 
-the current official last brennan B2 update offered an experimental mobile only UI, in time, i plan to update the code base to a noiseless version, it is for now a low priority, probably for noiseless version two, time permitting I plan to modify and rewrite parts of this code base to fix the experimental mobile UI to a fully functional noiseless mobile version [ mobile.html ]
+the current official last brennan B2 update offered an experimental mobile only UI, the code base has been recrafted to a noiseless version, the code base has been updated to a fully functional noiseless mobile version, please visit http://oksauce.com for more info
  
 new official experimental UI is being developed at ... https://github.com/geometryzen/brennan-app 
 
