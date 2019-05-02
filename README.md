@@ -45,6 +45,6 @@ new official experimental UI is being developed at ... https://github.com/geomet
 
 the un-official updated UI & noiseless UI versions are being developed & maintained at ... http://oksauce.com
 
-if you are a b2 brennan owner and you stumble onto this page, and prefer a simpler, maintained noiseless version of this web app please visit http://oksauce.com for further details
+a b2 simpler, maintained updated & noiseless web app versions of this web app are available at http://oksauce.com
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
