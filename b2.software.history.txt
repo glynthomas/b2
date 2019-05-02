@@ -1,0 +1,874 @@
+
+Latest Software
+
+( redirect audio to B2 https://chrome.google.com/webstore/detail/brennan-b2-chrome-extensi/fkhojipjpabebknojoommginhcnfcje )
+
+If your B2 is on Wifi you can upgrade using Settings->Web Upgrade. If not then transfer this file onto a USB memory stick, plug into USB C on your B2 and use Settings->Maintenance->SW Upgrade.
+
+
+You can find the date of your current software by pressing info on the remote and pressing up.
+
+If you see - "No Network" when you try to upgrade try Settings->Retry Wifi and try again.
+
+20th March 2019
+This release fixes a few problems
+1) Occasional stopping at the end of a track - not playing the next
+2) Not starting web upload on first attempt
+3) Mobile UI now implements guest mode
+
+11th March 2019
+Playlist selection now scrolls on mobile UI. Classical mode made more conspicuous.
+Added an experimental Settings->Maintenance->Get DLNA. For the moment this is only for tech savvy owners who would like to experiment with DLNA. This function installs minidlna - Google for documentation. You will at least need to modify the configuration file /etc/minidlna.conf. Share your findings on the forum and I'll incorporate anything useful into a future release for general use.
+
+1st March 2019
+Added a ten channel graphics equaliser.
+After doing web upgrade you need to use
+Settings->Maintenance->Get EQ
+to install the new operating system components.
+I'm not a great fan of tone controls but I was pleasantly surprised by this new function. With small adjustments you can compensate for room acoustics, speaker performance and also create a kind of "loudness" control - that compensates for our ear's different frequency response at different sound levels.
+Click on the crotchet button where on the web UI to see the equaliser. You can disable the equaliser and I recommend starting by clicking the flat button to reset the controls.
+Martin
+
+12th February 2019
+Fixed All Artists scroll mechanism. Added diagnostics for SD mode switch.
+
+5th February 2019
+Added a switch so you can have either the original or the new mobile UI at the base IP address of your B2. Go to the settings panel on either UI to select. It uses a browser cookie so if you select mobile on your phone it won't switch the view on your laptop. You can override the choice by visiting 192.168.02/mobile.html or 192.168.0.2/original.html (substitute your B2s IP address).
+Increased volume step and removed some space for smaller phones on mobile UI.
+
+29th January 2019
+Added Bluetooth panel to new Mobile UI. Added Album art to Artists Browse panel.
+
+14th January 2019
+Added an option to show bigger album art on original web UI. Check the bigPicture box in the debug panel.
+Fixed the 200 artist limit in the mobile UI.
+
+
+7th January 2019
+This release has a far more complete mobile phone UI as well as the changes in the previous two offline releases.
+The mobule UI is independant of the original UI and for now is accessed at 192.168.0.8/mobile.html (substitute your B2 IP address). There is also a fix to an occasional infrequent internet radio dropout that occurs in some environements - thank you Bob.
+Please let me have your feedback on the mobile UI via the forum. I'm pretty pleased with it so far and I still have a bunch of ideas to incorporate but it will help to hear about any compatibility issues and your thoughts.
+Martin
+
+21st December 2018
+Seasons greetings! This release is for testers and others who want to take a look at the new Mobile Web UI that I am working on. Its still very primitive - I haven't paid much attention to colours and styling and many of the functions have not been wired up yet but the basic structure is there. I'm hoping that the left right swipe will be a more natural way of using the UI on a phone.
+The new UI coexists with the old - you just need to use a different URL. In my case 192.168.0.2/mobile.html - substitute your IP address.
+
+27th November 2018
+Experimental Software release for USB upgrade only. This version restores the seek functionality. Seek now works on MP3 in addition to FLAC and WAV. (It looks like m4a files will not be possible). There are few minor changes elsewhere. Playlist selection is tidier. I removed the disk scan on startup - it was making the B2 a bit unresponsive on startup.
+Copy this file to a USB stick, plug into USB C and use Settings->Maintennance-> SW Upgrade.
+[You can use a web upgrade to go back if you just want to try it out]
+
+13th November 2018 - Further Update
+The original release today had a problem that affected some displays. This has been rectified.
+If your B2 was affected by the earlier release you can fix it by upgrading "blind". Turn the B2 off and on. Give it a moment to get started - ignore the display. Push the knob. Turn clockwise five clicks to "Settings" (though you won't see it). Push the knob. Turn the knob 13 clicks to "Web Upgrade". Push the knob. It should restart properly. Its fiddly so worth trying again if it doesnt work first time.
+Apologies for the inconvenience. It worked on the four machines I tested here. Thanks to the forum members who reported this so promptly and helped with the fix. Martin
+13th November 2018
+New Bulk Upload function on Upload tab of Web UI.
+This function allowed me to transfer my entire iTunes and Amazon MP3 collections to a B2 in one operation - without needing a USB drive as a go between. Basically you select a folder and the function finds all music and album art held in that folder and any subfolders. Its not lightning quick but its convenient. You can cancel half way through and if you restart it will skip any that it already uploaded. It will stop when the B2 is full.
+The new feature exploits new browser capabilities so may not be available in all browsers - I tested on Chrome and Firefox. There appear to be some differences in implementation and Chrome seems to be a bit overzealous in hiding folder names - in the name of security - so you may find some albums under Unknown - the Web UI will tell you if that happens.
+I increased the album limit to 11,000 albums for Keith A. The limits are now 11,000 albums, 6,000 artists, 170,000 tracks.
+There is now a behind the scenes disk space monitor that runs on power up. It can take five minutes on a big disk but the disk space figure in info should now be more accurate. 
+
+8th October 2018
+Improvements to Web UI - tidier dialog boxes, new simpler delete playlist on web UI
+
+2nd October 2018
+Last upgrade now available through web upgrade. Plus transport buttons on mobile and iPad landscape mode improved. Improvements to prevent duplicate search results.
+
+25th September
+Experimental Software release for USB upgrade only. This version disbles the seek functionality for test purposes. It also has significant changes to the web UI to make it simpler for new owners and better for mobile.
+Copy this file to a USB stick, plug into USB C and use Settings->Maintennance-> SW Upgrade.
+[You can use a web upgrade to go back if you just want to try it out]
+
+18th September
+Added Standby in main menu and Compress Now to maintenaance menu.
+Improved the CD panel on the Web UI especially for mobile.
+
+4th September 2018
+Added an alternative MP3 encoding bitrate. It was fixed at 128k. Now you can also encode at 256k.
+Fixed a problem that occurred when next (or prev) hit repeatedly and quickly.
+The seek bar has been removed for MP3s while I try and figure out out to handle variable bit rate (VBR) MP3s.
+29th August 2018
+I combined the new Import Playlists functionality into the old Load Playlists function - this function will now try /playlists and then if that doesn't exist /b2Export/playlists. 
+Modified Delete Backup to delete JB7 style "hardfi" backup and also B2 style "B2Export" backups.
+Moved some temporary files to reduce SD card wear.
+
+22nd August 2018
+Added an Import Playlists function to Playlists Menu. This loads playlists saved with Export. The reason that I do not load the playlists with Import is that you might for example want to Import music from a relative's B2 but not overwrite your playlists with theirs. This new mechanism lets you backup and restore playlists flexibly.
+
+Track listing and playback order is now entirely alphabetic. There was a hybrid scheme before that used a track order number if present and the order on the disk if not. This led to problems if there was a mix or duplicate track order numbers. The new simpler scheme will honour the track order number but won't be upset by duplicates or mixtures of numbered and not numbered tracks.
+
+Now stop NAS automatically before attempting to format HDD.
+
+Refresh USB Panel when USB plugged/unplugged
+
+18th August 2018
+Updated Musicbrainz album art fetch to work with recent Musicbrainz website changes.
+Fix track display when two tracks share same number.
+Hide seek slider if browser window is too small (was overlapping playlist panel).
+
+30th July 2018
+The software release below (software dated 10th July) is now available through web upgrade.
+
+---------------
+
+11th July 2018
+Extended seek to WAV and MP3 - MP3 is work in progress but I have been asked for the WAV function so its an offline upgrade - file here.
+Speedup exit from compression.
+Fix permanent display of "Saving" if Screensaver = 16
+Fix crash after Artist delete while playing/displaying that artist.
+Fix bug in FLAC seek code can cause tracks not to start.
+Added Favicon
+
+27th June 2018
+
+This release is available through web upgrade and contains the FLAC seek function trialed on 13th.
+Cleanup in Maintenance has been extended to delete "._XX" files - sometimes found in iTunes libaries. Use Scan Disk after Cleanup.
+Experimental work on Podcasts - type word "podcast" into the Search box. You will probably need a url that ends in mp3 let me know through the forum if you have Podcast urls that are different or don't work. I'll find a better place in the Web UI for it later.
+
+13th June 2018
+New seek function - there is now a progress bar on the web UI while playing FLAC files. Drag the button and release to jump to that part of the track.
+This function involved a significant rewrite so at the moment it is only being made available as an offline upgrade - download this file and follow instructions at the top of this page. Let me have feedback on the forum or email.
+Martin
+(PS if you run into problems just do a web upgrade and it will take you back)
+
+11th May 2018
+New - much simpler - find album art function. There are two new buttons when you click on the dots next to an album name. These search either Musicbrainz or Amazon for cover art. Click on an image to load it.
+Fixed a problem - sometimes freezing if you click prev/next rapidly while playing internet radio - many thanks to Tony for isolating this problem and helping with the debug.
+
+
+1st May 2018
+Improved behaviour with mobile web UI. Small changes to now playing panel.
+
+27th April 2018
+Fixed Code 11 and Code 12 problems. Basically these messages just said that the B2 had run out of space for more USB music - but they locked the B2 - now it ignores any further USB music. I increased the USB limit to 2000 albums for now.
+
+6th April 2018
+Fixed an overflow caused by large album art images. This could cause the B2 to freeze or misbehave after displaying on Web UI.
+
+27th March 2018
+Turn off playlists when album is played - it was returning to playlist after first track
+Fix Web UI Now Playing graph on iPhone
+Clear USB search results when USB removed.
+
+20th March 2018
+Fixed alignment of date when screensaver is on. Added screensaver 16 - turns off the clock display in standby.
+
+19th March 2018
+Extended support for music on USB. Search will now find and play music on the USB drive - currently limited to first 1000 albums. Web UI now has a USB panel - like file explorer - that lets you see whats on the USB drive. This will pave the way for improved handling of music on USB - like importing specific albums or folders. 
+B2 scans any USB drive when first plugged in - you will see the green light flashing. You can stop the scan by holding stop if you dont intend to play from USB.
+
+5th March
+OLED screensaver. Settings->Maintenance->Screensaver. It will default to on. Dims the display and moves the clock around in Standby.
+Improved Web UI for "phablet" sized displays.
+
+23rd February
+Couple of fixes to cope with stations with no logos.
+
+22nd February
+Added radio station icons/images - you will need to reprogram your presets from vTuner to get the images - then they show when that station is played.
+Added a tagging function for FLAC files that will allow Sonos to show the correct names and any cover art. Its very new so test on one album from the album menu first. Then if thats OK you can tag the whole disk using Settings->Maintenance->Tag Music. It will be slow the first time then after that it only changes files that have been renamed or new art. You will need to update the Sonos Library after tagging.
+Increase memory limits 10,000 albums - more storage for Classical
+New Youtube cache improvements.
+
+18th February
+Fixes bug in last release
+
+16th February
+
+Fix Youtube for Internet Explorer and Safari
+Fix random in playlists
+Display cover art from imported MP3s (from their ID3 tags)
+Fixed Presets and Playlists panels on mobile (eg iPhone6)
+Highly experimental extensions to Youtube capability - switch on in the Web UI settings panel.
+Cache Youtube music as it plays
+Find cached Youtubes in Search (you need to hide everything else at the moment - disable Artists, Albums, Tracks and Radio)
+Put Youtubes in Playlists
+Show "cover art" when playing cached Youtubes
+
+7th February
+Quick fix for Youtube website change - will only work on Chrome and Edge. Web change only software version will show 2nd Feb.
+
+2nd February
+Playlist corruption fix. Artists in playlists were corrupted if you renamed an artist to the same name as an already existing artist name - effectively merging them.
+Thanks to Chris for his patience and help and thanks to forum members for a few key observations.
+
+ 
+30th January
+This is the first software release driven by feedback and ideas posted on the forum - thanks keep it coming,
+Playlist filter reinstated - search results only show matches in the selected playlist.
+Play buttons in playlist panel - lets you play the playlist from any item.
+Menu buttons in playlist - lets you reorder and delete playlist items if you don't have drag and drop.
+Guest mode track order fixed.
+Force desktop in settings - may help with some "phablets" - more to follow
+
+23rd January
+Improved Youtube fix - for Safari and Internet Explorer.
+
+19th January
+Fixed Youtube - following by website change by Google.
+
+3rd January 
+Include album art in Import. Refresh Web UI when playlist cleared.
+
+11th December
+Minor stuff. Improved Wifi switching. Don't display channels in Youtube Search results. Aux mode - main menu replaced so new owners don't get stuck in Aux Mode. Remove invalid Network Down message.
+
+4th December 2017
+Tags added during compression so Sonos can sort by Artist and Album. (In 2018 I will add a function to tag previously compressed files). Web UI now stops B2 going into Standby.
+
+29th November 2017
+Added experimental tone control - next to transport buttons on web UI - you will need to adjust the volume to compensate at the moment.
+Improved internet radio radio behaviour with poor internet connections - you need to turn on Settings->Maintenance->Prefill - NB it will delay startup while it buffers.
+
+22nd November 2017
+Presets menu in vTuner web UI - helps setting presets on touch devices.
+Added delete to Youtube history - so you can just keep what you liked most.
+
+17th November 2017
+vTuner seem to have some missing entries for main BBC Radio Stations - this release includes a temporary fix - if you have lost a BBC preset try finding the station in the vTuner geographic panel and reprogram the preset.
+
+10th November 2017
+Created a Youtube tab in the main Web UI and added search. Added images to search and history. This feature is experimental/under development let me know of any problems or good ideas.
+
+25th October 2017
+
+I added history to the Youtube function below so you can quickly replay favourite tunes on Youtube - more to come.
+
+9th October 2017
+I've added a fun new experimental feature. I was on holiday recently and a piece of music came to mind (Procol Harum) and I played it using Youtube on my laptop - its was a bit tinny on the laptop of course but I realised what a treasure trove of music Youtube has become.
+
+When I got back I created this simple function that will take a Youtube URL and play it on the B2 - so you get nice loud sound.
+
+Just type "youtube" into the search window and this box will magically appear. Paste the Youtube URL into the box and click start. 
+
+Its very crude - for instance on some videos there is a lengthy pause at the start - but I wanted to get some feedback. There are some obvious things to do next - like keeping a history or adding the Youtubes to playlists. Let me know what you think.
+
+5th October 2017
+Upload album art by clicking (in addition to drag and drop and paste) on little icon in album panel. Added "=" to letters for Wifi passwords. Improved handling of OK and Back on remote control during password entry. Removed track file extension in playlist panel.
+
+
+4th October 2017
+New improved internet radio is now available through web upgrade. Fixed a bug with Preset drag and drop on Firefox.
+
+
+29th August
+Added % and + to characters on rotary for Wifi passwords
+
+
+23rd August
+I have improved the behaviour of internet radio when the internet connection is intermittent. This was a significant rewrite of that part of the code so its not for general release yet. Download this file and follow the instructions at the top for offline/USB upgrade. You can always go back with a web upgrade. Let me know via the feedback form if there are any stations causing problems or other issues. Thanks to Andrew W for help testing. Martin
+ 
+7th July
+Added menus to Artist and Album panels to make the UI more uniform and help folk who are systematically organising their music. Added a Cleanup function in Maintenance - removes empty artists and albums.
+
+4th July 2017
+Fixed problem with recording length. Add CD Reset to Maintenance Menu
+
+29th June 2017
+Keep search results fixed after rename. Clear album art when playing radio.
+
+21st June 2017
+Allow & in search. Keep search results fixed after Art upload.
+
+8th June 2017
+Quicker Wifi start up after compression.
+
+4th June 2017
+Turns off Wifi while compressing.
+
+18th April 2017
+
+Fixed file truncation in Web Upload - thanks to Chris G for tracking this down.
+Reload Guest Mode Playlist on power up.
+
+13th April 2017
+
+Added Photo Viewer see here 
+Fixed problem with standby on 64G models.
+
+5th April 2017
+
+Guest Mode added.
+
+Guest Mode prevents you from making changes to the B2. So you can allow friends and children to use the B2 without fear that they will delete your music or rename something. In Guest Mode you can play CDs but not load them to disk.
+
+You can optionally select a playlist and the B2 will only allow acces to the music in that playlist. So for instance if you have some music for your kids then they will only hear their music. Guest mode also make it easier to partition different music for different family members. Once Guest mode is selected - search will only show music from the selected playlist.
+
+Guest mode is best turned on using the web UI under the settings (cog) menu. 
+You can also turn it on with Settings->Maintenance->Guest Mode in which case any playlist currently playing will be locked in.
+
+Thanks to Vince and others for this idea. Let me know if there are any loose ends or side effects. Martin
+
+
+10th March 2017
+
+Redesign of the way the Web UI works with screen readers for blind B2 owners. This is just the start - many thanks to Paul H for his help.
+
+More margin around menu button (three dots) in search results on mobile so its not so fiddly to rename and add to playlist.
+
+Single tap/click to rename tracks in album window - better for touch devices. Thanks to Brian H for this.
+
+4th March 2017
+
+I modified the function of the Bluetooth button. Now if there is no phone or tablet connected this button will toggle the Bluetooth connection to a Bluetooth speaker. Basically its a quick way of reconnecting Bluetooth speakers without going through the menu.
+
+3rd March 2017
+
+1) You can now get audio out on HDMI - for high end AV receivers and TVs with soundbars. Enable through Settings panel on Web UI.
+
+2) You can now control Bluetooth a bit more easily through the Web UI. Allows you to optionally play music simultaneously through wired and Bluetooth Speakers.
+
+3) I have improved support for multimedia keys on USB keyboards like this inexpensive wireless Rii i8. You can control the volume, search, play and stop etc.
+
+4) Support for Daylight Saving Time in New Zealand (GMT + 13) - sorry American Samoa.
+
+5)  New Jack Sense mode keeps power amp on to prevent thumps when used with SubWoofers.
+
+
+28th February 2017
+
+Further work on Bluetooth Web Panel. Added # to remote and rotary for Wifi passwords.
+
+27th February 2017
+
+Started work on Bluetooth Web panel on Web UI makes it a bit clearer. Further improvements to Bluetooth.
+
+21st February 2017
+Better support for multimedia keyboards - you can adjust volume and play/pause from a USB keyboard. Further work on TV UI. Improvements to Bluetooth - pairing an already paired speaker. Bug fixed in web debug window.
+
+
+10th February 2017
+
+Display Bluetooth MAC address to help switch between identical Bluetooth speakers. 
+Further work on working with screen readers.
+Further work on TV output (switch to TV Off in logging to see)
+Fix recently introduced bug in Aux In - thanks Ed.
+
+8th February 2017
+
+Bluetooth now full duplex - which is a fancy way of saying you can play your tablet into B2 at the same time as B2 driving Bluetooth speakers. Oddly this makes Bluetooth a bit simpler because you don't have to select whether B2 is input mode or output mode. Support for difficult speakers like Taotronics is now built in so no special mode for that. Some experimental Bluetooth menu items have been removed. Plannning to allow optional Bluetooth+Wired at the same time.
+
+Album art is now displayed in now playing box - and you can paste images into the album panel heading.  So lets say you have an album by Van Morrison with no image. You could find the album on Amazon say - copy it - right click on image and select Copy Image - then click on the Album Heading on the B2 web UI and press CTRL-V to paste. That image will be displayed when you play the album. You could use your own photos - it doesnt have to be the official artwork. Use small images.
+
+I fixed a bug in NAS SD that could USB problems (freezing) - USB is used for hard disk and network and CD so not just related to external USB devices.
+
+27th January 2017
+
+Extended settings panel - segue, & compression - more to come
+Started work on album art upload - drag jpg images from your desktop to Album panel.
+Some work on Vtuner panel for screen readers.
+Remove logging to TV in preparation for TV UI - Settings -> Maintenance -> Logging
+
+20th January 2017
+
+Bit of Spring Cleaning
+
+1) Added a new Export function to USB menu - use this if you don't need JB7 compatibility - you must use this above a few thousand albums or you won't be able to use all the space on your USB backup disk. Use Import to get music back.
+2) Working on a new settings and status panel on the web UI - when finished it will let you control a lot more from the Web UI.
+3) Added a debug window to the web UI - not very exciting but its the first step in freeing up the TV for a UI / album art etc.
+4) Mount second partition on USB drives if required - some drives appear to be formatted that way.
+5) Fixed bug in rotary encoder when you go past Z
+6) Tidied CD panel selection on Web UI
+7) Fixed bug in selecting from vTuner Search results
+8) Use HDD now switches off Aux IN - in case you cant find the remote
+9) Corrected progress in playlist export
+10) Fixed cancel in album upload
+11) Deleted Artist now doesn't re-appear after scan disk.
+
+6th January 2017
+
+Stopped LED flashing in response to other IR remote controls.
+
+29th December
+
+Added a temporary memory usage report to TV (press X key) - for Chris A - working on increasing track limits.
+
+ 
+11th December
+
+Added an experimental fix for Bluetooth hanging with some speakers.
+
+Settings->Maintenance->Bluetooth Fix to turn off and on
+
+Thanks to Howard for help with this deep rooted Raspberry Pi problem. This paves the way for a simplification of Bluetooth.
+
+8th December
+
+Removed the test causing "No Network" in Web Upgrade with some Wifi routers after 24th November. If you cannot upgrade with the Web Upgrade - follow instructions for USB upgrade above.
+
+6th December
+
+Fixed date for western timezones - thanks to Jim in Anchorage
+
+5th December
+
+I've improved the Web UI for blind users with screen readers. I'll do some more work in the months ahead. Let me have your feedback.
+
+New experimental tagging function (only of interest to Sonos and other music players that use NAS) Settings->Maintenance->Tag Music. This adds ID3 or FLAC tags to tracks so that Sonos etc knows the artist and album from the track. Its slow because it has to rewrite all the music file so you wouldn't do it unless you needed.
+ 
+28th November
+Fixed support for hidden Wifi networks
+
+24th November
+Added support for NAS (Sonos). See NAS and Sonos tab on left.
+
+20th October 2016
+Added a Playlist to USB function so you can write selected tracks etc to a USB device. Its at Playlist Menu->Export Playlist.
+
+Reduced delay on audio out - aux in and buttons will be less laggy. 
+
+Fixed drag & drop problem (playlist dustbin and now playing) on internet explorer. Thanks again to Keith for helping isolate this.
+
+19th October 2016
+
+Fixed problem caused by delete Artist on Playlists containing tracks by that artist. Also updated Playlist lengths after deletion. [The bug caused affected tracks to mutate to tracks from the next album so Playlists would appear to have random tracks - thanks again Chris in Iowa].
+ 
+17th October 2016
+
+Add to playlist on Web UI now adds to end of playlist - not the start. Fixed a problem caused by very very long artist name on CD ripping. (I think it included all the soloists, the woodwind section and some of the audience).
+
+14th October
+
+Fixed a typo in web UI on last release caused problem listing Artist - apologies for delay in fixing - touring Africa (Zambia, Namibia, Botswana and Zimbabwe) - mind blowing, highly recommended.
+
+19th September 
+
+Improved handset/tablet UI - back button, bigger entries in main dropdown, automatic switch to artists and album panels when clicked in Search - thanks to Philip for the suggestions. Also Classical mode is now ignored when playling playlists.
+
+16th September
+
+Fixed playlist drag and drop.
+
+8th September
+
+Its your lucky day Ricky. Added the date to the standby display. Classical mode turned off when you hit next in standby - to play everything at random.
+
+6th September
+
+VU Meter now works for Aux In - you need to switch to Aux then enable VU Meter in Settings->Maintenance. Useful for setting recording level.
+
+Fixed "Rip Incomplete" message caused by bonus video tracks on some CDs.
+
+2nd September
+
+Fixed erroneous Network Down message when playing Internet Radio with Ethernet (as opposed to Wifi). Removed snippet of sound on changing stations.
+
+1st September
+
+Classical Play Mode added. Stops play at end of current album so you don't have a heart attack when Metallica follows Mahler. Use Settings->Classical Mode to turn on and off for now - I'll add it to Web UI later.
+
+Fixed Free Space function in Maintenance to work with SD models.
+
+24th August
+
+Improved Internet Explorer compatibility - though Chrome is still recommended because it is faster and much more popular - so any bugs get spotted and ironed out sooner.
+
+23rd August
+
+Web rename now allows accented characters to be used. Accented characters displayed correctly in small text on B2 front panel. (Large text was OK).
+
+19th August
+
+New developmental UI is now the default - so just type B2 IP address as before. Added random on/off to web UI. Fixed refresh after rename on Internet Explorer. Let me know of any other IE problems - though Chrome is recommended on grounds of speed and popularity.
+
+17th August
+
+Added Settings->Maintenance->Zone Minutes for B2 owner in Sri Lanka (and any other timezones not a whole number of hours from GMT). NB Set minutes before setting hours with Settings->Timezone.
+
+16th August
+
+Added rename to new handset UI. Improved presentation. Fixed infinite scroll.
+
+15th August
+
+Increased number of playlists to 50. Removed playlists in info display. Fixed a problem with playlists when music deleted. Also if you want to experiment there is developmental new UI at 192.168.0.2/handset.html (substitute your IP address). Allows you to delete from Web UI. Better use of space. Will be better for touch - no need to drag and drop or double click. More to come. Feedback welcome as usual.
+
+5th August
+
+Added Playlist Save and Load functions to the Playlists menu. These save and load all the playlists to text files in the /playlists folder on a disk/memory in USB C.
+
+You could use this to backup Playlists that have taken a long time to build or even to manually create and edit playlists using a text editor.
+
+Added a line to info page two showing playlist usage
+
+3rd August
+
+Added a VU Meter style display. Use Settings->Maintenance->VU Meter to turn it on and off.
+
+Fixed problem with deletions and new playlists. Thanks to Chris in Iowa for bringing this to my attention.
+
+1st August
+
+Bluetooth input fixed after experimental Bluetooth mode introduced.
+
+31st July
+
+Problems with ripping caused by recent new code fixed.
+
+27th July
+
+Disconnecting Bluetooth automatically switches sound back to wired speakers
+
+22nd July
+
+Tracks in album in playlist now play in correct order. Overflow on very long CDDB names fixed. New Bluetooth mode cleared when not in use. New function added to Y key - lets you restart the program - a bit like turning off and on but quicker and easier than unplugging.
+
+21st July
+
+Added @, < and > on the rotary - mainly for Wifi passwords -  avoid using special characters in track names etc.
+
+20th July
+
+Added a new experimental Bluetooth mode to fix problem speakers that played too quickly - like Taotronics. Use Settings->Bluetooth I/O->Bluetooth T2. This new mode will switch off the Wifi (which should be plugged into USB A) while music is playing to help with the problem.
+
+Fixed a problem with the Web UI causing rename to get slower and slower at every attempt if you press enter instead of OK button.
+
+24th June
+
+Fixed handling of long playlist names - NB there is a 30 character limit. Fixed handling of large playlists. NB only first 1000 items displayed - inifinite scrolling to come. Added a delete backup utility to Maintenance menu to allow you to make a fresh backup without having to delete the old on on a PC. Fixed problems caused by trying to attach an NTFS drive to USB
+
+
+8th June 
+
+Fixed a bug in web upload that affected 0.4% of files. Thanks to Pete F. for help in isolating this.
+
+7th June
+
+I have dramatically extended playlists and what you can do with them - more here.
+
+10th May
+
+I updated the Windows B2 Finder App to reflect the new Web UI home page.
+(Update 2018 - the B2 Finder App is no longer available) 
+
+5th May
+
+Now attaches to open wifi networks - just leave the password empty - or clear it if you have already tried a password. More space for album names - only matters if you have loaded more than 5,000 albums - yes there are B2 owners who have.
+
+4th May
+
+Bluetooth Output added. You can now play your B2 into Bluetooth speakers or headphones.
+
+There are two new menu items
+
+Settings->Bluetooth IO. This changes the direction of the Bluetooth. You only really need this to switch back to using Bluetooth as an input.
+Settings->Scan Bluetooth. This puts Bluetooth into output mode and searches for Bluetooth speakers or headphones and lets you select one (pairing) for sending music to. You usually have to press a button on the Bluetooth device to make it discoverable. Once pairing is complete the B2 will remember the choice and try and connect again when it is turned on again.
+
+In output mode the Bluetooth button on the B2 remote control can be used to tell B2 to reconnect to the speakers. You might need to press this if the speakers were turned off. On some manufacturers you need to press the Bluetooth button on the speakers then on the B2 remote after they have been turned off.
+
+You can run scan again any time. It will remember your last choice.
+
+Find the sequence that works for you and let me know.  If you have any difficulty with a particular brand of speaker let me know and we'll try and fix it.
+
+At the moment Bluetooth is either input or output - it is possible to do both at the same time - but its a bit confusing. But let me know if that's something you would use.
+
+Martin
+
+28th April
+
+You can now drag an artist into playlists. This is the start of a comprehensive rethink and enlargement of what playlists can do. In the weeks ahead I will allow playlists to be combined, named and searched. Effectively allowing you to partition your music into subsets - that might reflect different moods, occasions or CDs belonging to different family members. Let me know what you'd like with the feedback form. Martin
+
+25th April
+
+Support for accented characters from online CD lookup. Capitalisation change of album names fixed. Resizing of Web UI panels to fill browser height. Old test.html page removed - and 4th April improvements re-instated.
+
+11th April
+
+I have restored the 23rd March version. It appears that 4th April version had problems in the web UI for some. Web upgrade will take you back from 4th April to 23rd March. The improvements to the Chrome extension are independent of the B2.
+
+Update 15th April - it seems possible that some owners had bookmarked the test web page as it was called and that gave rise to the problem.  
+
+4th April
+
+Significant rewrite of the chrome extension - now v0.50. The original - based on open source - stuttered on slower computers and/or busy networks. I have rewritten the core and it is far better. I anticipate a little more work at the B2 end to accomodate sample rate differences that can cause hiccups over a longer timeframe.
+
+B2 now displays the title of the tab - so if you play Spotify for instance you see the track playing on B2.
+
+Added a disk standby function to stop the hard disk in standby.
+
+23rd March
+
+Added Free Space to Maintenance Menu to force a recalculation of disk space. Allowed special characters like & in rename on web. Fixed problem with infinite scroll when window resized or tablet rotated. Fixed pitch shift and stuttering with Chrome extension on some PCs - you should upgrade the Chrome extension to latest v0.9.
+
+18th March
+
+Album to album now follows alphabetical ordering (if enabled) which means you can precede the album name with a sequence number like this
+
+101 album x
+102 album y
+103 album z
+
+and the play order will do what you want regardless of the order in which albums were loaded. Thanks to Tim for his help with this.
+
+Fixed snippet of sound on changing source from radio to hard disk. Fixed playlist item delete - the trash can - on web UI - broken when rearranged for handset use.
+
+17th March
+
+Chrome Extension improvements. You need to upgrade your extension to version 0.6 as well as upgrade the B2. Was mono now stereo. Audio breakup on slower PCs fixed or much improved.
+
+16th March
+
+Artist delete added - on Artist Menu on front panel. Fixed add current track to playlist on long press mechanism (broken when radio presets added).
+
+15th March
+
+B2 now remembers the last track you were playing when you restart. Fixed a recently introduced problem in web UI track listing.
+
+2nd March
+
+Increased capacity to 9000 albums. Increased the Web Search results limit to infinite. Added play button for playlists (for touch devices with no drag and drop). Album art lookup made optional to speedup ripping.
+
+29th February
+The latest B2 software release allows you to play music from a Chrome web browser through your B2 using your home network.
+
+You need to add this extension on the Google Web Store to your Chrome Browser. Then just click on the little letter "J" at the top right and the popup will let you direct whatever is playing to your B2.
+
+What it means is you could listen to music from Spotify or Youtube or just a sample track on Amazon and redirect it to your B2 for great sound.
+
+Its brand new so let me know what you think. I will probably extend the capabilities once I have used it for a bit. I have it in mind to send music to multiple B2s in other rooms but let me know what you would like.
+
+Martin
+
+25th February
+
+Increased the number of search results from 100 to 500 on the Web UI. I will make this infinite when time permits. Many of you are using the Search window for general browsing as opposed to searching for specific items - so 100 wasn't nearly enough. 
+
+19th February
+
+New Web UI. I've made the B2 home page responsive so the same page should work on desktop and smartphone browsers. I've added some more buttons to make things better for touch devices - I will be adding more functionality in the weeks ahead. Please let me know what works, what doesn't work and what you would like to see. If you want to use the old web UI - direct your browser to 192.168.0.2/old.html - using your IP address not mine.
+
+18th February
+
+USB import of Albums and Artists with accented characters partially fixed - they are now loaded though the accented characters are blanked. Removed duplicate Recordings folders on SD only B2s. Fixed return to HDD mode after Get Recordings.
+
+17th February
+
+Added Load bd2b from USB to Maintenance. Fixed problem saving playlists on SD models.
+
+27th January
+
+Swapped left and right on headphone/line out. Fixed a problem with renaming where only capitalisation is changed. Fixed problem adding album to playlist from Search.
+
+26th January
+
+Added 38,000 radio stations with new vTuner and radio presets panels on web UI - see the Internet Radio section at left. Fixed a problem adding albums to Playlists - thanks Ian.
+
+20th January
+
+Added support for accented characters on the Web UI. Fixed a side effect of yesterdays seamless work on Internet Radio.
+
+19th January
+
+Seamless track to track transition for WAV and FLAC files. When segue is turned off these now play EXACTLY as would a CD player - particularly important for opera, live performances and where one track continues into the next. I tested with Pink Floyd Dark Side of the Moon. On the CD the first two tracks have 2,962,344 and 7,476,420 samples respectively. When played back either as WAV or FLAC with segue turned off  The number of samples played back are 2,962,344 and 7,476,420 samples and the music is seamless and breathtaking. 
+
+FYI MP3 encodes in "frames" of 1152 samples and effectively pads the track to fill a whole number of frames. This results in a discontinuity for this kind of music. You don't hear the discontinuity if segue is on or if there is silence between the tracks. Thanks to Ricky for his help with this.
+
+15th January
+
+Added support for accented characters to be displayed on the OLED. Added a Repair HDD function in Maintenance - see Troubleshooting for instructions.
+
+13th January
+
+Streamlined the switch to and from Aux In - B2 now restarts automatically with the reduced USB speed for crackle free Aux In. Remember you still need to use Settings->Get Recordings when you switch back to HDD - to transfer any recordings from SD card to HDD. Also if Aux In is selected B2 will start in play mode - convenient if you are using B2 as an amp for your TV. The UI asks you to confirm when you switch - just press the source twice.
+
+12th January
+
+Removed illegal characters like '/' when you rename from front panel. This typically caused display to skip through renamed music. Thanks to Ian for helping me find this.
+
+11th January
+
+Added a brightness control for the OLED display. Settings->Brightness.
+
+5th January
+
+Added support for hidden Wifi networks. Use Settings->Hidden Wifi to set up SSID if your network name is not broadcast.
+
+22nd December
+
+Fixed problem with percentage signs in album rename on web UI.
+
+9th December
+
+Web upload music - now works with alphabetical sorting
+
+8th December
+
+Web UI - playlist item count updated when you delete or add to a playlist. Artist window now doesn't scroll back to top when you click on an item. Import from USB now ignores hidden files created by iTunes on Mac.
+
+6th December
+
+Alphabetical ordering made switchable. Use Settings->Sorting. Short Segue option added to Settings->Segue.
+
+5th December
+
+Headphone jack sense made switchable - defaults to disable amp when jack plugged into line out. Use Settings->Jack Sense to switch if you want to use line out at the same time as loudspeakers.
+
+4th December 
+
+Alpha sorted the albums within an artist - in the Artist panel and on front panel. Fixed some side effects of alphabetic sorting.
+
+3rd December
+
+Changes to Recording from Aux In. Now records to SD card. Use function Settings->Get Recordings when you switch back to High Speed USB for normal listening. See the Q&A section for more background.
+
+2nd December
+
+Added alphabetic ordering of Artists and Album names
+
+1st December
+
+Fixed interference from LG TV remote control. Allowed longer to double press when selecting playlist by number.
+
+30th November
+
+Jack plug in Line Out no longer mutes speakers - so you can use line out to drive a second amplifier in parallel - for listening in another room for instance.
+
+6th November
+
+Added retry on web upload music function. Better display of long artist and album names - now displays up to 150 characters and scrolls faster if long.
+
+5th November
+
+Web Upgrade with Ethernet fixed. Web Upgrade now reboots automatically. Allow & in Artist name on Upload Music
+
+4th November
+
+Copy SD Music function fixed for previously blank SDs. CD Play order fixed - was stuck on random. Web UI volume slider now responds to main volume knob.
+
+29th October
+
+Added Format USB A function for hard disks with higher current consumption. Filtered illegal characters from web rename. Internet Radio channel pick now picks one of ten preset channels - use Find Station or web UI to search all stations then press and hold number key to assign a preset.
+
+27th October 
+
+Fixed bug introduced on 13th - resets when rip album name select should display "Album nnn" if CD is not recognised or you want your own name.
+
+13th October
+
+Improvements to web music upload for big uploads & shows file count progress.
+
+
+9th October 
+
+Minor bug fix - problems when two albums had the same name.
+
+8th October
+
+Added SD Card duplication and music transfer functions to Maintenance menu
+(They were in a factory menu before).
+
+6th October
+
+Exciting new music upload facility added to Web UI - see the Youtube.
+
+2nd October
+
+Tightened up the rename functions so you cannot inadvertently rename an album to one that already exists - and overwrite it by mistake. Artist rename will however allow you to merge two sets of albums under different artists and will remove duplicate albums.
+
+1st October
+
+Fixed error in yesterday's release
+
+30th September
+
+Play buttons added to Web Interface search results so that iPad and Andoid tablet owners (and other touch based browsers) can at least play music.
+
+NB Drag and drop is difficult on touch based browsers because they drag the whole web page around.
+
+Further developments in this area to follow.
+
+29th September
+
+Album limit increased to 6,000
+Database write to disk made a lot faster
+Track number display during playback bug fixed
+
+28th September
+
+Instant Radio - press Back during standby and B2 plays last radio station.
+Greater control over track ordering - edit track number on web or from front panel.
+[A track number is now pre-pended to all tracks during Restore from JB7 backup].
+Wifi MAC address displayed on info screen for static IP allocation on problem Wifi routers.
+
+23rd September
+
+Reduced delay on Aux In
+
+22nd September 
+
+Fixed bug in offline album lookup - only recognised 60% of CDs
+Added Find Station function to main menu - search and play the 750+ internet radio stations - similar to track search.
+Added radio presets - press and hold a number key on the remote while radio is playing to assign the radio station to that key. Select radio and press a number key to play that station thereafter.
+
+8th September
+
+Added $ sign to characters - for network password etc.
+
+7th September
+
+Added facility to disable compression. Fixed problem with web rename track. NB You must wait until B2 has written its track names to disk after a change before removing power. Press and hold stop key on front panel to make sure.
+
+2nd September
+
+Added Graphical display and rudimentary CD Ripping control to Web UI.
+
+
+27th August
+
+Added 750+ UK Radio Stations. Find them through the Web UI initially. Drag to Now Playing panel to play that station.
+
+
+13th August
+
+Fixed problem with Internet Explorer drag and drop. Added simple volume control and experimental album art - to give you an idea where the Web UI is heading.
+
+The new Web UI is intended for laptop/destop and larger tablet browsers and was tested mainly with Chrome so expect problems initially on other browsers.
+
+I will tune the Web UI for mobile phones later.
+
+11th August
+
+Added an experimental new Web UI featuring
+
+Instant search for Artists, Albums and Tracks
+Drag and drop albums or tracks to build playlists.
+Drag and drop into Now Playing to play.
+Double click Artists, Albums and Tracks to rename.
+Click on Artists and Albums to drill down.
+
+Click on the New Ui button on the B2 web ui. 
+
+Let me know what you think - this will eventually become the main web ui. 
+
+
+28th July
+
+Added two Artist rename functions.
+One in the Album menu to rename the artist for that album.
+Second in the Artist menu to globally rename an artist.
+
+27th July
+
+Fixed first track not random on Playlists when Random is on.
+Fixed deleted album re-appearing after scan disk
+
+24th July
+
+Added time to end of track and track number. 
+Fixed rip bug introducd on 9th.
+Fixed bug in Playlist next track.
+
+9th July
+
+Added USB keyboard support and timezone setting for international use.
+
+Fixed a bug in Album Delete that caused tracks to be skipped - until Scan Disk was run.
+
+3rd July
+
+The latest software was released 3rd July - this has several minor bug fixes - including operation with legacy (WEP) Wifi routers and a problem with rename.
+
+It also has a new Album List function in Settings->Maintenance and the web Find function now has links to an album page showing tracks for each album. Work on the web UI is ongoing.
+
