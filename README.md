@@ -1,6 +1,6 @@
 # brennan web app archive
 
-brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading [ or downgrading .. rename to b2.tar.gz ] the B2 web app files versions are stored here, together with the last release [11/04/2019] from brennan
+brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading [ rename to b2.tar.gz ] the B2 web app files versions are stored here, together with the last release [11/04/2019] from brennan
 
 a new updated version & noiseless version branch of this web app, are currently being developed & maintained at http://oksauce.com please visit for more info ...  
 
