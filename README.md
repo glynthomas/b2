@@ -41,8 +41,8 @@ UI controls have been tweeked together with improved mobile web UI modal & impro
 
 the current official last brennan B2 update offered an experimental mobile only UI, the code base has been recrafted to a noiseless version, the code base has been updated to a fully functional noiseless mobile version, please visit http://oksauce.com for more info
  
-new official experimental UI is being developed at ... https://github.com/geometryzen/brennan-app 
+official experimental UI is being developed at ... https://github.com/geometryzen/brennan-app 
 
-the un-official updated UI & noiseless UI versions are being developed & maintained at http://oksauce.com
+un-official updated UI & noiseless UI versions are being developed & maintained at http://oksauce.com
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
