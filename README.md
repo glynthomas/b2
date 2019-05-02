@@ -43,8 +43,6 @@ the current official last brennan B2 update offered an experimental mobile only 
  
 new official experimental UI is being developed at ... https://github.com/geometryzen/brennan-app 
 
-the un-official updated UI & noiseless UI versions are being developed & maintained at ... http://oksauce.com
-
-a b2 simpler, maintained updated & noiseless web app versions of this web app are available at http://oksauce.com
+the un-official updated UI & noiseless UI versions are being developed & maintained at http://oksauce.com
 
 ###### * please note, all web app upgrades & updates are implemented at your own risk
