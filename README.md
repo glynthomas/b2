@@ -29,7 +29,7 @@ a new updated version, based on the [11/04/2019] web app release from brennan is
 
 # brennan web app noiseless release
 
-noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence ... please visit http://oksauce.com for more details
+noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [11/04/2019] to focus on just playing music & radio without 'noise' with excellence ... please visit http://oksauce.com for more details
 
 # noiseless release roadmap
 
