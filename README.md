@@ -25,7 +25,7 @@ the new noiseless release implements event polling, which is more like a wave sa
 
 # brennan web app update release
 
-a new updated version, based on the [11/04/2019] web app release from brennan is available at oksauce.com, this version is fully responsive, with the native mobile view including tone controls, (scrub) time & volume while the dedicated mobile web page has been updated to functioning as designed, available at http://oksauce.com
+a new updated version, based on the [11/04/2019] web app release from brennan is available at http://oksauce.com, this version is fully responsive, with the native mobile view including tone controls, (scrub) time & volume while the dedicated mobile web page has been updated to functioning as designed, available at http://oksauce.com
 
 # brennan web app noiseless release
 
