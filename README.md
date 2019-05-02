@@ -2,7 +2,7 @@
 
 brennan releases for the B2 music player, zip files to be saved to a USB stick for upgrading ( or downgrading ) the web app are stored here, together with the last release [11/04/2019] from brennan
 
-a new updated version & noiseless version branch of this web app, are currently being developed & maintained at oksauce.com please visit for more info ...  
+a new updated version & noiseless version branch of this web app, are currently being developed & maintained at http://oksauce.com please visit for more info ...  
 
 # brennan web app noiseless why?
 
@@ -25,11 +25,11 @@ the new noiseless release implements event polling, which is more like a wave sa
 
 # brennan web app update release
 
-a new updated version, based on the [11/04/2019] web app release from brennan is available at oksauce.com, this version is fully responsive, with the native mobile view including tone controls, (scrub) time & volume while the dedicated mobile web page has been updated to functioning as designed, available at oksauce.com
+a new updated version, based on the [11/04/2019] web app release from brennan is available at oksauce.com, this version is fully responsive, with the native mobile view including tone controls, (scrub) time & volume while the dedicated mobile web page has been updated to functioning as designed, available at http://oksauce.com
 
 # brennan web app noiseless release
 
-noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence ... please visit oksauce.com for more details
+noiseless web app release is a branch of the latest & last brennan B2 web app UI based on the last release web app [20|03|2019] to focus on just playing music & radio without 'noise' with excellence ... please visit http://oksauce.com for more details
 
 # noiseless release roadmap
 
